@@ -1,0 +1,185 @@
+ANSI-C/cC++ Compiler for HC12 V-5.0.38 Build 9056, Feb 26 2009
+
+    1:  /* Circular Queue */
+    2:  
+    3:  
+    4:  
+    5:  #include "cqueue.h"
+    6:  	
+    7:  
+    8:  
+    9:  static unsigned char buffer[QSIZE];  // storage for circuar queue (static)
+   10:  static unsigned int  news;	    	 // How many "news" are remaining in Queue
+   11:  static unsigned char *pin,*pout;     // input and output pointers 	
+   12:  
+   13:  
+   14:  
+   15:  
+   16:  
+   17:  /*
+   18:   Initialize queue 
+   19:  */
+   20:  void QueueInit(void)
+   21:  
+   22:  {
+
+Function: QueueInit
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\cqueue.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\cqueue.c.o"
+
+   23:  
+   24:  	pin=buffer;	//set up pin,pout and "news" counter 	
+  0000 180300000000 [5]     MOVW  #buffer,pin
+   25:  	pout=buffer;
+  0006 180300000000 [5]     MOVW  #buffer,pout
+   26:  	news=0;
+  000c 18790000     [4]     CLRW  news
+   27:  
+   28:  }
+  0010 3d           [5]     RTS   
+   29:  
+   30:  /*
+   31:    Push data on queue 
+   32:  */
+   33:  unsigned char PushQueue(unsigned char data)
+   34:  
+   35:  {
+
+Function: PushQueue
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\cqueue.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\cqueue.c.o"
+
+  0000 37           [2]     PSHB  
+   36:  	
+   37:  	if (news > QSIZE-1)		//test for Queue overflow
+  0001 fc0000       [3]     LDD   news
+  0004 8c00c7       [2]     CPD   #199
+  0007 2304         [3/1]   BLS   *+6 ;abs = 000d
+   38:  	{
+   39:  				
+   40:  		return (QFULL);		// Queue capacity has reached
+  0009 c601         [1]     LDAB  #1
+  000b 201a         [3]     BRA   *+28 ;abs = 0027
+   41:  	}	
+   42:  
+   43:  	*pin++=data;			// pull data
+  000d fe0000       [3]     LDX   pin
+  0010 e680         [3]     LDAB  0,SP
+  0012 6b30         [2]     STAB  1,X+
+  0014 7e0000       [3]     STX   pin
+   44:  	news++;					// update "news" counter
+  0017 18720000     [5]     INCW  news
+   45:  
+   46:  	if (pin == buffer+QSIZE)	// if queue size is exceded reset pointer
+  001b 8e0000       [2]     CPX   #buffer:200
+  001e 2606         [3/1]   BNE   *+8 ;abs = 0026
+   47:  		pin=buffer;
+  0020 180300000000 [5]     MOVW  #buffer,pin
+   48:  
+   49:  	return(QOK);			// inform Queue state
+  0026 c7           [1]     CLRB  
+   50:  }
+  0027 1b81         [2]     LEAS  1,SP
+  0029 3d           [5]     RTS   
+   51:  
+   52:  /*
+   53:   * PullQueue()
+   54:   * 
+   55:    Retrieve data from queue 
+   56:    Dont forget to call QueueStatus()
+   57:    before call this function
+   58:    *
+   59:    * 
+   60:    * Sample code
+   61:    *  
+   62:    * unsigned char answer; 
+   63:    * 
+   64:    *  while (QueueStatus())		// some news?
+   65:  	{
+   66:  		status = PullQueue(&answer); 	// if yes then get data from queue and store it at caller address
+   67:  		
+   68:  	}
+   69:  
+   70:    * 
+   71:    * 
+   72:    * 
+   73:    * 
+   74:  */
+   75:  unsigned char PullQueue(unsigned char *pdata)
+   76:  
+   77:  {
+
+Function: PullQueue
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\cqueue.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\cqueue.c.o"
+
+  0000 3b           [2]     PSHD  
+   78:  unsigned char data;
+   79:  
+   80:  	if (news == 0)		    // Just in case 
+  0001 fc0000       [3]     LDD   news
+  0004 2604         [3/1]   BNE   *+6 ;abs = 000a
+   81:  	  return(QEMPTY);		// Error queue is empty 
+  0006 c602         [1]     LDAB  #2
+  0008 201f         [3]     BRA   *+33 ;abs = 0029
+   82:  
+   83:  	*pdata=*pout++;		// pull data and store at caller address
+  000a fe0000       [3]     LDX   pout
+  000d e630         [3]     LDAB  1,X+
+  000f 7e0000       [3]     STX   pout
+  0012 ee80         [3]     LDX   0,SP
+  0014 6b00         [2]     STAB  0,X
+   84:  	news--;				// update "news" counter
+  0016 18730000     [5]     DECW  news
+   85:  	
+   86:  //*************************************	
+   87:  
+   88:  
+   89:  //TERMIO_PutChar('[');    
+   90:  
+   91:  //if (*pdata==EOT)
+   92:  
+   93:  //  _printf("[EOT]");
+   94:  
+   95:  //TERMIO_PutChar(*pdata);
+   96:  
+   97:  
+   98:  
+   99:  //TERMIO_PutChar(']');
+  100:  
+  101:  
+  102:  //**************************************
+  103:  
+  104:  
+  105:  	if (pout == buffer+QSIZE)	// Check for Queue boundaries
+  001a fc0000       [3]     LDD   pout
+  001d 8c0000       [2]     CPD   #buffer:200
+  0020 2606         [3/1]   BNE   *+8 ;abs = 0028
+  106:  		pout=buffer;			// if queue size is exceded reset pointer
+  0022 180300000000 [5]     MOVW  #buffer,pout
+  107:  	return (QOK);				// return operation status 
+  0028 c7           [1]     CLRB  
+  108:  }
+  0029 1b82         [2]     LEAS  2,SP
+  002b 3d           [5]     RTS   
+  109:  
+  110:  /*
+  111:    Get queue Status
+  112:    Queue is empty when null is returned
+  113:  */
+  114:  unsigned int QueueStatus(void)
+  115:  
+  116:  {
+
+Function: QueueStatus
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\cqueue.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\cqueue.c.o"
+
+  117:  		return (news);			// Retrieve "news" counter		
+  0000 fc0000       [3]     LDD   news
+  118:  }
+  0003 3d           [5]     RTS   
+  119:  
+  120:  
+  121:  
+  122:  

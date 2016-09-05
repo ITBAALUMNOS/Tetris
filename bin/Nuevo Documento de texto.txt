@@ -1,0 +1,23 @@
+ 104:      while (!TFLG1_C7F); 
+  005f 4f0080fc     [4]     BRCLR _TFLG1,#128,*+0 ;abs = 005f
+  105:      
+  1107:      TFLG1=0x80|0x40; //  Clr C7F  and C6F
+  0063 c6c0         [1]     LDAB  #192     
+  0065 5b00         [2]     STAB  _TFLG1
+  108:      
+  109:     // bit^=1;
+  110:      
+  111:      
+  112:      TC6=TC7+8;
+  0067 de00         [3]     LDX   _TC7
+  0069 1a08         [2]     LEAX  8,X
+  006b 5e00         [2]     STX   _TC6
+  113:      TC7=TC7+25;
+  006d dc00         [3]     LDD   _TC7
+  006f c30019       [2]     ADDD  #25
+  0072 5c00         [2]     STD   _TC7
+  0074 20e9         [3]     BRA   *-21 ;abs = 005f
+  114:      ;
+  115:                            
+  116:     }
+  117:     

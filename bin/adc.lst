@@ -1,0 +1,96 @@
+ANSI-C/cC++ Compiler for HC12 V-5.0.38 Build 9056, Feb 26 2009
+
+    1:  #include "mc9s12xdp512.h"     
+    2:  #include "adc.h"
+    3:  
+    4:  // WARNING Dont use ANALOG INPUTS  00 01 08 (ATD0) since they are connected to Board jumpers
+    5:  
+    6:  
+    7:  #define ADCH2  2       //Canal de medicion H2 pin 15
+    8:  
+    9:  void atd_init(void)
+   10:  {	
+
+Function: atd_init
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\adc.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\adc.c.o" -WmsgSd1106
+
+   11:  	// **********  Control Register 2 ******************
+   12:  
+   13:  	ATD0CTL2 |= ATD0CTL2_ADPU_MASK;				// Turn on the ADT0
+  0000 1c000080     [4]     BSET  _ATD0CTL23,#128
+   14:  	ATD0CTL2 |= ATD0CTL2_AFFC_MASK; 			// Clear flags when regiser is read
+  0004 1c000040     [4]     BSET  _ATD0CTL23,#64
+   15:  	//ATD0CTL2 |= ATD0CTL2_ASCIE_MASK;		// interrupt when conv finished
+   16:  
+   17:   
+   18:   
+   19:   
+   20:   	// **********  Control Register 3 ******************
+   21:   	
+   22:  	ATD0CTL3 |= ATD0CTL3_S2C_MASK;				// sequence lenght=2
+  0008 1c000010     [4]     BSET  _ATD0CTL23:1,#16
+   23:  	
+   24:   
+   25:   
+   26:   
+   27:   
+   28:   
+   29:   
+   30:   	// **********  Control Register 4 ******************
+   31:  
+   32:   	
+   33:  	//ATD0CTL4 |= ATD0CTL4_SRES8_MASK;	//10 bit resolution
+   34:  	
+   35:  	ATD0CTL4 |= ATD0CTL4_SMP_MASK;		//16 A/D conversion clock periods
+  000c 1c000060     [4]     BSET  _ATD0CTL45,#96
+   36:  	
+   37:  	ATD0CTL4 |= 0x09;									// Prescaler /20 i.e. 40MHZ / 20= 2Mhz 
+  0010 1c000009     [4]     BSET  _ATD0CTL45,#9
+   38:  
+   39:  
+   40:  
+   41:     
+   42:  
+   43:  // **********  Control Register 4 ******************
+   44:  
+   45:  
+   46:  	ATD0CTL5 |= ATD0CTL5_DJM_MASK;					//Right justified 000000 B9 B8...
+  0014 1c000080     [4]     BSET  _ATD0CTL45:1,#128
+   47:  	//ATD0CTL5 |= ATD0CTL5_DSGN_MASK;				//UnSigned data representation 
+   48:  	//ATD0CTL5 |= ATD0CTL5_SCAN_MASK;   		//One conversion sequence 
+   49:  	//ATD0CTL5 |= ATD0CTL5_MULT_MASK;				//Sample on same channel
+   50:  	ATD0CTL5 |= ADCH2;						          //start in channel 2
+  0018 1c000002     [4]     BSET  _ATD0CTL45:1,#2
+   51:  	
+   52:  
+   53:  
+   54:  
+   55:   									
+   56:  
+   57:  }
+  001c 3d           [5]     RTS   
+   58:  
+   59:  // Returns 10bit convertion 
+   60:  
+   61:  unsigned int atd_getsample(void) 
+   62:  {	
+
+Function: atd_getsample
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\adc.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\adc.c.o" -WmsgSd1106
+
+   63:  		
+   64:  
+   65:  	ATD0CTL5 |= ADCH2;   // Start conversion  on channel 2
+  0000 1c000002     [4]     BSET  _ATD0CTL45:1,#2
+   66:  	
+   67:  	while(!(ATD0STAT0 & ATD0STAT0_SCF_MASK)){};  // Wait EOC
+  0004 1f000080fb   [5]     BRCLR _ATD0STAT0,#128,*+0 ;abs = 0004
+   68:  	return ATD0DR0;								
+  0009 fc0000       [3]     LDD   _ATD0DR0
+   69:  	
+   70:  	
+   71:  }
+  000c 3d           [5]     RTS   
+   72:  

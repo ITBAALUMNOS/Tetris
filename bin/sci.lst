@@ -1,0 +1,503 @@
+ANSI-C/cC++ Compiler for HC12 V-5.0.38 Build 9056, Feb 26 2009
+
+    1:  #include "mc9s12xdp512.h"
+    2:  
+    3:  #include "sci.h"
+    4:  #include "cqueue.h"
+    5:  
+    6:  
+    7:  void sendsci(unsigned char tx);
+    8:  
+    9:  static unsigned char rxdata;               //SCI driver rxdata 
+   10:  
+   11:  void irq_sci_fsm(void);
+   12:  static unsigned char Sci_State;
+   13:  enum states {S_ILDE,S_STX,S_DATA};
+   14:  
+   15:  
+   16:  static unsigned char op_status;
+   17:  
+   18:  static unsigned char msg=0;
+   19:  
+   20:  
+   21:  
+   22:  #define  SPYSIZE 50
+   23:  unsigned char spy[SPYSIZE];
+   24:  unsigned char *pspy;
+   25:  unsigned char spycount;
+   26:  
+   27:  
+   28:  
+   29:  
+   30:  // Driver Init
+   31:  
+   32:  void Sci_Init(void) {
+
+Function: Sci_Init
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\sci.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\sci.c.o" -WmsgSd1106
+
+   33:  
+   34:      /// **************** SCI 1 HC05 ************************////
+   35:  
+   36:      SCI1BD = 260; // SCI_Baud= BusClk/(16*BD_reg)=9615.38
+  0000 cc0104       [2]     LDD   #260
+  0003 5c00         [2]     STD   _SCI1BD
+   37:      
+   38:      SCI1CR1 = 0;   // Set Default Values 8 bit No parity 1 Stop  
+  0005 790000       [3]     CLR   _SCI1ACR2
+   39:          
+   40:  
+   41:      //Transmit & Receive Enable
+   42:  
+   43:      SCI1CR2 |= (SCI1CR2_TE_MASK|SCI1CR2_RE_MASK); 
+  0008 4c000c       [4]     BSET  _SCI1CR2,#12
+   44:      
+   45:      // Rx interrupt enable 
+   46:      
+   47:      SCI1CR2 |=  SCI1CR2_RIE_MASK; 
+  000b 4c0020       [4]     BSET  _SCI1CR2,#32
+   48:      
+   49:      
+   50:      //// ******************SCI 0 Debug Port***************/////
+   51:      
+   52:      SCI0BD = 260; // SCI_Baud= BusClk/(16*BD_reg)=9615.38
+  000e 5c00         [2]     STD   _SCI0BD
+   53:      
+   54:      SCI0CR1 = 0;   // Set Default Values 8 bit No parity 1 Stop  
+  0010 790000       [3]     CLR   _SCI0ACR2
+   55:          
+   56:  
+   57:      //Transmit & Receive Enable
+   58:  
+   59:      SCI0CR2 |= (SCI0CR2_TE_MASK|SCI0CR2_RE_MASK); 
+  0013 4c000c       [4]     BSET  _SCI0CR2,#12
+   60:      
+   61:      // Rx interrupt enable 
+   62:      
+   63:      //// SCI0CR2 |=  SCI0CR2_RIE_MASK; 
+   64:             
+   65:      
+   66:      
+   67:      //// ***************************************************/////
+   68:      
+   69:      
+   70:      
+   71:      
+   72:      pspy=spy;
+   73:      
+   74:      spycount=0;
+  0016 790000       [3]     CLR   spycount
+   75:      while(spycount++<SPYSIZE-1)
+  0019 ce0000       [2]     LDX   #spy
+  001c 8f           [2]     SKIP2 
+   76:      *pspy++=0;
+  001d 6930         [2]     CLR   1,X+
+  001f f60000       [3]     LDAB  spycount
+  0022 37           [2]     PSHB  
+  0023 52           [1]     INCB  
+  0024 7b0000       [3]     STAB  spycount
+  0027 33           [3]     PULB  
+  0028 c131         [1]     CMPB  #49
+  002a 25f1         [3/1]   BCS   *-13 ;abs = 001d
+   77:      
+   78:       pspy=spy;
+  002c 180300000000 [5]     MOVW  #spy,pspy
+   79:       
+   80:      ////
+   81:    
+   82:  }
+  0032 3d           [5]     RTS   
+   83:  
+   84:  
+   85:  // Driver Services
+   86:  
+   87:  //========================================
+   88:  // Sci1_RxStatus() 
+   89:  //
+   90:  // Returns 1 if one byte has been recieved
+   91:  //=========================================
+   92:  unsigned char Sci1_RxStatus(void){
+
+Function: Sci1_RxStatus
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\sci.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\sci.c.o" -WmsgSd1106
+
+   93:    
+   94:  
+   95:    return (SCI1SR1 & SCI1SR1_RDRF_MASK);
+  0000 d600         [3]     LDAB  _SCI1SR1
+  0002 c420         [1]     ANDB  #32
+   96:  
+   97:  }
+  0004 3d           [5]     RTS   
+   98:  
+   99:  //=======================================================
+  100:  // Sci1_Putchar(char ) 
+  101:  //
+  102:  // Sends one byte to the serial Comunication interface 1
+  103:  //=======================================================
+  104:  void Sci1_Putchar(unsigned char ch) 
+  105:  {
+
+Function: Sci1_Putchar
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\sci.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\sci.c.o" -WmsgSd1106
+
+  0000 37           [2]     PSHB  
+  106:  
+  107:      while (!(SCI1SR1 & SCI1SR1_TDRE_MASK));
+  0001 4f0080fc     [4]     BRCLR _SCI1SR1,#128,*+0 ;abs = 0001
+  108:  
+  109:      SCI1DRL = ch;
+  0005 33           [3]     PULB  
+  0006 5b00         [2]     STAB  _SCI1DRL
+  110:  
+  111:  }
+  0008 3d           [5]     RTS   
+  112:  
+  113:  //=============================================================
+  114:  // Sci1_Getchar(char ) 
+  115:  //
+  116:  // Retrieves one byte from serial Comunication interface 1
+  117:  //
+  118:  // Note Call Sci1_RxStatus() before calling Sci1_Getchar(char)
+  119:  //
+  120:  //            if( Sci1_RxStatus() )
+  121:  //                    Sci1_Getchar(char); 
+  122:  //
+  123:  //=============================================================
+  124:  
+  125:  
+  126:  unsigned char Sci1_Gechar(void) 
+  127:  
+  128:  {
+
+Function: Sci1_Gechar
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\sci.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\sci.c.o" -WmsgSd1106
+
+  129:  
+  130:      while (!(SCI1SR1 & SCI1SR1_RDRF_MASK));
+  0000 4f0020fc     [4]     BRCLR _SCI1SR1,#32,*+0 ;abs = 0000
+  131:  
+  132:      return SCI1DRL;      
+  0004 d600         [3]     LDAB  _SCI1DRL
+  133:  
+  134:  }
+  0006 3d           [5]     RTS   
+  135:  
+  136:  
+  137:  // ***********************I*R*Q***S*C*I**********************************//
+  138:  
+  139:  void interrupt ISR_sci(void) 
+  140:  {     
+
+Function: ISR_sci
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\sci.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\sci.c.o" -WmsgSd1106
+
+  141:  
+  142:     char scists;
+  143:     
+  144:     scists=SCI1SR1;
+  0000 d600         [3]     LDAB  _SCI1SR1
+  145:     rxdata=SCI1DRL;
+  0002 d600         [3]     LDAB  _SCI1DRL
+  0004 7b0000       [3]     STAB  rxdata
+  146:     
+  147:  
+  148:  /////////////////
+  149:  ////   *pspy++=rxdata;          // OJO !!!! solo para debug sino pisa la memoria
+  150:  /////////////////
+  151:  
+  152:    
+  153:   //  TERMIO_PutChar('[');
+  154:     TERMIO_PutChar(rxdata);
+  0007 160000       [4]     JSR   TERMIO_PutChar
+  155:   //  TERMIO_PutChar(']');
+  156:     irq_sci_fsm();      
+  000a 160000       [4]     JSR   irq_sci_fsm
+  157:    
+  158:  
+  159:  }
+  000d 0b           [8]     RTI   
+  160:  
+  161:  void Reset_FSM(void) {
+
+Function: Reset_FSM
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\sci.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\sci.c.o" -WmsgSd1106
+
+  162:  
+  163:        Sci_State= S_ILDE;
+  0000 790000       [3]     CLR   Sci_State
+  164:  }
+  0003 3d           [5]     RTS   
+  165:  
+  166:  
+  167:  // *******************************************
+  168:  // irq_sci_fsm(void) 
+  169:  // This FSM implements a basic HDLC protocol
+  170:  // *******************************************
+  171:  
+  172:  void irq_sci_fsm(void)	
+  173:  {	
+
+Function: irq_sci_fsm
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\sci.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\sci.c.o" -WmsgSd1106
+
+  174:  	switch (Sci_State)		// Tiny FSM for SCI reception
+  0000 f60000       [3]     LDAB  Sci_State
+  0003 c102         [1]     CMPB  #2
+  0005 2266         [3/1]   BHI   *+104 ;abs = 006d
+  0007 87           [1]     CLRA  
+  0008 160000       [4]     JSR   _CASE_CHECKED_BYTE
+  000b 03           DC.B  3
+  000c 60           DC.B  96
+  000d 03           DC.B  3
+  000e 17           DC.B  23
+  000f 3b           DC.B  59
+  175:  	{
+  176:  	
+  177:  	//**************ILDE State*********************//
+  178:  		case S_ILDE:		
+  179:  		
+  180:  			if(rxdata==ENQ)
+  0010 f60000       [3]     LDAB  rxdata
+  0013 c105         [1]     CMPB  #5
+  0015 2605         [3/1]   BNE   *+7 ;abs = 001c
+  181:  				sendsci(ACK);
+  0017 c606         [1]     LDAB  #6
+  0019 060000       [3]     JMP   sendsci
+  182:  			else if(rxdata==STX)
+  001c c102         [1]     CMPB  #2
+  001e 264d         [3/1]   BNE   *+79 ;abs = 006d
+  183:  				Sci_State=S_STX;	
+  0020 c601         [1]     LDAB  #1
+  0022 2020         [3]     BRA   *+34 ;abs = 0044
+  184:  		break;
+  185:  	
+  186:  		
+  187:  	//**************STX State*********************//
+  188:  		case S_STX:
+  189:  	
+  190:  			if(rxdata==ETX)
+  0024 f60000       [3]     LDAB  rxdata
+  0027 c103         [1]     CMPB  #3
+  0029 2611         [3/1]   BNE   *+19 ;abs = 003c
+  191:  			{
+  192:  							
+  193:  //				_printf("SCI FSM: End Of Transmision\n");
+  194:  				msg++;
+  002b 720000       [4]     INC   msg
+  195:  				
+  196:  				TERMIO_PutChar('K');
+  002e c64b         [1]     LDAB  #75
+  0030 160000       [4]     JSR   TERMIO_PutChar
+  197:  				sendsci(ACK);
+  0033 c606         [1]     LDAB  #6
+  0035 160000       [4]     JSR   sendsci
+  198:  				op_status=PushQueue(EOT);
+  0038 c604         [1]     LDAB  #4
+  199:  				Sci_State=S_ILDE;
+  200:  				
+  201:  			}
+  003a 2021         [3]     BRA   *+35 ;abs = 005d
+  202:  			else 
+  203:  			{
+  204:  				
+  205:  				op_status=PushQueue(rxdata);
+  003c 160000       [4]     JSR   PushQueue
+  003f 7b0000       [3]     STAB  op_status
+  206:  				Sci_State=S_DATA;
+  0042 c602         [1]     LDAB  #2
+  0044 7b0000       [3]     STAB  Sci_State
+  0047 3d           [5]     RTS   
+  207:  			}
+  208:  		
+  209:  		break;
+  210:  		
+  211:  //**************DATA State*********************//
+  212:  
+  213:  		case S_DATA:
+  214:  		
+  215:  			if(rxdata==ETX)
+  0048 f60000       [3]     LDAB  rxdata
+  004b c103         [1]     CMPB  #3
+  004d 2618         [3/1]   BNE   *+26 ;abs = 0067
+  216:  			{
+  217:  				
+  218:  			
+  219:  				
+  220:  //				_printf("SCI FSM: End Of message\n");
+  221:  				msg++;
+  004f 720000       [4]     INC   msg
+  222:  				sendsci(ACK);
+  0052 c606         [1]     LDAB  #6
+  0054 160000       [4]     JSR   sendsci
+  223:  ///				
+  224:  				TERMIO_PutChar('K');
+  0057 c64b         [1]     LDAB  #75
+  0059 160000       [4]     JSR   TERMIO_PutChar
+  225:  ///				
+  226:  				op_status=PushQueue(0x00);
+  005c c7           [1]     CLRB  
+  005d 160000       [4]     JSR   PushQueue
+  0060 7b0000       [3]     STAB  op_status
+  227:  				Sci_State=S_ILDE;
+  0063 790000       [3]     CLR   Sci_State
+  0066 3d           [5]     RTS   
+  228:  				
+  229:  			}
+  230:  			else 
+  231:  			{
+  232:  				
+  233:  				op_status=PushQueue(rxdata);
+  0067 160000       [4]     JSR   PushQueue
+  006a 7b0000       [3]     STAB  op_status
+  234:  				
+  235:  			}
+  236:  				
+  237:  	
+  238:  			break;
+  239:  	
+  240:  		default:
+  241:  	
+  242:  	  do{
+  243:  	  }while(0);   // err       
+  244:  	  
+  245:   
+  246:  //		_printf("SCI FSM: Unexpected Event\n ");
+  247:  	
+  248:  	
+  249:  	}  // end  of Switch
+  250:  
+  251:  } //end of irq
+  006d 3d           [5]     RTS   
+  252:  
+  253:  //// ************** END FSM ***************************
+  254:  
+  255:  
+  256:  void sendsci(unsigned char tx)
+  257:  {
+
+Function: sendsci
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\sci.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\sci.c.o" -WmsgSd1106
+
+  258:  	
+  259:  	Sci1_Putchar(tx); 
+  0000 060000       [3]     JMP   Sci1_Putchar
+  260:   	
+  261:  }
+  262:  
+  263:  //*******************************************************************
+  264:  // new_messages(void)
+  265:  // 
+  266:  // Returns how many messages 
+  267:  // have been received and therefore pending
+  268:  //
+  269:  // Note A new message is avaiable when the following is recieved 
+  270:  // STX Data ETX
+  271:  // ******************************************************************
+  272:  
+  273:  unsigned char new_messages(void)
+  274:  {
+
+Function: new_messages
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\sci.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\sci.c.o" -WmsgSd1106
+
+  275:  
+  276:    unsigned char temp;
+  277:    
+  278:    temp=msg;
+  0000 f60000       [3]     LDAB  msg
+  0003 6baf         [2]     STAB  1,-SP
+  279:    
+  280:    if(msg)
+  0005 2703         [3/1]   BEQ   *+5 ;abs = 000a
+  281:      msg--;
+  0007 730000       [4]     DEC   msg
+  282:  
+  283:    return(temp);
+  284:  
+  285:  
+  286:  }
+  000a 1b81         [2]     LEAS  1,SP
+  000c 3d           [5]     RTS   
+  287:  
+  288:  unsigned char messages_count(void)
+  289:  {
+
+Function: messages_count
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\sci.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\sci.c.o" -WmsgSd1106
+
+  290:  
+  291:    
+  292:  
+  293:    return(msg);
+  0000 f60000       [3]     LDAB  msg
+  294:  
+  295:  
+  296:  }
+  0003 3d           [5]     RTS   
+  297:  
+  298:  
+  299:  
+  300:  //====================T E R M I O ===Support for SCI0==========
+  301:   
+  302:  
+  303:  //=============================================================
+  304:  // TERMIO_PutChar and  TERMIO_GetChar For SCI0   
+  305:  //
+  306:  // 
+  307:  // Both are the link between SCI0 interface 
+  308:  // and the C putchar() and getchar() functions
+  309:  //
+  310:  //           OJO SCI 0 la del Monitor 
+  311:  //=============================================================
+  312:  
+  313:  
+  314:  void TERMIO_PutChar(char ch) 
+  315:  
+  316:  {
+
+Function: TERMIO_PutChar
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\sci.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\sci.c.o" -WmsgSd1106
+
+  0000 37           [2]     PSHB  
+  317:  
+  318:      while (!(SCI0SR1 & SCI0SR1_TDRE_MASK));
+  0001 4f0080fc     [4]     BRCLR _SCI0SR1,#128,*+0 ;abs = 0001
+  319:  
+  320:      SCI0DRL = ch;
+  0005 33           [3]     PULB  
+  0006 5b00         [2]     STAB  _SCI0DRL
+  321:  
+  322:  }
+  0008 3d           [5]     RTS   
+  323:  
+  324:  
+  325:  
+  326:  char TERMIO_GetChar(void) 
+  327:  
+  328:  {
+
+Function: TERMIO_GetChar
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\sci.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\sci.c.o" -WmsgSd1106
+
+  329:  
+  330:      while (!(SCI0SR1 & SCI0SR1_RDRF_MASK));
+  0000 4f0020fc     [4]     BRCLR _SCI0SR1,#32,*+0 ;abs = 0000
+  331:  
+  332:      return SCI0DRL;
+  0004 d600         [3]     LDAB  _SCI0DRL
+  333:  
+  334:  }
+  0006 3d           [5]     RTS   

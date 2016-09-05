@@ -1,0 +1,211 @@
+*** EVALUATION ***
+ANSI-C/cC++ Compiler for HC12 V-5.0.41 Build 10203, Jul 23 2010
+
+    1:  // 24/07/2016  -   Initial Version
+    2:  //...
+    3:  #include "event_queue.h"
+    4:  #include "mc9s12xdp512.h"
+    5:  
+    6:  //Event queues
+    7:  EVENT_T event_queue[MAX_EVENTS];
+    8:  EVENT_T priority_event_queue[MAX_PRIORITY_EVENTS] ;
+    9:  
+   10:  //Event counters. Volatile variables! interrupt will change these values.
+   11:  volatile static unsigned int  events_in_queue = 0;
+   12:  volatile static unsigned int events_in_priority_queue = 0;
+   13:  
+   14:  //In and out offsets
+   15:  static unsigned int in_offset = 0;
+   16:  static unsigned int out_offset = 0;
+   17:  static unsigned int priority_in_offset = 0;
+   18:  static unsigned int priority_out_offset = 0;
+   19:  
+   20:  //How many events are there in the queue?
+   21:  int get_total_events_in_queue(void) 
+   22:  {
+*** EVALUATION ***
+
+Function: get_total_events_in_queue
+Source  : C:\Users\R2D2\Desktop\TETRIS\Sources\event_queue.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=C:\Users\R2D2\Desktop\TETRIS;C:\Users\R2D2\Desktop\TETRIS\bin;C:\Users\R2D2\Desktop\TETRIS\prm;C:\Users\R2D2\Desktop\TETRIS\cmd;C:\Users\R2D2\Desktop\TETRIS\Sources;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\lib;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\src;C:\Users\R2D2\Desktop\TETRIS\Sources\DP256Reg;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\include" -Env"LIBPATH=C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\include" -EnvOBJPATH=C:\Users\R2D2\Desktop\TETRIS\bin -EnvTEXTPATH=C:\Users\R2D2\Desktop\TETRIS\bin -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN=C:\Users\R2D2\Desktop\TETRIS\TETRIS_Data\RAM\ObjectCode\event_queue.c.o -WmsgSd1106
+
+   23:          return events_in_queue + events_in_priority_queue;
+  0000 fc0000       [3]     LDD   events_in_queue
+  0003 f30000       [3]     ADDD  events_in_priority_queue
+   24:  }
+  0006 3d           [5]     RTS   
+   25:  
+   26:  //Register new event
+   27:  int register_event_in_queue(const EVENT_T *ev) 
+   28:  {
+*** EVALUATION ***
+
+Function: register_event_in_queue
+Source  : C:\Users\R2D2\Desktop\TETRIS\Sources\event_queue.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=C:\Users\R2D2\Desktop\TETRIS;C:\Users\R2D2\Desktop\TETRIS\bin;C:\Users\R2D2\Desktop\TETRIS\prm;C:\Users\R2D2\Desktop\TETRIS\cmd;C:\Users\R2D2\Desktop\TETRIS\Sources;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\lib;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\src;C:\Users\R2D2\Desktop\TETRIS\Sources\DP256Reg;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\include" -Env"LIBPATH=C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\include" -EnvOBJPATH=C:\Users\R2D2\Desktop\TETRIS\bin -EnvTEXTPATH=C:\Users\R2D2\Desktop\TETRIS\bin -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN=C:\Users\R2D2\Desktop\TETRIS\TETRIS_Data\RAM\ObjectCode\event_queue.c.o -WmsgSd1106
+
+  0000 3b           [2]     PSHD  
+   29:          if(events_in_queue != MAX_EVENTS)
+  0001 fc0000       [3]     LDD   events_in_queue
+  0004 8c0014       [2]     CPD   #20
+  0007 2724         [3/1]   BEQ   *+38 ;abs = 002d
+   30:          {
+   31:                  event_queue[in_offset++] = (*ev);
+  0009 fe0000       [3]     LDX   in_offset
+  000c 1901         [2]     LEAY  1,X
+  000e 7d0000       [3]     STY   in_offset
+  0011 1848         [2]     LSLX  
+  0013 34           [2]     PSHX  
+  0014 ee82         [3]     LDX   2,SP
+  0016 ec00         [3]     LDD   0,X
+  0018 30           [3]     PULX  
+  0019 6ce20000     [3]     STD   event_queue,X
+   32:                  if(in_offset == MAX_EVENTS)
+  001d 8d0014       [2]     CPY   #20
+  0020 2604         [3/1]   BNE   *+6 ;abs = 0026
+   33:                          in_offset = 0;
+  0022 18790000     [4]     CLRW  in_offset
+   34:                  events_in_queue++;
+  0026 18720000     [5]     INCW  events_in_queue
+   35:                  return SUCCESS;
+  002a c601         [1]     LDAB  #1
+  002c 21           [1]     SKIP1 
+   36:          }
+   37:          return FULL_EVENT_QUEUE;
+  002d c7           [1]     CLRB  
+  002e 87           [1]     CLRA  
+   38:  }
+  002f 1b82         [2]     LEAS  2,SP
+  0031 3d           [5]     RTS   
+   39:  
+   40:  //Register new priority event
+   41:  int register_event_in_priority_queue(const EVENT_T *ev) 
+   42:  {
+*** EVALUATION ***
+
+Function: register_event_in_priority_queue
+Source  : C:\Users\R2D2\Desktop\TETRIS\Sources\event_queue.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=C:\Users\R2D2\Desktop\TETRIS;C:\Users\R2D2\Desktop\TETRIS\bin;C:\Users\R2D2\Desktop\TETRIS\prm;C:\Users\R2D2\Desktop\TETRIS\cmd;C:\Users\R2D2\Desktop\TETRIS\Sources;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\lib;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\src;C:\Users\R2D2\Desktop\TETRIS\Sources\DP256Reg;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\include" -Env"LIBPATH=C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\include" -EnvOBJPATH=C:\Users\R2D2\Desktop\TETRIS\bin -EnvTEXTPATH=C:\Users\R2D2\Desktop\TETRIS\bin -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN=C:\Users\R2D2\Desktop\TETRIS\TETRIS_Data\RAM\ObjectCode\event_queue.c.o -WmsgSd1106
+
+  0000 3b           [2]     PSHD  
+   43:          if(events_in_priority_queue != MAX_PRIORITY_EVENTS)
+  0001 fc0000       [3]     LDD   events_in_priority_queue
+  0004 8c0014       [2]     CPD   #20
+  0007 2724         [3/1]   BEQ   *+38 ;abs = 002d
+   44:          {
+   45:                  priority_event_queue[priority_in_offset++] = (*ev);
+  0009 fe0000       [3]     LDX   priority_in_offset
+  000c 1901         [2]     LEAY  1,X
+  000e 7d0000       [3]     STY   priority_in_offset
+  0011 1848         [2]     LSLX  
+  0013 34           [2]     PSHX  
+  0014 ee82         [3]     LDX   2,SP
+  0016 ec00         [3]     LDD   0,X
+  0018 30           [3]     PULX  
+  0019 6ce20000     [3]     STD   priority_event_queue,X
+   46:                  if(priority_in_offset == MAX_PRIORITY_EVENTS)
+  001d 8d0014       [2]     CPY   #20
+  0020 2604         [3/1]   BNE   *+6 ;abs = 0026
+   47:                         priority_in_offset = 0;
+  0022 18790000     [4]     CLRW  priority_in_offset
+   48:                  events_in_priority_queue++;
+  0026 18720000     [5]     INCW  events_in_priority_queue
+   49:                  return SUCCESS;
+  002a c601         [1]     LDAB  #1
+  002c 21           [1]     SKIP1 
+   50:          }
+   51:          return FULL_EVENT_QUEUE;
+  002d c7           [1]     CLRB  
+  002e 87           [1]     CLRA  
+   52:  }
+  002f 1b82         [2]     LEAS  2,SP
+  0031 3d           [5]     RTS   
+   53:  
+   54:  //Return next event in event queue, or wait for one if event queue is empty
+   55:  void wait_for_event(EVENT_T* ev) 
+   56:  {
+*** EVALUATION ***
+
+Function: wait_for_event
+Source  : C:\Users\R2D2\Desktop\TETRIS\Sources\event_queue.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=C:\Users\R2D2\Desktop\TETRIS;C:\Users\R2D2\Desktop\TETRIS\bin;C:\Users\R2D2\Desktop\TETRIS\prm;C:\Users\R2D2\Desktop\TETRIS\cmd;C:\Users\R2D2\Desktop\TETRIS\Sources;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\lib;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\src;C:\Users\R2D2\Desktop\TETRIS\Sources\DP256Reg;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\include" -Env"LIBPATH=C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\include" -EnvOBJPATH=C:\Users\R2D2\Desktop\TETRIS\bin -EnvTEXTPATH=C:\Users\R2D2\Desktop\TETRIS\bin -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN=C:\Users\R2D2\Desktop\TETRIS\TETRIS_Data\RAM\ObjectCode\event_queue.c.o -WmsgSd1106
+
+  0000 3b           [2]     PSHD  
+   57:          //Show idle time in PORTA pin 2
+   58:          while(!get_total_events_in_queue());
+  0001 0700         [4]     BSR   get_total_events_in_queue
+  0003 0454fb       [3]     TBEQ  D,*-2 ;abs = 0001
+   59:          //PORTA won't go HIGH if there are pending events.
+   60:          
+   61:          if(events_in_priority_queue) 
+  0006 fc0000       [3]     LDD   events_in_priority_queue
+  0009 2724         [3/1]   BEQ   *+38 ;abs = 002f
+   62:          {
+   63:                  (*ev) = priority_event_queue[priority_out_offset++];
+  000b fd0000       [3]     LDY   priority_out_offset
+  000e 1a41         [2]     LEAX  1,Y
+  0010 7e0000       [3]     STX   priority_out_offset
+  0013 1858         [2]     LSLY  
+  0015 ecea0000     [4]     LDD   priority_event_queue,Y
+  0019 ee80         [3]     LDX   0,SP
+  001b 6c00         [2]     STD   0,X
+   64:                  if(priority_out_offset == MAX_PRIORITY_EVENTS)
+  001d fc0000       [3]     LDD   priority_out_offset
+  0020 8c0014       [2]     CPD   #20
+  0023 2604         [3/1]   BNE   *+6 ;abs = 0029
+   65:                               priority_out_offset = 0;
+  0025 18790000     [4]     CLRW  priority_out_offset
+   66:                  events_in_priority_queue--;
+  0029 18730000     [5]     DECW  events_in_priority_queue
+   67:          }
+  002d 2022         [3]     BRA   *+36 ;abs = 0051
+   68:          else  //We know there are events here since we exited while
+   69:          {
+   70:                  (*ev) = event_queue[out_offset++];
+  002f fd0000       [3]     LDY   out_offset
+  0032 1a41         [2]     LEAX  1,Y
+  0034 7e0000       [3]     STX   out_offset
+  0037 1858         [2]     LSLY  
+  0039 ecea0000     [4]     LDD   event_queue,Y
+  003d ee80         [3]     LDX   0,SP
+  003f 6c00         [2]     STD   0,X
+   71:                  if(out_offset == MAX_EVENTS)
+  0041 fc0000       [3]     LDD   out_offset
+  0044 8c0014       [2]     CPD   #20
+  0047 2604         [3/1]   BNE   *+6 ;abs = 004d
+   72:                               out_offset = 0;
+  0049 18790000     [4]     CLRW  out_offset
+   73:                  events_in_queue--;
+  004d 18730000     [5]     DECW  events_in_queue
+   74:          }
+   75:  }
+  0051 1b82         [2]     LEAS  2,SP
+  0053 3d           [5]     RTS   
+   76:  
+   77:  //Remove all events from event queue
+   78:  void flush_event_queue(void) 
+   79:  {          
+*** EVALUATION ***
+
+Function: flush_event_queue
+Source  : C:\Users\R2D2\Desktop\TETRIS\Sources\event_queue.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=C:\Users\R2D2\Desktop\TETRIS;C:\Users\R2D2\Desktop\TETRIS\bin;C:\Users\R2D2\Desktop\TETRIS\prm;C:\Users\R2D2\Desktop\TETRIS\cmd;C:\Users\R2D2\Desktop\TETRIS\Sources;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\lib;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\src;C:\Users\R2D2\Desktop\TETRIS\Sources\DP256Reg;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\include" -Env"LIBPATH=C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\include" -EnvOBJPATH=C:\Users\R2D2\Desktop\TETRIS\bin -EnvTEXTPATH=C:\Users\R2D2\Desktop\TETRIS\bin -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN=C:\Users\R2D2\Desktop\TETRIS\TETRIS_Data\RAM\ObjectCode\event_queue.c.o -WmsgSd1106
+
+   80:              _asm sei;     //No events while cleaning...
+  0000 1410         [1]     SEI   
+   81:             events_in_priority_queue = events_in_queue = 0;
+  0002 18790000     [4]     CLRW  events_in_queue
+  0006 fc0000       [3]     LDD   events_in_queue
+  0009 7c0000       [3]     STD   events_in_priority_queue
+   82:             in_offset = out_offset = 0;
+  000c 18790000     [4]     CLRW  out_offset
+  0010 fc0000       [3]     LDD   out_offset
+  0013 7c0000       [3]     STD   in_offset
+   83:             priority_in_offset = priority_out_offset = 0;
+  0016 18790000     [4]     CLRW  priority_out_offset
+  001a fc0000       [3]     LDD   priority_out_offset
+  001d 7c0000       [3]     STD   priority_in_offset
+   84:             _asm cli;      //Now, allow new events  
+  0020 10ef         [1]     CLI   
+   85:  }
+  0022 3d           [5]     RTS   

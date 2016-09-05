@@ -1,0 +1,124 @@
+*** EVALUATION ***
+ANSI-C/cC++ Compiler for HC12 V-5.0.41 Build 10203, Jul 23 2010
+
+    1:  #include "display_spi_management.h"
+    2:  #include "spi.h"
+    3:  
+    4:  
+    5:  /*	This functions sends a number(max 8 digits) via spi to a display using a MAX7219 integrated display driver.
+    6:  	ADRESSES:
+    7:  *	0x01 address firset 7 segment display
+    8:  	0x02 address second 7 segment display
+    9:  	.....
+   10:  	0x07 address seventh 7 segment display
+   11:  	
+   12:  	DATA:
+   13:  	0X01 corresponds to a number 1
+   14:  	0X02 corresponds to a number 2
+   15:  	....
+   16:  	0x09 corresponds to a number 9
+   17:  	
+   18:  *	(ADDRESS << 8) | Data sets a number in xxx 7segment display
+   19:  */
+   20:  void send_number_display(unsigned long int display_score)
+   21:  {
+*** EVALUATION ***
+
+Function: send_number_display
+Source  : C:\Users\R2D2\Desktop\TETRIS\Sources\display_spi_management.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=C:\Users\R2D2\Desktop\TETRIS;C:\Users\R2D2\Desktop\TETRIS\bin;C:\Users\R2D2\Desktop\TETRIS\prm;C:\Users\R2D2\Desktop\TETRIS\cmd;C:\Users\R2D2\Desktop\TETRIS\Sources;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\lib;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\src;C:\Users\R2D2\Desktop\TETRIS\Sources\DP256Reg;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\include" -Env"LIBPATH=C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\include" -EnvOBJPATH=C:\Users\R2D2\Desktop\TETRIS\bin -EnvTEXTPATH=C:\Users\R2D2\Desktop\TETRIS\bin -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN=C:\Users\R2D2\Desktop\TETRIS\TETRIS_Data\RAM\ObjectCode\display_spi_management.c.o
+
+  0000 6cab         [2]     STD   5,-SP
+  0002 34           [2]     PSHX  
+   22:  	unsigned char current_segment = 0x01; //first segments
+   23:  	unsigned int two_bytes_send = 0x00;
+   24:  	if(display_score > 99999999)
+  0003 cce0ff       [2]     LDD   #57599
+  0006 ce05f5       [2]     LDX   #1525
+  0009 ac82         [3]     CPD   2,SP
+  000b 18ae80       [4]     CPEX  0,SP
+  000e 2404         [3/1]   BCC   *+6 ;abs = 0014
+   25:  	  display_score = 99999999;
+  0010 6c82         [2]     STD   2,SP
+  0012 6e80         [2]     STX   0,SP
+   26:  	for(current_segment = 1 ; current_segment <= MAX_DIGITS_SHOW ; current_segment++ )
+  0014 50           [1]     NEGB  
+  0015 6b84         [2]     STAB  4,SP
+   27:  	{
+   28:  		two_bytes_send = display_score%10; //DATA HAS BEEN SET 
+  0017 c60a         [1]     LDAB  #10
+  0019 87           [1]     CLRA  
+  001a 3b           [2]     PSHD  
+  001b c7           [1]     CLRB  
+  001c 3b           [2]     PSHD  
+  001d ec86         [3]     LDD   6,SP
+  001f ee84         [3]     LDX   4,SP
+  0021 160000       [4]     JSR   _LMODU
+  0024 6c85         [2]     STD   5,SP
+   29:  		display_score /= 10;
+  0026 c60a         [1]     LDAB  #10
+  0028 87           [1]     CLRA  
+  0029 3b           [2]     PSHD  
+  002a c7           [1]     CLRB  
+  002b 3b           [2]     PSHD  
+  002c ec86         [3]     LDD   6,SP
+  002e ee84         [3]     LDX   4,SP
+  0030 160000       [4]     JSR   _LDIVU
+  0033 6c82         [2]     STD   2,SP
+  0035 6e80         [2]     STX   0,SP
+   30:  		two_bytes_send |= (current_segment << 8); // Result will be (address <<8 )| Data  
+  0037 e684         [3]     LDAB  4,SP
+  0039 b710         [1]     TFR   B,A
+  003b c7           [1]     CLRB  
+  003c ea86         [3]     ORAB  6,SP
+  003e aa85         [3]     ORAA  5,SP
+   31:  		putwspi0(two_bytes_send);
+  0040 3b           [2]     PSHD  
+  0041 160000       [4]     JSR   putwspi0
+   32:  		putwspi0(two_bytes_send);
+  0044 3a           [3]     PULD  
+  0045 160000       [4]     JSR   putwspi0
+  0048 6284         [3]     INC   4,SP
+  004a e684         [3]     LDAB  4,SP
+  004c c108         [1]     CMPB  #8
+  004e 23c7         [3/1]   BLS   *-55 ;abs = 0017
+   33:  		//send the fucking shit
+   34:  	}
+   35:  }
+  0050 1b87         [2]     LEAS  7,SP
+  0052 3d           [5]     RTS   
+   36:  
+   37:  /*
+   38:  	This function configures a max7219 via spi to be used to manage an 8 digit
+   39:  	7 segment display. 
+   40:  */
+   41:  void configure_spi_max7219_display(void)
+   42:  {
+*** EVALUATION ***
+
+Function: configure_spi_max7219_display
+Source  : C:\Users\R2D2\Desktop\TETRIS\Sources\display_spi_management.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=C:\Users\R2D2\Desktop\TETRIS;C:\Users\R2D2\Desktop\TETRIS\bin;C:\Users\R2D2\Desktop\TETRIS\prm;C:\Users\R2D2\Desktop\TETRIS\cmd;C:\Users\R2D2\Desktop\TETRIS\Sources;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\lib;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\src;C:\Users\R2D2\Desktop\TETRIS\Sources\DP256Reg;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\include" -Env"LIBPATH=C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\include" -EnvOBJPATH=C:\Users\R2D2\Desktop\TETRIS\bin -EnvTEXTPATH=C:\Users\R2D2\Desktop\TETRIS\bin -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN=C:\Users\R2D2\Desktop\TETRIS\TETRIS_Data\RAM\ObjectCode\display_spi_management.c.o
+
+   43:  	init_SPI();
+  0000 160000       [4]     JSR   init_SPI
+   44:  
+   45:  	putwspi0(INTENSITY_ADDRESS | MAX_INTENSITY); //Max intensity
+  0003 cc0a0f       [2]     LDD   #2575
+  0006 160000       [4]     JSR   putwspi0
+   46:  	putwspi0(TEST_MODE_ADDRESS | NO_TEST_MODE); //TEST MODE off
+  0009 860f         [1]     LDAA  #15
+  000b c7           [1]     CLRB  
+  000c 160000       [4]     JSR   putwspi0
+   47:  	putwspi0(0x0BFF); //Scan all
+  000f cc0bff       [2]     LDD   #3071
+  0012 160000       [4]     JSR   putwspi0
+   48:  	putwspi0(DECODE_ADDRESS | DECODE_MODE_ALL_DIGITS); //Decode
+  0015 cc09ff       [2]     LDD   #2559
+  0018 160000       [4]     JSR   putwspi0
+   49:    	putwspi0(0x0C01); //Turn on
+  001b cc0c01       [2]     LDD   #3073
+  001e 060000       [3]     JMP   putwspi0
+   50:  	//send via spi
+   51:  
+   52:  }

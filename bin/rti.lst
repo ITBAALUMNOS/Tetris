@@ -1,0 +1,280 @@
+ANSI-C/cC++ Compiler for HC12 V-5.0.38 Build 9056, Feb 26 2009
+
+    1:  #include "mc9s12xdp512.h"
+    2:  #include "rti.h"
+    3:  #include "spi.h"
+    4:  
+    5:  #define PARTY_RELOAD 100                    // 100 ms
+    6:  #define FALSE 0
+    7:  #define TRUE  1
+    8:  
+    9:  
+   10:  
+   11:  static unsigned int  party_counter=PARTY_RELOAD;
+   12:  static unsigned char show_led=0;
+   13:  static unsigned int  Party_Enabled=FALSE;
+   14:  
+   15:  
+   16:  unsigned char Party_Show[]={
+   17:                              0b01010101, //1
+   18:                              0b11101101,
+   19:                              0b00000000,
+   20:                              0b11101110,
+   21:                              0b01010101,
+   22:                              0b10101010,
+   23:  						              	0b01110111,
+   24:  							              0b11001100,
+   25:                             };
+   26:  
+   27:  
+   28:  static volatile unsigned int rti_dly;
+   29:  
+   30:  // A write to the RTICTL register restarts the RTI time-out period.
+   31:  // MC9S12XDP512 Data Sheet, Rev. 2.15 page 103
+   32:  			  
+   33:  void rti_start(void) 
+   34:  {
+
+Function: rti_start
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\rti.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\rti.c.o" -WmsgSd1106
+
+   35:      
+   36:      //RTICTL = 0x50 ;                       // Binary divider  (16MHz / 2^14) = 0.976 mseg ~ 1mseg
+   37:      
+   38:      RTICTL = 0x0F | RTICTL_RTDEC_MASK;      // Decimal divider (16MHz / 16E3) = 1mseg
+  0000 cc808f       [2]     LDD   #32911
+  0003 5b00         [2]     STAB  _RTICTL
+   39:      
+   40:      CRGFLG = CRGFLG_RTIF_MASK;              // Clear RTI Inerrupt mask
+  0005 5a00         [2]     STAA  _CRGFLG
+   41:     
+   42:      CRGINT |= CRGINT_RTIE_MASK;             // Enable RTI Interrupt
+  0007 4c0080       [4]     BSET  _CRGINT,#128
+   43:   
+   44:      rti_dly = 0;			                      // delay counter start in reset state  	   
+  000a 18790000     [4]     CLRW  rti_dly
+   45:  }
+  000e 3d           [5]     RTS   
+   46:  
+   47:  
+   48:  void rti_stop(void) 
+   49:  {
+
+Function: rti_stop
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\rti.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\rti.c.o" -WmsgSd1106
+
+   50:      
+   51:      _asm sei;
+  0000 1410         [1]     SEI   
+   52:      
+   53:      RTICTL = 0x00;                           // RTI off
+  0002 790000       [3]     CLR   _RTICTL
+   54:      
+   55:      CRGFLG = CRGFLG_RTIF_MASK;              // Clear RTI Inerrupt mask
+  0005 c680         [1]     LDAB  #128
+  0007 5b00         [2]     STAB  _CRGFLG
+   56:     
+   57:      CRGINT = 0x00;                          // Disable RTI Interrupt
+  0009 790000       [3]     CLR   _CRGINT
+   58:   
+   59:      _asm cli; 	   
+  000c 10ef         [1]     CLI   
+   60:  }
+  000e 3d           [5]     RTS   
+   61:  
+   62:  
+   63:  
+   64:  
+   65:  
+   66:  
+   67:  
+   68:  
+   69:  void delayms(unsigned int dly)      // Blocking delay
+   70:  {
+
+Function: delayms
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\rti.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\rti.c.o" -WmsgSd1106
+
+   71:      // set delay
+   72:   
+   73:    CRGINT &= ~CRGINT_RTIE_MASK;
+  0000 4d0080       [4]     BCLR  _CRGINT,#128
+   74:  	
+   75:  	rti_dly = dly;	    
+  0003 7c0000       [3]     STD   rti_dly
+   76:  	
+   77:  	CRGFLG =  CRGFLG_RTIF_MASK;
+  0006 c680         [1]     LDAB  #128
+  0008 5b00         [2]     STAB  _CRGFLG
+   78:    
+   79:    CRGINT |= CRGINT_RTIE_MASK;
+  000a 4c0080       [4]     BSET  _CRGINT,#128
+   80:  	
+   81:  	// and wait
+   82:  	while (rti_dly);    
+  000d fc0000       [3]     LDD   rti_dly
+  0010 26fb         [3/1]   BNE   *-3 ;abs = 000d
+   83:  }
+  0012 3d           [5]     RTS   
+   84:  
+   85:  void Set_Timer_ms(unsigned int dly)     // Non Blocking delay
+   86:  {
+
+Function: Set_Timer_ms
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\rti.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\rti.c.o" -WmsgSd1106
+
+   87:      // set delay
+   88:   
+   89:    CRGINT &= ~CRGINT_RTIE_MASK;
+  0000 4d0080       [4]     BCLR  _CRGINT,#128
+   90:  	
+   91:  	rti_dly = dly;	    
+  0003 7c0000       [3]     STD   rti_dly
+   92:  	
+   93:  	CRGFLG =  CRGFLG_RTIF_MASK;
+  0006 c680         [1]     LDAB  #128
+  0008 5b00         [2]     STAB  _CRGFLG
+   94:    
+   95:    CRGINT |= CRGINT_RTIE_MASK;
+  000a 4c0080       [4]     BSET  _CRGINT,#128
+   96:  
+   97:  	 
+   98:  }
+  000d 3d           [5]     RTS   
+   99:  
+  100:  unsigned char Get_Timer_ms_Status(void)      // Non Blocking delay Status 
+  101:  {
+
+Function: Get_Timer_ms_Status
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\rti.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\rti.c.o" -WmsgSd1106
+
+  102:   	
+  103:    return(!(rti_dly) );	    
+  0000 fc0000       [3]     LDD   rti_dly
+  0003 2702         [3/1]   BEQ   *+4 ;abs = 0007
+  0005 c7           [1]     CLRB  
+  0006 8f           [2]     SKIP2 
+  0007 c601         [1]     LDAB  #1
+  104:  
+  105:  	 
+  106:  }         
+  0009 3d           [5]     RTS   
+  107:  
+  108:  
+  109:  
+  110:  
+  111:  
+  112:  
+  113:  void interrupt ISR_rti(void) 
+  114:  {     
+
+Function: ISR_rti
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\rti.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\rti.c.o" -WmsgSd1106
+
+  115:  
+  116:    //acá llego cada 1 mseg
+  117:  	
+  118:  	// bajo la bandera
+  119:  	CRGFLG = CRGFLG_RTIF_MASK;  
+  0000 c680         [1]     LDAB  #128
+  0002 5b00         [2]     STAB  _CRGFLG
+  120:  	
+  121:  	//Toggle PA1 (DEBUG)
+  122:  ///	PORTA ^= 0x02;     
+  123:  	
+  124:  	// pump down user timer  
+  125:  	if (rti_dly) rti_dly--;
+  0004 fc0000       [3]     LDD   rti_dly
+  0007 2704         [3/1]   BEQ   *+6 ;abs = 000d
+  0009 18730000     [5]     DECW  rti_dly
+  126:  	
+  127:  	
+  128:  	if (party_counter) 
+  000d fc0000       [3]     LDD   party_counter
+  0010 2705         [3/1]   BEQ   *+7 ;abs = 0017
+  129:  	
+  130:  	  party_counter--;
+  0012 18730000     [5]     DECW  party_counter
+  0016 0b           [8]     RTI   
+  131:  
+  132:  	else 
+  133:  	{
+  134:  	  
+  135:  	  party_counter=PARTY_RELOAD;
+  0017 c664         [1]     LDAB  #100
+  0019 87           [1]     CLRA  
+  001a 7c0000       [3]     STD   party_counter
+  136:  
+  137:  
+  138:     if(Party_Enabled==TRUE)
+  001d fe0000       [3]     LDX   Party_Enabled
+  0020 042511       [3]     DBNE  X,*+20 ;abs = 0034
+  139:  	
+  140:  	    putcspi0(Party_Show[0x07 & show_led++]);
+  0023 f60000       [3]     LDAB  show_led
+  0026 37           [2]     PSHB  
+  0027 52           [1]     INCB  
+  0028 7b0000       [3]     STAB  show_led
+  002b 33           [3]     PULB  
+  002c c407         [1]     ANDB  #7
+  002e ce0000       [2]     LDX   #Party_Show
+  0031 e6e5         [3]     LDAB  B,X
+  0033 21           [1]     SKIP1 
+  141:  	  //  putcspi0(0xFF);
+  142:  	  
+  143:  	 else
+  144:  	 
+  145:  	    putcspi0(0x00);  /// All OFF
+  0034 c7           [1]     CLRB  
+  0035 160000       [4]     JSR   putcspi0
+  146:  	
+  147:  	}
+  148:  }
+  0038 0b           [8]     RTI   
+  149:  
+  150:  
+  151:  void   Set_Party_Mode_On(void)
+  152:  {
+
+Function: Set_Party_Mode_On
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\rti.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\rti.c.o" -WmsgSd1106
+
+  153:  
+  154:          
+  155:          Party_Enabled=TRUE; 
+  0000 c601         [1]     LDAB  #1
+  0002 87           [1]     CLRA  
+  0003 7c0000       [3]     STD   Party_Enabled
+  156:  
+  157:  
+  158:  }
+  0006 3d           [5]     RTS   
+  159:  
+  160:  void   Set_Party_Mode_Off(void)
+  161:  {
+
+Function: Set_Party_Mode_Off
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\rti.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\rti.c.o" -WmsgSd1106
+
+  162:  
+  163:          
+  164:          Party_Enabled=FALSE; 
+  0000 18790000     [4]     CLRW  Party_Enabled
+  165:  
+  166:  
+  167:  }
+  0004 3d           [5]     RTS   
+  168:  
+  169:  
+  170:  
+  171:  
+  172:  
+  173:  

@@ -1,0 +1,154 @@
+*** EVALUATION ***
+ANSI-C/cC++ Compiler for HC12 V-5.0.41 Build 10203, Jul 23 2010
+
+    1:               extern  pll_init;
+    2:  
+    3:  
+    4:  /* Código de Startup ANSI-C para HCS12, small memory model. Versión minimalista. */
+    5:  
+    6:  /* El vector de reset apunta a la función _Startup (más abajo). Ese código hace lo siguiente:
+    7:      1) inicializa stack pointer:
+    8:              - Para eso, el linker define el símbolo __SEG_END_SSTACK, que indica el valor a cargar en SP
+    9:         
+   10:      2) pone en cero las áreas de RAM donde se encuentran las variables  
+   11:              - Cuando hago "static char var;", 'var' debe valer cero al inicio del programa.
+   12:                 Como 'var' está reservado en RAM, y la RAM puede tener cualquier valor cuando se resetea el micro,
+   13:                 entonces alguien debe ponerla en cero antes de que se llame a 'main'. Este trabajo lo hace
+   14:                 el código de _Startup.
+   15:      
+   16:      3) copia los valores de las variables inicializadas (de ROM a RAM)
+   17:              - Cuando hago "static char buff[] = {11, 22};", 'buff' debe valer {11,22} al inicio del programa.
+   18:                 Como 'buff' está reservado en RAM, alguien debe cargar los valores {11,22} en 'buff' antes de
+   19:                 que se llame a 'main'. El código de _Startup copia los valores {11,22} de ROM a RAM.
+   20:      
+   21:      4) jump a main                                 
+   22:              - Como, en teoría, 'main' no retorna nunca, no vamos a gastar stack con un JSR. Directamente hacemos
+   23:                 un JMP.
+   24:  */
+   25:  
+   26:  
+   27:  /* attention: the linker scans the debug information for these structures */
+   28:  /* to obtain the available fields and their sizes. */
+   29:  /* So do not change the names in this file. */
+   30:  typedef struct _Range {
+   31:    unsigned char * beg; 
+   32:    int size;
+   33:  } _Range;
+   34:  
+   35:  typedef struct _Copy {
+   36:      int size; 
+   37:      unsigned char * dest;
+   38:  } _Copy;
+   39:  
+   40:      
+   41:  /* _startupData está reservada en ROM, e inicializada por el linker */
+   42:  #pragma DATA_SEG STARTUP_DATA 
+   43:  struct {
+   44:       unsigned int   nofZeroOuts;    /* number of zero out ranges */
+   45:       _Range         *pZeroOut;      /* vector of ranges with nofZeroOuts elements */
+   46:       _Copy          *toCopyDownBeg; /* rom-address where copydown-data begins */
+   47:  } _startupData;
+   48:  #pragma DATA_SEG DEFAULT
+   49:  
+   50:  
+   51:  /* símbolos definidos externos a este archivo */
+   52:  extern char __SEG_END_SSTACK[];     /* este símbolo lo define el linker */
+   53:  void main(void);                    /* prototipo de main */
+   54:  
+   55:  /* ¡Hay que decirle al Linker que cargue el vector de reset con la dirección de _Startup! (ver ivt.c) */
+   56:  #pragma MESSAGE DISABLE C12053 /* Stack-pointer change not in debugging-information */
+   57:  #pragma NO_ENTRY    /* deshabilita la generación de código "extra" de entrada. */
+   58:  #pragma NO_EXIT     /* deshabilita la generación de código "extra" de salida. */
+   59:  #pragma NO_RETURN   /* deshabilita la generación del RTS */
+   60:  void _Startup(void) 
+   61:  {
+*** EVALUATION ***
+
+Function: _Startup
+Source  : C:\Users\R2D2\Desktop\TETRIS\Sources\simple_start12.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=C:\Users\R2D2\Desktop\TETRIS;C:\Users\R2D2\Desktop\TETRIS\bin;C:\Users\R2D2\Desktop\TETRIS\prm;C:\Users\R2D2\Desktop\TETRIS\cmd;C:\Users\R2D2\Desktop\TETRIS\Sources;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\lib;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\src;C:\Users\R2D2\Desktop\TETRIS\Sources\DP256Reg;C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\include" -Env"LIBPATH=C:\Program Files (x86)\Freescale\CWS12v5.1\lib\HC12c\include" -EnvOBJPATH=C:\Users\R2D2\Desktop\TETRIS\bin -EnvTEXTPATH=C:\Users\R2D2\Desktop\TETRIS\bin -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN=C:\Users\R2D2\Desktop\TETRIS\TETRIS_Data\RAM\ObjectCode\simple_start12.c.o -WmsgSd12053
+
+   62:      __asm {
+   63:      
+   64:  /* estos NOPs no son necesarios, pero el simulador tiene un BUG
+   65:      que se soluciona de esta manera: */
+   66:                  NOP
+  0000 a7           [1]     NOP   
+   67:                  NOP
+  0001 a7           [1]     NOP   
+   68:                  NOP
+  0002 a7           [1]     NOP   
+   69:                  NOP
+  0003 a7           [1]     NOP   
+   70:                  
+   71:  /* inicializar stack pointer */
+   72:                  LDS #__SEG_END_SSTACK;  // ojo con esto !! Ver
+  0004 cf0000       [2]     LDS   #__SEG_END_SSTACK
+   73:                                          //1- pag 55/56 del manual Assembler_HC12.pdf  
+   74:                                          //2- Flash.prm STACKSIZE
+   75:                  jsr pll_init
+  0007 160000       [4]     JSR   pll_init
+   76:              
+   77:                  
+   78:                  
+   79:                  
+   80:                  
+   81:                  
+   82:     
+   83:  /* zero out */
+   84:  ZeroOut:
+   85:                  LDX   _startupData.pZeroOut    ; X=*pZeroOut
+  000a fe0000       [3]     LDX   _startupData:2
+   86:                  LDY   _startupData.nofZeroOuts ; Y=nofZeroOuts
+  000d fd0000       [3]     LDY   _startupData
+   87:                  BEQ   CopyDown                 ; if nothing to zero out
+  0010 270e         [3/1]   BEQ   *+16 ;abs = 0020
+   88:  
+   89:  NextZeroOut:    PSHY                           ; save nofZeroOuts
+  0012 35           [2]     PSHY  
+   90:                  LDY   2,X+                     ; Y=start address, X=X+2
+  0013 ed31         [3]     LDY   2,X+
+   91:                  LDD   2,X+                     ; D=byte count, X=X+2
+  0015 ec31         [3]     LDD   2,X+
+   92:  
+   93:  NextWord:       CLR   1,Y+                     ; clear memory byte
+  0017 6970         [2]     CLR   1,Y+
+   94:                  DBNE  D, NextWord              ; dec byte count
+  0019 0434fb       [3]     DBNE  D,*-2 ;abs = 0017
+   95:  
+   96:                  PULY                           ; restore nofZeroOuts
+  001c 31           [3]     PULY  
+   97:                  DEY                            ; dec nofZeroOuts
+  001d 03           [1]     DEY   
+   98:                  BNE  NextZeroOut
+  001e 26f2         [3/1]   BNE   *-12 ;abs = 0012
+   99:  
+  100:  
+  101:  /* copy down */
+  102:  CopyDown:
+  103:                  LDX   _startupData.toCopyDownBeg ; load address of copy down desc.
+  0020 fe0000       [3]     LDX   _startupData:4
+  104:  
+  105:  NextBlock:      LDD   2,X+                     ; D=size of init-data, X=X+2
+  0023 ec31         [3]     LDD   2,X+
+  106:                  BEQ   Done                     ; end of copy down desc.
+  0025 270b         [3/1]   BEQ   *+13 ;abs = 0032
+  107:                  LDY   2,X+                     ; Y=destination address, X=X+2
+  0027 ed31         [3]     LDY   2,X+
+  108:  
+  109:  Copy:           MOVB  1,X+,1,Y+                ; move a byte from ROM to the data area
+  0029 180a3070     [5]     MOVB  1,X+,1,Y+
+  110:                  DBNE  D,Copy                   ; copy-byte loop
+  002d 0434f9       [3]     DBNE  D,*-4 ;abs = 0029
+  111:  
+  112:                  BRA   NextBlock
+  0030 20f1         [3]     BRA   *-13 ;abs = 0023
+  113:  
+  114:  /* jump a main(). ¡Asegurarse de no ejecutar NUNCA un RTS en main()! */
+  115:  Done:
+  116:                  JMP main;
+  0032 060000       [3]     JMP   main
+  117:  
+  118:      }
+  119:  }
+  120:  

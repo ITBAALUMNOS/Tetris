@@ -1,0 +1,711 @@
+ANSI-C/cC++ Compiler for HC12 V-5.0.38 Build 9056, Feb 26 2009
+
+    1:  //
+    2:  //  LEDscreen.c
+    3:  //  Interface
+    4:  //
+    5:  //  Created by Sergio N. Deligiannis on 29/5/15.
+    6:  //  Copyright (c) 2015 Sergio N. Deligiannis. All rights reserved.
+    7:  //  
+    8:  
+    9:  #include "LEDscreen.h"
+   10:  #include "characters8x8.h"
+   11:  #include <stdio.h>
+   12:  
+   13:  #define _putchar           (void)putchar
+   14:  #define _printf            (void)printf
+   15:  
+   16:  
+   17:  //#define DIM_MATRIX 8  // Filas y columnas de un bloque de LEDs
+   18:  //#define N_BLOCKS 4    // Cantidad de bloques de LEDs   0,1,2,...,N
+   19:  // Cantidad de LEDs: 8x8 + 8X8 + 8x8 + 8x8
+   20:  
+   21:  //#define MAX_CHARACTERS 200
+   22:  
+   23:  unsigned char nnnn;
+   24:  #define DIM_MATRIX LED_SCREEN_DIM_MATRIX
+   25:  #define N_BLOCKS LED_SCREEN_N_BLOCKS
+   26:  
+   27:  #define MAX_CHARACTERS LED_SCREEN_MAX_CHARACTERS
+   28:  
+   29:  
+   30:  #define BUFFER_FREE 1
+   31:  #define BUFFER_NOT_FREE 0
+   32:  
+   33:  #define NIL 0
+   34:  
+   35:  
+   36:  const unsigned char* LEDscreen_decode_MSJ(const char data);
+   37:  void LEDscreen_ShiftEnded(void);
+   38:  
+   39:  void *LEDscreen_userData = (void *)NIL;
+   40:  void (*LEDscreen_userCallback)(void *userData) = (void (*)(void *userData))NIL;
+   41:  void (*LEDscreen_userVoidCallback)(void) = (void (*)(void))NIL;
+   42:  
+   43:  char msj[MAX_CHARACTERS] = "ITBA";        // Buffer con mensaje actual (Reproduciendo)
+   44:  int msjSize = 4;
+   45:  char nextMsj[MAX_CHARACTERS] = "ITBA";    // Buffer con mensaje a Reproducir (Este buffer se carga cuando llamo a LEDscreen_setMSJ())
+   46:  int nextMsjSize = 4;
+   47:  unsigned char isBufferFree = BUFFER_FREE;
+   48:  
+   49:  LEDSTR colorLEDsON = {0xff,0xff,0xff};           
+   50:  LEDSTR colorLEDsOFF = {0x00,0x00,0x00};
+   51:  
+   52:  
+   53:  static LEDSTR LedScreen[LED_SCREEN_DIM_MATRIX][LED_SCREEN_N_BLOCKS * LED_SCREEN_DIM_MATRIX];
+   54:  
+   55:  static unsigned char End_of_shift=FALSE;
+   56:  
+   57:  /////////////////////////////////////////
+   58:  
+   59:  void LEDscreen_setUserData(void *userData)
+   60:  {
+
+Function: LEDscreen_setUserData
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\LEDscreen.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\LEDscreen.c.o"
+
+   61:      LEDscreen_userData = userData;
+  0000 7c0000       [3]     STD   LEDscreen_userData
+   62:  }
+  0003 3d           [5]     RTS   
+   63:  
+   64:  void LEDscreen_setShiftEnded_Callback(void (*userCallback)(void *userData))
+   65:  {
+
+Function: LEDscreen_setShiftEnded_Callback
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\LEDscreen.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\LEDscreen.c.o"
+
+   66:      LEDscreen_userCallback = userCallback;
+  0000 7c0000       [3]     STD   LEDscreen_userCallback
+   67:  }
+  0003 3d           [5]     RTS   
+   68:  
+   69:  void LEDscreen_setShiftEnded_voidCallback(void (*userVoidCallback)(void))
+   70:  {
+
+Function: LEDscreen_setShiftEnded_voidCallback
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\LEDscreen.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\LEDscreen.c.o"
+
+   71:     LEDscreen_userVoidCallback = userVoidCallback;
+  0000 7c0000       [3]     STD   LEDscreen_userVoidCallback
+   72:  }
+  0003 3d           [5]     RTS   
+   73:                                            
+   74:  /////////////////////////////////////////
+   75:  
+   76:  LEDSTR* LEDscreen_getScreenAddress(void)
+   77:  {
+
+Function: LEDscreen_getScreenAddress
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\LEDscreen.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\LEDscreen.c.o"
+
+   78:  
+   79:       return(LEDSTR*) LedScreen;
+  0000 cc0000       [2]     LDD   #LedScreen
+   80:  
+   81:  }
+  0003 3d           [5]     RTS   
+   82:  
+   83:  unsigned int LEDscreen_getScreenBytes(void)
+   84:  {
+
+Function: LEDscreen_getScreenBytes
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\LEDscreen.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\LEDscreen.c.o"
+
+   85:      return sizeof(LEDSTR) * LED_SCREEN_DIM_MATRIX * LED_SCREEN_N_BLOCKS * LED_SCREEN_DIM_MATRIX; // 3 por las estructura de LEDs
+  0000 8603         [1]     LDAA  #3
+  0002 c7           [1]     CLRB  
+   86:  }
+  0003 3d           [5]     RTS   
+   87:  
+   88:  void LEDscreen_setNextMSJ(const  char *newMSJ)
+   89:  {
+
+Function: LEDscreen_setNextMSJ
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\LEDscreen.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\LEDscreen.c.o"
+
+  0000 3b           [2]     PSHD  
+   90:      nextMsjSize = 0;
+  0001 1887         [2]     CLRX  
+   91:      
+   92:      while(newMSJ[nextMsjSize] != '\0')
+  0003 200e         [3]     BRA   *+16 ;abs = 0013
+   93:      {
+   94:          nextMsj[nextMsjSize] = newMSJ[nextMsjSize];
+  0005 b756         [1]     TFR   X,Y
+  0007 18ab80       [4]     ADDX  0,SP
+  000a e600         [3]     LDAB  0,X
+  000c 6bea0000     [3]     STAB  nextMsj,Y
+   95:          nextMsjSize++;
+  0010 02           [1]     INY   
+  0011 b765         [1]     TFR   Y,X
+  0013 34           [2]     PSHX  
+  0014 18ab82       [4]     ADDX  2,SP
+  0017 e600         [3]     LDAB  0,X
+  0019 30           [3]     PULX  
+  001a 26e9         [3/1]   BNE   *-21 ;abs = 0005
+   96:      }
+   97:      nextMsj[nextMsjSize] = '\0';
+  001c 7e0000       [3]     STX   nextMsjSize
+  001f 69e20000     [3]     CLR   nextMsj,X
+   98:      
+   99:  }
+  0023 1b82         [2]     LEAS  2,SP
+  0025 3d           [5]     RTS   
+  100:  
+  101:  void LEDscreen_setActualMSJ(const  char *newMSJ)
+  102:  {
+
+Function: LEDscreen_setActualMSJ
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\LEDscreen.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\LEDscreen.c.o"
+
+  0000 3b           [2]     PSHD  
+  103:      
+  104:      msjSize = 0;
+  0001 1887         [2]     CLRX  
+  105:      
+  106:      while(newMSJ[msjSize] != '\0')
+  0003 200e         [3]     BRA   *+16 ;abs = 0013
+  107:      {
+  108:          msj[msjSize] = newMSJ[msjSize];
+  0005 b756         [1]     TFR   X,Y
+  0007 18ab80       [4]     ADDX  0,SP
+  000a e600         [3]     LDAB  0,X
+  000c 6bea0000     [3]     STAB  msj,Y
+  109:          msjSize++;
+  0010 02           [1]     INY   
+  0011 b765         [1]     TFR   Y,X
+  0013 34           [2]     PSHX  
+  0014 18ab82       [4]     ADDX  2,SP
+  0017 e600         [3]     LDAB  0,X
+  0019 30           [3]     PULX  
+  001a 26e9         [3/1]   BNE   *-21 ;abs = 0005
+  110:      }
+  111:      msj[msjSize] = '\0';
+  001c 7e0000       [3]     STX   msjSize
+  001f 69e20000     [3]     CLR   msj,X
+  112:      
+  113:      LEDscreen_setNextMSJ(newMSJ);
+  0023 ec80         [3]     LDD   0,SP
+  0025 0700         [4]     BSR   LEDscreen_setNextMSJ
+  114:      
+  115:      
+  116:  }
+  0027 1b82         [2]     LEAS  2,SP
+  0029 3d           [5]     RTS   
+  117:  
+  118:  unsigned char LEDscreen_isBufferFree(void)
+  119:  {
+
+Function: LEDscreen_isBufferFree
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\LEDscreen.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\LEDscreen.c.o"
+
+  120:      return isBufferFree;
+  0000 f60000       [3]     LDAB  isBufferFree
+  121:  }
+  0003 3d           [5]     RTS   
+  122:  
+  123:  
+  124:  void LEDscreen_setLEDcolorON(LEDSTR color)
+  125:  {
+
+Function: LEDscreen_setLEDcolorON
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\LEDscreen.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\LEDscreen.c.o"
+
+  0000 34           [2]     PSHX  
+  0001 37           [2]     PSHB  
+  126:      colorLEDsON = color;
+  0002 ec81         [3]     LDD   1,SP
+  0004 7c0000       [3]     STD   colorLEDsON:1
+  0007 e6b2         [3]     LDAB  3,SP+
+  0009 7b0000       [3]     STAB  colorLEDsON
+  127:  }
+  000c 3d           [5]     RTS   
+  128:  
+  129:  void LEDscreen_update(void)
+  130:  {
+
+Function: LEDscreen_update
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\LEDscreen.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\LEDscreen.c.o"
+
+  131:  
+  132:      // Era para llamar a WS2812send
+  133:      // hay que usar: LEDSTR LedScreen[LED_SCREEN_DIM_MATRIX][LED_SCREEN_N_BLOCKS * LED_SCREEN_DIM_MATRIX];
+  134:      
+  135:  }
+  0000 3d           [5]     RTS   
+  136:  
+  137:  void LEDscreen_ShiftEnded(void)
+  138:  {
+
+Function: LEDscreen_ShiftEnded
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\LEDscreen.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\LEDscreen.c.o"
+
+  139:      msjSize = 0;
+  0000 1887         [2]     CLRX  
+  140:      
+  141:      while(nextMsj[msjSize] != '\0')
+  0002 2005         [3]     BRA   *+7 ;abs = 0009
+  142:      {
+  143:          msj[msjSize] = nextMsj[msjSize];
+  0004 6be20000     [3]     STAB  msj,X
+  144:          msjSize++;
+  0008 08           [1]     INX   
+  0009 e6e20000     [4]     LDAB  nextMsj,X
+  000d 26f5         [3/1]   BNE   *-9 ;abs = 0004
+  145:      }
+  146:      msj[msjSize] = '\0';
+  000f 7e0000       [3]     STX   msjSize
+  0012 69e20000     [3]     CLR   msj,X
+  147:      
+  148:      if(LEDscreen_userCallback != NIL)
+  0016 fc0000       [3]     LDD   LEDscreen_userCallback
+  0019 2707         [3/1]   BEQ   *+9 ;abs = 0022
+  149:          LEDscreen_userCallback(LEDscreen_userData);
+  001b fc0000       [3]     LDD   LEDscreen_userData
+  001e 15fb0000     [7]     JSR   [LEDscreen_userCallback,PCR]
+  150:      
+  151:      if(LEDscreen_userVoidCallback != NIL)
+  0022 fc0000       [3]     LDD   LEDscreen_userVoidCallback
+  0025 2704         [3/1]   BEQ   *+6 ;abs = 002b
+  152:          LEDscreen_userVoidCallback();
+  0027 15fb0000     [7]     JSR   [LEDscreen_userVoidCallback,PCR]
+  153:      
+  154:      End_of_shift=TRUE;       // signal
+  002b c601         [1]     LDAB  #1
+  002d 7b0000       [3]     STAB  End_of_shift
+  155:      
+  156:      /*  Test code
+  157:      static int i=0;
+  158:      if(i==0)
+  159:      {
+  160:          colorLEDsON.Green = 0xff;
+  161:          colorLEDsON.Blue = 0x00;
+  162:          colorLEDsON.Red = 0x00;
+  163:      }
+  164:      else if(i==1)
+  165:      {
+  166:          colorLEDsON.Green = 0x00;
+  167:          colorLEDsON.Blue = 0xff;
+  168:          colorLEDsON.Red = 0x00;
+  169:      }
+  170:      else if(i==2)
+  171:      {
+  172:          colorLEDsON.Green = 0x00;
+  173:          colorLEDsON.Blue = 0x00;
+  174:          colorLEDsON.Red = 0xff;
+  175:      }
+  176:      else if(i==3)
+  177:      {
+  178:          colorLEDsON.Green = 0xff;
+  179:          colorLEDsON.Blue = 0xff;
+  180:          colorLEDsON.Red = 0xff;
+  181:      }
+  182:  
+  183:      i++;
+  184:      if(i>=4)
+  185:          i=0;
+  186:      */
+  187:  }
+  0030 3d           [5]     RTS   
+  188:  
+  189:  
+  190:  
+  191:  
+  192:  
+  193:  const unsigned char* LEDscreen_decode_MSJ(const char data)
+  194:  {
+
+Function: LEDscreen_decode_MSJ
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\LEDscreen.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\LEDscreen.c.o"
+
+  195:      const unsigned char* retAddr = NULL;
+  196:  	
+  197:  ///_printf("*(%c)-[%.2X]* ",data,data);
+  198:  	  retAddr = font8x8_basic[((unsigned int)data) & 0x00FF];        //Avoid Sign Extension
+  0000 87           [1]     CLRA  
+  0001 59           [1]     LSLD  
+  0002 59           [1]     LSLD  
+  0003 59           [1]     LSLD  
+  0004 c30000       [2]     ADDD  #font8x8_basic
+  199:  
+  200:      return retAddr;
+  201:         
+  202:  }
+  0007 3d           [5]     RTS   
+  203:  
+  204:  
+  205:  
+  206:  
+  207:  
+  208:  /////////////////////////////////////////
+  209:  
+  210:  unsigned char globalv,dummy;
+  211:  
+  212:  void LEDscreen_ShiftMSJ(void)
+  213:  {
+
+Function: LEDscreen_ShiftMSJ
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\LEDscreen.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\LEDscreen.c.o"
+
+  0000 1bf1e9       [2]     LEAS  -23,SP
+  214:      static int iShift=0;
+  215:      
+  216:      const unsigned char* symbolAddrFirst = NULL;
+  217:      const unsigned char* symbolAddrSecond = NULL;
+  218:      unsigned char data[DIM_MATRIX],k=0;
+  219:      int  i=0, j=0,iBlock=0;
+  220:      int Shift=0;
+  221:      
+  222:     
+  223:      
+  224:      for(iBlock=0 ; iBlock < N_BLOCKS ; iBlock++)
+  0003 186984       [3]     CLRW  4,SP
+  225:      {
+  226:          i = (iShift-(N_BLOCKS-iBlock)*DIM_MATRIX)/DIM_MATRIX;
+  0006 c604         [1]     LDAB  #4
+  0008 87           [1]     CLRA  
+  0009 a384         [3]     SUBD  4,SP
+  000b 59           [1]     LSLD  
+  000c 59           [1]     LSLD  
+  000d 59           [1]     LSLD  
+  000e 3b           [2]     PSHD  
+  000f fc0000       [3]     LDD   iShift
+  0012 a380         [3]     SUBD  0,SP
+  0014 6ca1         [2]     STD   2,+SP
+  0016 8480         [1]     ANDA  #128
+  0018 2609         [3/1]   BNE   *+11 ;abs = 0023
+  001a ec80         [3]     LDD   0,SP
+  001c 49           [1]     LSRD  
+  001d 49           [1]     LSRD  
+  001e 49           [1]     LSRD  
+  001f b746         [1]     TFR   D,Y
+  0021 2009         [3]     BRA   *+11 ;abs = 002c
+  0023 ce0008       [2]     LDX   #8
+  0026 ec80         [3]     LDD   0,SP
+  0028 1815         [12]    IDIVS 
+  002a b756         [1]     TFR   X,Y
+  002c 6d87         [2]     STY   7,SP
+  227:          Shift = (iShift-(N_BLOCKS-iBlock)*DIM_MATRIX)%DIM_MATRIX;
+  002e c604         [1]     LDAB  #4
+  0030 87           [1]     CLRA  
+  0031 a384         [3]     SUBD  4,SP
+  0033 6c80         [2]     STD   0,SP
+  0035 59           [1]     LSLD  
+  0036 59           [1]     LSLD  
+  0037 59           [1]     LSLD  
+  0038 3b           [2]     PSHD  
+  0039 fc0000       [3]     LDD   iShift
+  003c a380         [3]     SUBD  0,SP
+  003e ce0008       [2]     LDX   #8
+  0041 1815         [12]    IDIVS 
+  0043 6c84         [2]     STD   4,SP
+  228:          if(i>=0 && i<=msjSize)
+  0045 18d7         [2]     TSTY  
+  0047 1b82         [2]     LEAS  2,SP
+  0049 182d00da     [4/3]   LBLT  *+222 ;abs = 0127
+  004d fc0000       [3]     LDD   msjSize
+  0050 ac87         [3]     CPD   7,SP
+  0052 182d00d1     [4/3]   LBLT  *+213 ;abs = 0127
+  229:          {
+  230:  
+  231:          
+  232:          if(iShift < (DIM_MATRIX*(1+N_BLOCKS-iBlock)))  // Primera letra Aparece
+  0056 c605         [1]     LDAB  #5
+  0058 87           [1]     CLRA  
+  0059 a384         [3]     SUBD  4,SP
+  005b 59           [1]     LSLD  
+  005c 59           [1]     LSLD  
+  005d 59           [1]     LSLD  
+  005e bc0000       [3]     CPD   iShift
+  0061 2f31         [3/1]   BLE   *+51 ;abs = 0094
+  233:          {
+  234:              symbolAddrFirst = LEDscreen_decode_MSJ(msj[i]);
+  0063 e6ea0000     [4]     LDAB  msj,Y
+  0067 0700         [4]     BSR   LEDscreen_decode_MSJ
+  0069 6c8d         [2]     STD   13,SP
+  235:              for(j=0 ; j < DIM_MATRIX ; j++)
+  006b 186989       [3]     CLRW  9,SP
+  236:                  data[j] = (symbolAddrFirst[j])>>(DIM_MATRIX-1-Shift);
+  006e ee8d         [3]     LDX   13,SP
+  0070 18ab89       [4]     ADDX  9,SP
+  0073 8607         [1]     LDAA  #7
+  0075 a083         [3]     SUBA  3,SP
+  0077 e600         [3]     LDAB  0,X
+  0079 97           [1]     TSTA  
+  007a 2704         [3/1]   BEQ   *+6 ;abs = 0080
+  007c 54           [1]     LSRB  
+  007d 0430fc       [3]     DBNE  A,*-1 ;abs = 007c
+  0080 1a8f         [2]     LEAX  15,SP
+  0082 18ab89       [4]     ADDX  9,SP
+  0085 6b00         [2]     STAB  0,X
+  0087 186289       [4]     INCW  9,SP
+  008a ec89         [3]     LDD   9,SP
+  008c 8c0008       [2]     CPD   #8
+  008f 2ddd         [3/1]   BLT   *-33 ;abs = 006e
+  237:              
+  238:          }
+  0091 060000       [3]     JMP   LEDscreen_ShiftMSJ:0x013b
+  239:          else if(((msjSize+(N_BLOCKS-iBlock))*(DIM_MATRIX)) <= iShift) // Ultima letra desaparece
+  0094 ec80         [3]     LDD   0,SP
+  0096 f30000       [3]     ADDD  msjSize
+  0099 59           [1]     LSLD  
+  009a 59           [1]     LSLD  
+  009b 59           [1]     LSLD  
+  009c bc0000       [3]     CPD   iShift
+  009f 2e35         [3/1]   BGT   *+55 ;abs = 00d6
+  240:          {
+  241:              i--; // Porque es el ultimo i == msjSize
+  00a1 186387       [4]     DECW  7,SP
+  242:              symbolAddrSecond = LEDscreen_decode_MSJ(msj[i]);
+  00a4 ee87         [3]     LDX   7,SP
+  00a6 e6e20000     [4]     LDAB  msj,X
+  00aa 160000       [4]     JSR   LEDscreen_decode_MSJ
+  00ad 6c8b         [2]     STD   11,SP
+  243:              for(j=0 ; j < DIM_MATRIX ; j++)
+  00af 186989       [3]     CLRW  9,SP
+  244:                  data[j] = (symbolAddrSecond[j])<<(Shift+1);
+  00b2 ee8b         [3]     LDX   11,SP
+  00b4 18ab89       [4]     ADDX  9,SP
+  00b7 a683         [3]     LDAA  3,SP
+  00b9 42           [1]     INCA  
+  00ba e600         [3]     LDAB  0,X
+  00bc 97           [1]     TSTA  
+  00bd 2704         [3/1]   BEQ   *+6 ;abs = 00c3
+  00bf 58           [1]     LSLB  
+  00c0 0430fc       [3]     DBNE  A,*-1 ;abs = 00bf
+  00c3 1a8f         [2]     LEAX  15,SP
+  00c5 18ab89       [4]     ADDX  9,SP
+  00c8 6b00         [2]     STAB  0,X
+  00ca 186289       [4]     INCW  9,SP
+  00cd ec89         [3]     LDD   9,SP
+  00cf 8c0008       [2]     CPD   #8
+  00d2 2dde         [3/1]   BLT   *-32 ;abs = 00b2
+  245:              
+  246:          }
+  00d4 2065         [3]     BRA   *+103 ;abs = 013b
+  247:          else
+  248:          {
+  249:              symbolAddrFirst = LEDscreen_decode_MSJ(msj[i-1]);
+  00d6 e6ea0000     [4]     LDAB  msj:-1,Y
+  00da 160000       [4]     JSR   LEDscreen_decode_MSJ
+  00dd 6c8d         [2]     STD   13,SP
+  250:              symbolAddrSecond = LEDscreen_decode_MSJ(msj[i]);
+  00df ee87         [3]     LDX   7,SP
+  00e1 e6e20000     [4]     LDAB  msj,X
+  00e5 160000       [4]     JSR   LEDscreen_decode_MSJ
+  00e8 6c8b         [2]     STD   11,SP
+  251:              for(j=0 ; j < DIM_MATRIX ; j++)
+  00ea 186989       [3]     CLRW  9,SP
+  252:              {
+  253:                  data[j] = (symbolAddrFirst[j])<<(Shift+1);
+  00ed ee8d         [3]     LDX   13,SP
+  00ef 18ab89       [4]     ADDX  9,SP
+  00f2 a683         [3]     LDAA  3,SP
+  00f4 42           [1]     INCA  
+  00f5 e600         [3]     LDAB  0,X
+  00f7 97           [1]     TSTA  
+  00f8 2704         [3/1]   BEQ   *+6 ;abs = 00fe
+  00fa 58           [1]     LSLB  
+  00fb 0430fc       [3]     DBNE  A,*-1 ;abs = 00fa
+  00fe 1a8f         [2]     LEAX  15,SP
+  0100 18ab89       [4]     ADDX  9,SP
+  0103 6b00         [2]     STAB  0,X
+  254:                  data[j] |= (symbolAddrSecond[j])>>(DIM_MATRIX-1-Shift);
+  0105 ed8b         [3]     LDY   11,SP
+  0107 18eb89       [4]     ADDY  9,SP
+  010a 8607         [1]     LDAA  #7
+  010c a083         [3]     SUBA  3,SP
+  010e e640         [3]     LDAB  0,Y
+  0110 97           [1]     TSTA  
+  0111 2704         [3/1]   BEQ   *+6 ;abs = 0117
+  0113 54           [1]     LSRB  
+  0114 0430fc       [3]     DBNE  A,*-1 ;abs = 0113
+  0117 ea00         [3]     ORAB  0,X
+  0119 6b00         [2]     STAB  0,X
+  011b 186289       [4]     INCW  9,SP
+  011e ec89         [3]     LDD   9,SP
+  0120 8c0008       [2]     CPD   #8
+  0123 2dc8         [3/1]   BLT   *-54 ;abs = 00ed
+  0125 2014         [3]     BRA   *+22 ;abs = 013b
+  255:              }
+  256:              
+  257:          }
+  258:          }
+  259:          else
+  260:          {
+  261:              for(j=0 ; j < DIM_MATRIX  ; j++)
+  0127 186989       [3]     CLRW  9,SP
+  262:                      data[j] = 0;
+  012a 1a8f         [2]     LEAX  15,SP
+  012c 18ab89       [4]     ADDX  9,SP
+  012f 6900         [2]     CLR   0,X
+  0131 186289       [4]     INCW  9,SP
+  0134 ec89         [3]     LDD   9,SP
+  0136 8c0008       [2]     CPD   #8
+  0139 2def         [3/1]   BLT   *-15 ;abs = 012a
+  263:          }
+  264:          
+  265:          
+  266:      
+  267:          for(j=0 ; j < DIM_MATRIX  ; j++)
+  013b 186989       [3]     CLRW  9,SP
+  268:          {
+  269:              for(k=0 ; k < DIM_MATRIX  ; k++)
+  013e 6986         [2]     CLR   6,SP
+  270:              {
+  271:                 // if(((data[j] & (0x80>>k))>0))
+  272:                 
+  273:                 //================================
+  274:                            
+  275:                     // if( globalv=data[j])
+  276:                     // dummy++;
+  277:                 
+  278:                 
+  279:                 //================================
+  280:                 
+  281:                 
+  282:                  if(((data[j] & (0x80>>k))!=0))
+  0140 e686         [3]     LDAB  6,SP
+  0142 cd0080       [2]     LDY   #128
+  0145 87           [1]     CLRA  
+  0146 d7           [1]     TSTB  
+  0147 b7c6         [1]     EXG   D,Y
+  0149 2704         [3/1]   BEQ   *+6 ;abs = 014f
+  014b 49           [1]     LSRD  
+  014c 0436fc       [3]     DBNE  Y,*-1 ;abs = 014b
+  014f 1a8f         [2]     LEAX  15,SP
+  0151 18ab89       [4]     ADDX  9,SP
+  0154 e400         [3]     ANDB  0,X
+  0156 2728         [3/1]   BEQ   *+42 ;abs = 0180
+  283:                      LedScreen[j][k+iBlock*DIM_MATRIX] = colorLEDsON;
+  0158 ec84         [3]     LDD   4,SP
+  015a 59           [1]     LSLD  
+  015b 59           [1]     LSLD  
+  015c 59           [1]     LSLD  
+  015d b745         [1]     TFR   D,X
+  015f e686         [3]     LDAB  6,SP
+  0161 87           [1]     CLRA  
+  0162 1ae6         [2]     LEAX  D,X
+  0164 c660         [1]     LDAB  #96
+  0166 ed89         [3]     LDY   9,SP
+  0168 13           [1]     EMUL  
+  0169 3b           [2]     PSHD  
+  016a c603         [1]     LDAB  #3
+  016c 87           [1]     CLRA  
+  016d b756         [1]     TFR   X,Y
+  016f 13           [1]     EMUL  
+  0170 e380         [3]     ADDD  0,SP
+  0172 fe0000       [3]     LDX   colorLEDsON:1
+  0175 b746         [1]     TFR   D,Y
+  0177 6eea0000     [3]     STX   LedScreen:1,Y
+  017b f60000       [3]     LDAB  colorLEDsON
+  017e 2026         [3]     BRA   *+40 ;abs = 01a6
+  284:                  else
+  285:                      LedScreen[j][k+iBlock*DIM_MATRIX] = colorLEDsOFF;
+  0180 ec84         [3]     LDD   4,SP
+  0182 59           [1]     LSLD  
+  0183 59           [1]     LSLD  
+  0184 59           [1]     LSLD  
+  0185 b745         [1]     TFR   D,X
+  0187 e686         [3]     LDAB  6,SP
+  0189 87           [1]     CLRA  
+  018a 1ae6         [2]     LEAX  D,X
+  018c c660         [1]     LDAB  #96
+  018e ed89         [3]     LDY   9,SP
+  0190 13           [1]     EMUL  
+  0191 3b           [2]     PSHD  
+  0192 c603         [1]     LDAB  #3
+  0194 87           [1]     CLRA  
+  0195 b756         [1]     TFR   X,Y
+  0197 13           [1]     EMUL  
+  0198 e380         [3]     ADDD  0,SP
+  019a fe0000       [3]     LDX   colorLEDsOFF:1
+  019d b746         [1]     TFR   D,Y
+  019f 6eea0000     [3]     STX   LedScreen:1,Y
+  01a3 f60000       [3]     LDAB  colorLEDsOFF
+  01a6 6bea0000     [3]     STAB  LedScreen,Y
+  01aa 1b82         [2]     LEAS  2,SP
+  01ac 6286         [3]     INC   6,SP
+  01ae e686         [3]     LDAB  6,SP
+  01b0 c108         [1]     CMPB  #8
+  01b2 258c         [3/1]   BCS   *-114 ;abs = 0140
+  01b4 186289       [4]     INCW  9,SP
+  01b7 ec89         [3]     LDD   9,SP
+  01b9 8c0008       [2]     CPD   #8
+  01bc 182dff7e     [4/3]   LBLT  *-126 ;abs = 013e
+  01c0 186284       [4]     INCW  4,SP
+  01c3 ec84         [3]     LDD   4,SP
+  01c5 8c0004       [2]     CPD   #4
+  01c8 182dfe3a     [4/3]   LBLT  *-450 ;abs = 0006
+  286:                      
+  287:              }
+  288:          }
+  289:      }
+  290:      
+  291:      iShift++;
+  01cc 18720000     [5]     INCW  iShift
+  292:      if(iShift >= ((msjSize+1+N_BLOCKS)*DIM_MATRIX))
+  01d0 fc0000       [3]     LDD   msjSize
+  01d3 c30005       [2]     ADDD  #5
+  01d6 59           [1]     LSLD  
+  01d7 59           [1]     LSLD  
+  01d8 59           [1]     LSLD  
+  01d9 bc0000       [3]     CPD   iShift
+  01dc 2e07         [3/1]   BGT   *+9 ;abs = 01e5
+  293:      {
+  294:          LEDscreen_ShiftEnded();
+  01de 160000       [4]     JSR   LEDscreen_ShiftEnded
+  295:          iShift=0;
+  01e1 18790000     [4]     CLRW  iShift
+  296:      }
+  297:      
+  298:      
+  299:  }
+  01e5 1bf017       [2]     LEAS  23,SP
+  01e8 3d           [5]     RTS   
+  300:  
+  301:  
+  302:  unsigned int Get_End_Of_Shift_Status(void) {
+
+Function: Get_End_Of_Shift_Status
+Source  : Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\LEDscreen.c
+Options : -CPUHCS12X -D__NO_FLOAT__ -Env"GENPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\prm;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\cmd;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\lib;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\src;Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\Sources\DP256Reg;C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"LIBPATH=C:\Archivos de programa\Freescale\CodeWarrior for S12(X) V5.0\lib\HC12c\include" -Env"OBJPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Env"TEXTPATH=Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\bin" -Lasm=%n.lst -Lasmc= -Ms -Ot -ObjN="Z:\mi home\Documents\RGB LED Strip\HC12\WS2812B_HC12\CLASE4_C_12X_RTI_Data\RAM\ObjectCode\LEDscreen.c.o"
+
+  303:  
+  304:  
+  305:           if(End_of_shift==TRUE)
+  0000 f60000       [3]     LDAB  End_of_shift
+  0003 042106       [3]     DBNE  B,*+9 ;abs = 000c
+  306:           
+  307:           {
+  308:                     
+  309:              End_of_shift=FALSE;
+  0006 790000       [3]     CLR   End_of_shift
+  310:             
+  311:              return(TRUE);
+  0009 c601         [1]     LDAB  #1
+  000b 21           [1]     SKIP1 
+  312:                  
+  313:           } 
+  314:           
+  315:           return (FALSE);
+  000c c7           [1]     CLRB  
+  000d 87           [1]     CLRA  
+  316:           
+  317:  }
+  000e 3d           [5]     RTS   
+  318:  
