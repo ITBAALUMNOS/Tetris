@@ -1,0 +1,10 @@
+    
+        	      include "config.asm"
+			include "crg.asm"
+			include "flash.asm"
+			include "mebi.asm"
+			include "mmc.asm"
+			include "pim.asm"
+			include "sci.asm"
+			include "ect.asm"
+			include "pwm.asm"

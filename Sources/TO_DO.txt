@@ -1,0 +1,8 @@
+TO_DO:
+*Can NOPS in spi be removed?
+*Buttons and timers,  (unsigned char) (ms/INTERRUPT_PERIOD_MS), can cast be changed to int?
+*SPI numeric display interface needs a rework!
+*main is a disaster
+*Should add an option in order to enable - disable numeric display re-initialization
+*Should add option to exchange display width and height
+*HARDWARE DOCUMENTATION!
