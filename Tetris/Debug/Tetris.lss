@@ -1,0 +1,4599 @@
+
+Tetris.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         000000a8  00800100  00001d1e  00001db2  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         00001d1e  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          000004c6  008001a8  008001a8  00001e5a  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00001e5a  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00001e8c  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000250  00000000  00000000  00001ecc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00002d64  00000000  00000000  0000211c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00000d1c  00000000  00000000  00004e80  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   0000136e  00000000  00000000  00005b9c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  00000760  00000000  00000000  00006f0c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    00000c49  00000000  00000000  0000766c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    000027a5  00000000  00000000  000082b5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 000001f0  00000000  00000000  0000aa5a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+       0:	0c 94 3b 00 	jmp	0x76	; 0x76 <__ctors_end>
+       4:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+       8:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+       c:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      10:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      14:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      18:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      1c:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      20:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      24:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      28:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      2c:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      30:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      34:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      38:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      3c:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      40:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      44:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      48:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      4c:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      50:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      54:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      58:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      5c:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      60:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      64:	0c 94 58 00 	jmp	0xb0	; 0xb0 <__bad_interrupt>
+      68:	1f 07       	cpc	r17, r31
+      6a:	37 07       	cpc	r19, r23
+      6c:	28 07       	cpc	r18, r24
+      6e:	47 07       	cpc	r20, r23
+      70:	56 07       	cpc	r21, r22
+      72:	59 07       	cpc	r21, r25
+      74:	5c 07       	cpc	r21, r28
+
+00000076 <__ctors_end>:
+      76:	11 24       	eor	r1, r1
+      78:	1f be       	out	0x3f, r1	; 63
+      7a:	cf ef       	ldi	r28, 0xFF	; 255
+      7c:	d8 e0       	ldi	r29, 0x08	; 8
+      7e:	de bf       	out	0x3e, r29	; 62
+      80:	cd bf       	out	0x3d, r28	; 61
+
+00000082 <__do_copy_data>:
+      82:	11 e0       	ldi	r17, 0x01	; 1
+      84:	a0 e0       	ldi	r26, 0x00	; 0
+      86:	b1 e0       	ldi	r27, 0x01	; 1
+      88:	ee e1       	ldi	r30, 0x1E	; 30
+      8a:	fd e1       	ldi	r31, 0x1D	; 29
+      8c:	02 c0       	rjmp	.+4      	; 0x92 <__do_copy_data+0x10>
+      8e:	05 90       	lpm	r0, Z+
+      90:	0d 92       	st	X+, r0
+      92:	a8 3a       	cpi	r26, 0xA8	; 168
+      94:	b1 07       	cpc	r27, r17
+      96:	d9 f7       	brne	.-10     	; 0x8e <__do_copy_data+0xc>
+
+00000098 <__do_clear_bss>:
+      98:	26 e0       	ldi	r18, 0x06	; 6
+      9a:	a8 ea       	ldi	r26, 0xA8	; 168
+      9c:	b1 e0       	ldi	r27, 0x01	; 1
+      9e:	01 c0       	rjmp	.+2      	; 0xa2 <.do_clear_bss_start>
+
+000000a0 <.do_clear_bss_loop>:
+      a0:	1d 92       	st	X+, r1
+
+000000a2 <.do_clear_bss_start>:
+      a2:	ae 36       	cpi	r26, 0x6E	; 110
+      a4:	b2 07       	cpc	r27, r18
+      a6:	e1 f7       	brne	.-8      	; 0xa0 <.do_clear_bss_loop>
+      a8:	0e 94 5f 0b 	call	0x16be	; 0x16be <main>
+      ac:	0c 94 8d 0e 	jmp	0x1d1a	; 0x1d1a <_exit>
+
+000000b0 <__bad_interrupt>:
+      b0:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+000000b4 <buttons_and_timers_init>:
+}
+
+unsigned char is_button_down(unsigned char b)
+{
+    return button_state & (1 << b);
+}
+      b4:	08 95       	ret
+
+000000b6 <set_button_repeat_period_ms>:
+
+void set_button_repeat_period_ms(unsigned int ms)           //0 will disable repeat event
+{
+      b6:	08 95       	ret
+
+000000b8 <set_timer_period_ms>:
+                   button_repeat_count[b] = 0;
+         //_asm cli;
+}
+
+void set_timer_period_ms(unsigned char t, unsigned int ms)    //0 will disable timer
+{
+      b8:	08 95       	ret
+
+000000ba <send_number_display>:
+
+*	(ADDRESS << 8) | Data sets a number in xxx 7segment display
+*/
+
+void send_number_display(unsigned long int display_score)
+{
+      ba:	08 95       	ret
+
+000000bc <configure_spi_max7219_display>:
+/*
+	This function configures a max7219 via spi to be used to manage an 8 digit
+	7 segment display.
+*/
+void configure_spi_max7219_display(void)
+{
+      bc:	08 95       	ret
+
+000000be <get_total_events_in_queue>:
+                        in_offset = 0;
+                events_in_queue++;
+                return SUCCESS;
+        }
+        return FULL_EVENT_QUEUE;
+}
+      be:	20 91 b2 01 	lds	r18, 0x01B2	; 0x8001b2 <events_in_queue>
+      c2:	30 91 b3 01 	lds	r19, 0x01B3	; 0x8001b3 <events_in_queue+0x1>
+      c6:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <events_in_priority_queue>
+      ca:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <events_in_priority_queue+0x1>
+      ce:	82 0f       	add	r24, r18
+      d0:	93 1f       	adc	r25, r19
+      d2:	08 95       	ret
+
+000000d4 <register_event_in_priority_queue>:
+
+//Register new priority event
+int register_event_in_priority_queue(const EVENT_T *ev)
+{
+        if(events_in_priority_queue != MAX_PRIORITY_EVENTS)
+      d4:	20 91 b0 01 	lds	r18, 0x01B0	; 0x8001b0 <events_in_priority_queue>
+      d8:	30 91 b1 01 	lds	r19, 0x01B1	; 0x8001b1 <events_in_priority_queue+0x1>
+      dc:	24 31       	cpi	r18, 0x14	; 20
+      de:	31 05       	cpc	r19, r1
+      e0:	41 f1       	breq	.+80     	; 0x132 <register_event_in_priority_queue+0x5e>
+        {
+                priority_event_queue[priority_in_offset++] = (*ev);
+      e2:	20 91 aa 01 	lds	r18, 0x01AA	; 0x8001aa <priority_in_offset>
+      e6:	30 91 ab 01 	lds	r19, 0x01AB	; 0x8001ab <priority_in_offset+0x1>
+      ea:	a9 01       	movw	r20, r18
+      ec:	4f 5f       	subi	r20, 0xFF	; 255
+      ee:	5f 4f       	sbci	r21, 0xFF	; 255
+      f0:	50 93 ab 01 	sts	0x01AB, r21	; 0x8001ab <priority_in_offset+0x1>
+      f4:	40 93 aa 01 	sts	0x01AA, r20	; 0x8001aa <priority_in_offset>
+      f8:	22 0f       	add	r18, r18
+      fa:	33 1f       	adc	r19, r19
+      fc:	f9 01       	movw	r30, r18
+      fe:	e2 50       	subi	r30, 0x02	; 2
+     100:	fa 4f       	sbci	r31, 0xFA	; 250
+     102:	dc 01       	movw	r26, r24
+     104:	8d 91       	ld	r24, X+
+     106:	9c 91       	ld	r25, X
+     108:	91 83       	std	Z+1, r25	; 0x01
+     10a:	80 83       	st	Z, r24
+                if(priority_in_offset == MAX_PRIORITY_EVENTS)
+     10c:	44 31       	cpi	r20, 0x14	; 20
+     10e:	51 05       	cpc	r21, r1
+     110:	21 f4       	brne	.+8      	; 0x11a <register_event_in_priority_queue+0x46>
+                       priority_in_offset = 0;
+     112:	10 92 ab 01 	sts	0x01AB, r1	; 0x8001ab <priority_in_offset+0x1>
+     116:	10 92 aa 01 	sts	0x01AA, r1	; 0x8001aa <priority_in_offset>
+                events_in_priority_queue++;
+     11a:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <events_in_priority_queue>
+     11e:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <events_in_priority_queue+0x1>
+     122:	01 96       	adiw	r24, 0x01	; 1
+     124:	90 93 b1 01 	sts	0x01B1, r25	; 0x8001b1 <events_in_priority_queue+0x1>
+     128:	80 93 b0 01 	sts	0x01B0, r24	; 0x8001b0 <events_in_priority_queue>
+                return SUCCESS;
+     12c:	81 e0       	ldi	r24, 0x01	; 1
+     12e:	90 e0       	ldi	r25, 0x00	; 0
+     130:	08 95       	ret
+        }
+        return FULL_EVENT_QUEUE;
+     132:	80 e0       	ldi	r24, 0x00	; 0
+     134:	90 e0       	ldi	r25, 0x00	; 0
+}
+     136:	08 95       	ret
+
+00000138 <wait_for_event>:
+
+//Return next event in event queue, or wait for one if event queue is empty
+void wait_for_event(EVENT_T* ev)
+{
+     138:	cf 93       	push	r28
+     13a:	df 93       	push	r29
+     13c:	ec 01       	movw	r28, r24
+        while(!get_total_events_in_queue());
+     13e:	0e 94 5f 00 	call	0xbe	; 0xbe <get_total_events_in_queue>
+     142:	89 2b       	or	r24, r25
+     144:	e1 f3       	breq	.-8      	; 0x13e <wait_for_event+0x6>
+
+        if(events_in_priority_queue)
+     146:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <events_in_priority_queue>
+     14a:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <events_in_priority_queue+0x1>
+     14e:	89 2b       	or	r24, r25
+     150:	29 f1       	breq	.+74     	; 0x19c <wait_for_event+0x64>
+        {
+                (*ev) = priority_event_queue[priority_out_offset++];
+     152:	80 91 a8 01 	lds	r24, 0x01A8	; 0x8001a8 <__data_end>
+     156:	90 91 a9 01 	lds	r25, 0x01A9	; 0x8001a9 <__data_end+0x1>
+     15a:	9c 01       	movw	r18, r24
+     15c:	2f 5f       	subi	r18, 0xFF	; 255
+     15e:	3f 4f       	sbci	r19, 0xFF	; 255
+     160:	30 93 a9 01 	sts	0x01A9, r19	; 0x8001a9 <__data_end+0x1>
+     164:	20 93 a8 01 	sts	0x01A8, r18	; 0x8001a8 <__data_end>
+     168:	88 0f       	add	r24, r24
+     16a:	99 1f       	adc	r25, r25
+     16c:	fc 01       	movw	r30, r24
+     16e:	e2 50       	subi	r30, 0x02	; 2
+     170:	fa 4f       	sbci	r31, 0xFA	; 250
+     172:	80 81       	ld	r24, Z
+     174:	91 81       	ldd	r25, Z+1	; 0x01
+     176:	99 83       	std	Y+1, r25	; 0x01
+     178:	88 83       	st	Y, r24
+                if(priority_out_offset == MAX_PRIORITY_EVENTS)
+     17a:	24 31       	cpi	r18, 0x14	; 20
+     17c:	31 05       	cpc	r19, r1
+     17e:	21 f4       	brne	.+8      	; 0x188 <wait_for_event+0x50>
+                             priority_out_offset = 0;
+     180:	10 92 a9 01 	sts	0x01A9, r1	; 0x8001a9 <__data_end+0x1>
+     184:	10 92 a8 01 	sts	0x01A8, r1	; 0x8001a8 <__data_end>
+                events_in_priority_queue--;
+     188:	80 91 b0 01 	lds	r24, 0x01B0	; 0x8001b0 <events_in_priority_queue>
+     18c:	90 91 b1 01 	lds	r25, 0x01B1	; 0x8001b1 <events_in_priority_queue+0x1>
+     190:	01 97       	sbiw	r24, 0x01	; 1
+     192:	90 93 b1 01 	sts	0x01B1, r25	; 0x8001b1 <events_in_priority_queue+0x1>
+     196:	80 93 b0 01 	sts	0x01B0, r24	; 0x8001b0 <events_in_priority_queue>
+     19a:	24 c0       	rjmp	.+72     	; 0x1e4 <wait_for_event+0xac>
+        }
+        else  //We know there are events here since we exited while
+        {
+                (*ev) = event_queue[out_offset++];
+     19c:	80 91 ac 01 	lds	r24, 0x01AC	; 0x8001ac <out_offset>
+     1a0:	90 91 ad 01 	lds	r25, 0x01AD	; 0x8001ad <out_offset+0x1>
+     1a4:	9c 01       	movw	r18, r24
+     1a6:	2f 5f       	subi	r18, 0xFF	; 255
+     1a8:	3f 4f       	sbci	r19, 0xFF	; 255
+     1aa:	30 93 ad 01 	sts	0x01AD, r19	; 0x8001ad <out_offset+0x1>
+     1ae:	20 93 ac 01 	sts	0x01AC, r18	; 0x8001ac <out_offset>
+     1b2:	88 0f       	add	r24, r24
+     1b4:	99 1f       	adc	r25, r25
+     1b6:	fc 01       	movw	r30, r24
+     1b8:	ea 52       	subi	r30, 0x2A	; 42
+     1ba:	fa 4f       	sbci	r31, 0xFA	; 250
+     1bc:	80 81       	ld	r24, Z
+     1be:	91 81       	ldd	r25, Z+1	; 0x01
+     1c0:	99 83       	std	Y+1, r25	; 0x01
+     1c2:	88 83       	st	Y, r24
+                if(out_offset == MAX_EVENTS)
+     1c4:	24 31       	cpi	r18, 0x14	; 20
+     1c6:	31 05       	cpc	r19, r1
+     1c8:	21 f4       	brne	.+8      	; 0x1d2 <wait_for_event+0x9a>
+                             out_offset = 0;
+     1ca:	10 92 ad 01 	sts	0x01AD, r1	; 0x8001ad <out_offset+0x1>
+     1ce:	10 92 ac 01 	sts	0x01AC, r1	; 0x8001ac <out_offset>
+                events_in_queue--;
+     1d2:	80 91 b2 01 	lds	r24, 0x01B2	; 0x8001b2 <events_in_queue>
+     1d6:	90 91 b3 01 	lds	r25, 0x01B3	; 0x8001b3 <events_in_queue+0x1>
+     1da:	01 97       	sbiw	r24, 0x01	; 1
+     1dc:	90 93 b3 01 	sts	0x01B3, r25	; 0x8001b3 <events_in_queue+0x1>
+     1e0:	80 93 b2 01 	sts	0x01B2, r24	; 0x8001b2 <events_in_queue>
+        }
+}
+     1e4:	df 91       	pop	r29
+     1e6:	cf 91       	pop	r28
+     1e8:	08 95       	ret
+
+000001ea <flush_event_queue>:
+
+//Remove all events from event queue
+void flush_event_queue(void)
+{
+            //_asm sei;     //No events while cleaning...
+           events_in_priority_queue = events_in_queue = 0;
+     1ea:	10 92 b3 01 	sts	0x01B3, r1	; 0x8001b3 <events_in_queue+0x1>
+     1ee:	10 92 b2 01 	sts	0x01B2, r1	; 0x8001b2 <events_in_queue>
+     1f2:	10 92 b1 01 	sts	0x01B1, r1	; 0x8001b1 <events_in_priority_queue+0x1>
+     1f6:	10 92 b0 01 	sts	0x01B0, r1	; 0x8001b0 <events_in_priority_queue>
+           in_offset = out_offset = 0;
+     1fa:	10 92 ad 01 	sts	0x01AD, r1	; 0x8001ad <out_offset+0x1>
+     1fe:	10 92 ac 01 	sts	0x01AC, r1	; 0x8001ac <out_offset>
+     202:	10 92 af 01 	sts	0x01AF, r1	; 0x8001af <in_offset+0x1>
+     206:	10 92 ae 01 	sts	0x01AE, r1	; 0x8001ae <in_offset>
+           priority_in_offset = priority_out_offset = 0;
+     20a:	10 92 a9 01 	sts	0x01A9, r1	; 0x8001a9 <__data_end+0x1>
+     20e:	10 92 a8 01 	sts	0x01A8, r1	; 0x8001a8 <__data_end>
+     212:	10 92 ab 01 	sts	0x01AB, r1	; 0x8001ab <priority_in_offset+0x1>
+     216:	10 92 aa 01 	sts	0x01AA, r1	; 0x8001aa <priority_in_offset>
+     21a:	08 95       	ret
+
+0000021c <LEDdisplay_init>:
+      return LEDdisplay_map_rgb(0,0,0);
+}
+
+//Clear display to color
+void LEDdisplay_clear_to_color(color c)
+{
+     21c:	0e 94 9f 0d 	call	0x1b3e	; 0x1b3e <WS2812B_Init>
+     220:	08 95       	ret
+
+00000222 <LEDdisplay_map_rgb>:
+     222:	78 2f       	mov	r23, r24
+     224:	84 2f       	mov	r24, r20
+     226:	08 95       	ret
+
+00000228 <LEDdisplay_set_pixel>:
+     228:	cf 92       	push	r12
+     22a:	df 92       	push	r13
+     22c:	ef 92       	push	r14
+     22e:	69 01       	movw	r12, r18
+     230:	e4 2e       	mov	r14, r20
+     232:	88 30       	cpi	r24, 0x08	; 8
+     234:	08 f0       	brcs	.+2      	; 0x238 <LEDdisplay_set_pixel+0x10>
+     236:	3f c0       	rjmp	.+126    	; 0x2b6 <LEDdisplay_set_pixel+0x8e>
+     238:	60 32       	cpi	r22, 0x20	; 32
+     23a:	e8 f5       	brcc	.+122    	; 0x2b6 <LEDdisplay_set_pixel+0x8e>
+     23c:	60 ff       	sbrs	r22, 0
+     23e:	1a c0       	rjmp	.+52     	; 0x274 <LEDdisplay_set_pixel+0x4c>
+     240:	90 e0       	ldi	r25, 0x00	; 0
+     242:	fc 01       	movw	r30, r24
+     244:	ee 0f       	add	r30, r30
+     246:	ff 1f       	adc	r31, r31
+     248:	e8 0f       	add	r30, r24
+     24a:	f9 1f       	adc	r31, r25
+     24c:	4f e1       	ldi	r20, 0x1F	; 31
+     24e:	50 e0       	ldi	r21, 0x00	; 0
+     250:	46 1b       	sub	r20, r22
+     252:	51 09       	sbc	r21, r1
+     254:	ca 01       	movw	r24, r20
+     256:	88 0f       	add	r24, r24
+     258:	99 1f       	adc	r25, r25
+     25a:	48 0f       	add	r20, r24
+     25c:	59 1f       	adc	r21, r25
+     25e:	44 0f       	add	r20, r20
+     260:	55 1f       	adc	r21, r21
+     262:	44 0f       	add	r20, r20
+     264:	55 1f       	adc	r21, r21
+     266:	44 0f       	add	r20, r20
+     268:	55 1f       	adc	r21, r21
+     26a:	e4 0f       	add	r30, r20
+     26c:	f5 1f       	adc	r31, r21
+     26e:	ec 54       	subi	r30, 0x4C	; 76
+     270:	fe 4f       	sbci	r31, 0xFE	; 254
+     272:	1c c0       	rjmp	.+56     	; 0x2ac <LEDdisplay_set_pixel+0x84>
+     274:	e7 e0       	ldi	r30, 0x07	; 7
+     276:	f0 e0       	ldi	r31, 0x00	; 0
+     278:	e8 1b       	sub	r30, r24
+     27a:	f1 09       	sbc	r31, r1
+     27c:	cf 01       	movw	r24, r30
+     27e:	88 0f       	add	r24, r24
+     280:	99 1f       	adc	r25, r25
+     282:	e8 0f       	add	r30, r24
+     284:	f9 1f       	adc	r31, r25
+     286:	8f e1       	ldi	r24, 0x1F	; 31
+     288:	90 e0       	ldi	r25, 0x00	; 0
+     28a:	86 1b       	sub	r24, r22
+     28c:	91 09       	sbc	r25, r1
+     28e:	9c 01       	movw	r18, r24
+     290:	22 0f       	add	r18, r18
+     292:	33 1f       	adc	r19, r19
+     294:	82 0f       	add	r24, r18
+     296:	93 1f       	adc	r25, r19
+     298:	88 0f       	add	r24, r24
+     29a:	99 1f       	adc	r25, r25
+     29c:	88 0f       	add	r24, r24
+     29e:	99 1f       	adc	r25, r25
+     2a0:	88 0f       	add	r24, r24
+     2a2:	99 1f       	adc	r25, r25
+     2a4:	e8 0f       	add	r30, r24
+     2a6:	f9 1f       	adc	r31, r25
+     2a8:	ec 54       	subi	r30, 0x4C	; 76
+     2aa:	fe 4f       	sbci	r31, 0xFE	; 254
+     2ac:	30 97       	sbiw	r30, 0x00	; 0
+     2ae:	19 f0       	breq	.+6      	; 0x2b6 <LEDdisplay_set_pixel+0x8e>
+     2b0:	c0 82       	st	Z, r12
+     2b2:	d1 82       	std	Z+1, r13	; 0x01
+     2b4:	e2 82       	std	Z+2, r14	; 0x02
+     2b6:	ef 90       	pop	r14
+     2b8:	df 90       	pop	r13
+     2ba:	cf 90       	pop	r12
+     2bc:	08 95       	ret
+
+000002be <LEDdisplay_update>:
+}
+
+void LEDdisplay_update(void)
+{
+     //IMPORTANT!!!! Always set display pointer and display length!!
+     WS2812B_Set_Data_pointer((unsigned char*)display_raw_data);
+     2be:	84 eb       	ldi	r24, 0xB4	; 180
+     2c0:	91 e0       	ldi	r25, 0x01	; 1
+     2c2:	0e 94 9d 0d 	call	0x1b3a	; 0x1b3a <WS2812B_Set_Data_pointer>
+     WS2812B_Set_Data_Length(DISPLAY_WIDTH*DISPLAY_HEIGHT*sizeof(color));
+     2c6:	80 e0       	ldi	r24, 0x00	; 0
+     2c8:	93 e0       	ldi	r25, 0x03	; 3
+     2ca:	0e 94 9c 0d 	call	0x1b38	; 0x1b38 <WS2812B_Set_Data_Length>
+     WS2812B_Send_data(); 
+     2ce:	0e 94 9e 0d 	call	0x1b3c	; 0x1b3c <WS2812B_Send_data>
+     2d2:	08 95       	ret
+
+000002d4 <init_row_pointers>:
+		return 1;
+	}
+	else
+		return 0;
+
+}
+     2d4:	86 eb       	ldi	r24, 0xB6	; 182
+     2d6:	94 e0       	ldi	r25, 0x04	; 4
+     2d8:	e6 e2       	ldi	r30, 0x26	; 38
+     2da:	f6 e0       	ldi	r31, 0x06	; 6
+     2dc:	2e e6       	ldi	r18, 0x6E	; 110
+     2de:	36 e0       	ldi	r19, 0x06	; 6
+     2e0:	81 93       	st	Z+, r24
+     2e2:	91 93       	st	Z+, r25
+     2e4:	08 96       	adiw	r24, 0x08	; 8
+     2e6:	e2 17       	cp	r30, r18
+     2e8:	f3 07       	cpc	r31, r19
+     2ea:	d1 f7       	brne	.-12     	; 0x2e0 <init_row_pointers+0xc>
+     2ec:	08 95       	ret
+
+000002ee <seed_rand>:
+     2ee:	cf 93       	push	r28
+     2f0:	df 93       	push	r29
+     2f2:	00 d0       	rcall	.+0      	; 0x2f4 <seed_rand+0x6>
+     2f4:	cd b7       	in	r28, 0x3d	; 61
+     2f6:	de b7       	in	r29, 0x3e	; 62
+     2f8:	ce 01       	movw	r24, r28
+     2fa:	01 96       	adiw	r24, 0x01	; 1
+     2fc:	0e 94 9c 00 	call	0x138	; 0x138 <wait_for_event>
+     300:	89 81       	ldd	r24, Y+1	; 0x01
+     302:	81 11       	cpse	r24, r1
+     304:	f9 cf       	rjmp	.-14     	; 0x2f8 <seed_rand+0xa>
+     306:	0f 90       	pop	r0
+     308:	0f 90       	pop	r0
+     30a:	df 91       	pop	r29
+     30c:	cf 91       	pop	r28
+     30e:	08 95       	ret
+
+00000310 <clear_board_to_block>:
+     310:	a6 e2       	ldi	r26, 0x26	; 38
+     312:	b6 e0       	ldi	r27, 0x06	; 6
+     314:	4e e6       	ldi	r20, 0x6E	; 110
+     316:	56 e0       	ldi	r21, 0x06	; 6
+     318:	10 c0       	rjmp	.+32     	; 0x33a <clear_board_to_block+0x2a>
+     31a:	ed 91       	ld	r30, X+
+     31c:	fc 91       	ld	r31, X
+     31e:	11 97       	sbiw	r26, 0x01	; 1
+     320:	82 60       	ori	r24, 0x02	; 2
+     322:	e2 0f       	add	r30, r18
+     324:	f3 1f       	adc	r31, r19
+     326:	80 83       	st	Z, r24
+     328:	2f 5f       	subi	r18, 0xFF	; 255
+     32a:	3f 4f       	sbci	r19, 0xFF	; 255
+     32c:	2c 30       	cpi	r18, 0x0C	; 12
+     32e:	31 05       	cpc	r19, r1
+     330:	a1 f7       	brne	.-24     	; 0x31a <clear_board_to_block+0xa>
+     332:	12 96       	adiw	r26, 0x02	; 2
+     334:	a4 17       	cp	r26, r20
+     336:	b5 07       	cpc	r27, r21
+     338:	19 f0       	breq	.+6      	; 0x340 <clear_board_to_block+0x30>
+     33a:	20 e0       	ldi	r18, 0x00	; 0
+     33c:	30 e0       	ldi	r19, 0x00	; 0
+     33e:	ed cf       	rjmp	.-38     	; 0x31a <clear_board_to_block+0xa>
+     340:	08 95       	ret
+
+00000342 <update_display_data>:
+     342:	df 92       	push	r13
+     344:	ef 92       	push	r14
+     346:	ff 92       	push	r15
+     348:	0f 93       	push	r16
+     34a:	1f 93       	push	r17
+     34c:	cf 93       	push	r28
+     34e:	df 93       	push	r29
+     350:	0e e2       	ldi	r16, 0x2E	; 46
+     352:	16 e0       	ldi	r17, 0x06	; 6
+     354:	d1 2c       	mov	r13, r1
+     356:	2f c0       	rjmp	.+94     	; 0x3b6 <update_display_data+0x74>
+     358:	d8 01       	movw	r26, r16
+     35a:	8d 91       	ld	r24, X+
+     35c:	9c 91       	ld	r25, X
+     35e:	fc 01       	movw	r30, r24
+     360:	ec 0f       	add	r30, r28
+     362:	fd 1f       	adc	r31, r29
+     364:	20 81       	ld	r18, Z
+     366:	21 ff       	sbrs	r18, 1
+     368:	1c c0       	rjmp	.+56     	; 0x3a2 <update_display_data+0x60>
+     36a:	82 2f       	mov	r24, r18
+     36c:	82 95       	swap	r24
+     36e:	86 95       	lsr	r24
+     370:	87 70       	andi	r24, 0x07	; 7
+     372:	90 e0       	ldi	r25, 0x00	; 0
+     374:	fc 01       	movw	r30, r24
+     376:	ee 0f       	add	r30, r30
+     378:	ff 1f       	adc	r31, r31
+     37a:	8e 0f       	add	r24, r30
+     37c:	9f 1f       	adc	r25, r31
+     37e:	fc 01       	movw	r30, r24
+     380:	e0 5b       	subi	r30, 0xB0	; 176
+     382:	fe 4f       	sbci	r31, 0xFE	; 254
+     384:	20 81       	ld	r18, Z
+     386:	31 81       	ldd	r19, Z+1	; 0x01
+     388:	42 81       	ldd	r20, Z+2	; 0x02
+     38a:	6d 2d       	mov	r22, r13
+     38c:	8c 2f       	mov	r24, r28
+     38e:	0e 94 14 01 	call	0x228	; 0x228 <LEDdisplay_set_pixel>
+     392:	d7 01       	movw	r26, r14
+     394:	ed 91       	ld	r30, X+
+     396:	fc 91       	ld	r31, X
+     398:	ec 0f       	add	r30, r28
+     39a:	fd 1f       	adc	r31, r29
+     39c:	80 81       	ld	r24, Z
+     39e:	8d 7f       	andi	r24, 0xFD	; 253
+     3a0:	80 83       	st	Z, r24
+     3a2:	21 96       	adiw	r28, 0x01	; 1
+     3a4:	c8 30       	cpi	r28, 0x08	; 8
+     3a6:	d1 05       	cpc	r29, r1
+     3a8:	b9 f6       	brne	.-82     	; 0x358 <update_display_data+0x16>
+     3aa:	d3 94       	inc	r13
+     3ac:	0e 5f       	subi	r16, 0xFE	; 254
+     3ae:	1f 4f       	sbci	r17, 0xFF	; 255
+     3b0:	b0 e2       	ldi	r27, 0x20	; 32
+     3b2:	db 16       	cp	r13, r27
+     3b4:	21 f0       	breq	.+8      	; 0x3be <update_display_data+0x7c>
+     3b6:	c0 e0       	ldi	r28, 0x00	; 0
+     3b8:	d0 e0       	ldi	r29, 0x00	; 0
+     3ba:	78 01       	movw	r14, r16
+     3bc:	cd cf       	rjmp	.-102    	; 0x358 <update_display_data+0x16>
+     3be:	df 91       	pop	r29
+     3c0:	cf 91       	pop	r28
+     3c2:	1f 91       	pop	r17
+     3c4:	0f 91       	pop	r16
+     3c6:	ff 90       	pop	r15
+     3c8:	ef 90       	pop	r14
+     3ca:	df 90       	pop	r13
+     3cc:	08 95       	ret
+
+000003ce <update_all_display_data>:
+     3ce:	ae e2       	ldi	r26, 0x2E	; 46
+     3d0:	b6 e0       	ldi	r27, 0x06	; 6
+     3d2:	4e e6       	ldi	r20, 0x6E	; 110
+     3d4:	56 e0       	ldi	r21, 0x06	; 6
+     3d6:	10 c0       	rjmp	.+32     	; 0x3f8 <update_all_display_data+0x2a>
+     3d8:	ed 91       	ld	r30, X+
+     3da:	fc 91       	ld	r31, X
+     3dc:	11 97       	sbiw	r26, 0x01	; 1
+     3de:	e8 0f       	add	r30, r24
+     3e0:	f9 1f       	adc	r31, r25
+     3e2:	20 81       	ld	r18, Z
+     3e4:	22 60       	ori	r18, 0x02	; 2
+     3e6:	20 83       	st	Z, r18
+     3e8:	01 96       	adiw	r24, 0x01	; 1
+     3ea:	88 30       	cpi	r24, 0x08	; 8
+     3ec:	91 05       	cpc	r25, r1
+     3ee:	a1 f7       	brne	.-24     	; 0x3d8 <update_all_display_data+0xa>
+     3f0:	12 96       	adiw	r26, 0x02	; 2
+     3f2:	4a 17       	cp	r20, r26
+     3f4:	5b 07       	cpc	r21, r27
+     3f6:	19 f0       	breq	.+6      	; 0x3fe <update_all_display_data+0x30>
+     3f8:	80 e0       	ldi	r24, 0x00	; 0
+     3fa:	90 e0       	ldi	r25, 0x00	; 0
+     3fc:	ed cf       	rjmp	.-38     	; 0x3d8 <update_all_display_data+0xa>
+     3fe:	0e 94 a1 01 	call	0x342	; 0x342 <update_display_data>
+     402:	08 95       	ret
+
+00000404 <get_piece_data>:
+     404:	84 30       	cpi	r24, 0x04	; 4
+     406:	91 05       	cpc	r25, r1
+     408:	44 f5       	brge	.+80     	; 0x45a <get_piece_data+0x56>
+     40a:	64 30       	cpi	r22, 0x04	; 4
+     40c:	71 05       	cpc	r23, r1
+     40e:	38 f5       	brcc	.+78     	; 0x45e <get_piece_data+0x5a>
+     410:	48 30       	cpi	r20, 0x08	; 8
+     412:	38 f5       	brcc	.+78     	; 0x462 <get_piece_data+0x5e>
+     414:	24 30       	cpi	r18, 0x04	; 4
+     416:	38 f5       	brcc	.+78     	; 0x466 <get_piece_data+0x62>
+     418:	fb 01       	movw	r30, r22
+     41a:	ee 0f       	add	r30, r30
+     41c:	ff 1f       	adc	r31, r31
+     41e:	ee 0f       	add	r30, r30
+     420:	ff 1f       	adc	r31, r31
+     422:	e8 0f       	add	r30, r24
+     424:	f9 1f       	adc	r31, r25
+     426:	ee 0f       	add	r30, r30
+     428:	ff 1f       	adc	r31, r31
+     42a:	ea 5f       	subi	r30, 0xFA	; 250
+     42c:	fe 4f       	sbci	r31, 0xFE	; 254
+     42e:	a2 2f       	mov	r26, r18
+     430:	b0 e0       	ldi	r27, 0x00	; 0
+     432:	84 e0       	ldi	r24, 0x04	; 4
+     434:	48 9f       	mul	r20, r24
+     436:	a0 0d       	add	r26, r0
+     438:	b1 1d       	adc	r27, r1
+     43a:	11 24       	eor	r1, r1
+     43c:	aa 0f       	add	r26, r26
+     43e:	bb 1f       	adc	r27, r27
+     440:	a8 59       	subi	r26, 0x98	; 152
+     442:	be 4f       	sbci	r27, 0xFE	; 254
+     444:	20 81       	ld	r18, Z
+     446:	31 81       	ldd	r19, Z+1	; 0x01
+     448:	8d 91       	ld	r24, X+
+     44a:	9c 91       	ld	r25, X
+     44c:	28 23       	and	r18, r24
+     44e:	39 23       	and	r19, r25
+     450:	81 e0       	ldi	r24, 0x01	; 1
+     452:	23 2b       	or	r18, r19
+     454:	49 f4       	brne	.+18     	; 0x468 <get_piece_data+0x64>
+     456:	80 e0       	ldi	r24, 0x00	; 0
+     458:	08 95       	ret
+     45a:	80 e0       	ldi	r24, 0x00	; 0
+     45c:	08 95       	ret
+     45e:	80 e0       	ldi	r24, 0x00	; 0
+     460:	08 95       	ret
+     462:	80 e0       	ldi	r24, 0x00	; 0
+     464:	08 95       	ret
+     466:	80 e0       	ldi	r24, 0x00	; 0
+     468:	08 95       	ret
+
+0000046a <can_place_piece>:
+     46a:	2f 92       	push	r2
+     46c:	3f 92       	push	r3
+     46e:	4f 92       	push	r4
+     470:	5f 92       	push	r5
+     472:	6f 92       	push	r6
+     474:	7f 92       	push	r7
+     476:	8f 92       	push	r8
+     478:	9f 92       	push	r9
+     47a:	af 92       	push	r10
+     47c:	bf 92       	push	r11
+     47e:	cf 92       	push	r12
+     480:	df 92       	push	r13
+     482:	ef 92       	push	r14
+     484:	ff 92       	push	r15
+     486:	0f 93       	push	r16
+     488:	1f 93       	push	r17
+     48a:	cf 93       	push	r28
+     48c:	df 93       	push	r29
+     48e:	28 2e       	mov	r2, r24
+     490:	39 2e       	mov	r3, r25
+     492:	4b 01       	movw	r8, r22
+     494:	44 2e       	mov	r4, r20
+     496:	52 2e       	mov	r5, r18
+     498:	cb 01       	movw	r24, r22
+     49a:	88 0f       	add	r24, r24
+     49c:	99 1f       	adc	r25, r25
+     49e:	9c 01       	movw	r18, r24
+     4a0:	2a 5d       	subi	r18, 0xDA	; 218
+     4a2:	39 4f       	sbci	r19, 0xF9	; 249
+     4a4:	69 01       	movw	r12, r18
+     4a6:	a1 2c       	mov	r10, r1
+     4a8:	b1 2c       	mov	r11, r1
+     4aa:	30 c0       	rjmp	.+96     	; 0x50c <can_place_piece+0xa2>
+     4ac:	25 2d       	mov	r18, r5
+     4ae:	44 2d       	mov	r20, r4
+     4b0:	b7 01       	movw	r22, r14
+     4b2:	ce 01       	movw	r24, r28
+     4b4:	0e 94 02 02 	call	0x404	; 0x404 <get_piece_data>
+     4b8:	88 23       	and	r24, r24
+     4ba:	c1 f0       	breq	.+48     	; 0x4ec <can_place_piece+0x82>
+     4bc:	08 30       	cpi	r16, 0x08	; 8
+     4be:	11 05       	cpc	r17, r1
+     4c0:	70 f5       	brcc	.+92     	; 0x51e <can_place_piece+0xb4>
+     4c2:	84 e2       	ldi	r24, 0x24	; 36
+     4c4:	68 16       	cp	r6, r24
+     4c6:	71 04       	cpc	r7, r1
+     4c8:	60 f5       	brcc	.+88     	; 0x522 <can_place_piece+0xb8>
+     4ca:	f6 01       	movw	r30, r12
+     4cc:	40 81       	ld	r20, Z
+     4ce:	51 81       	ldd	r21, Z+1	; 0x01
+     4d0:	fa 01       	movw	r30, r20
+     4d2:	e0 0f       	add	r30, r16
+     4d4:	f1 1f       	adc	r31, r17
+     4d6:	80 81       	ld	r24, Z
+     4d8:	82 95       	swap	r24
+     4da:	86 95       	lsr	r24
+     4dc:	87 70       	andi	r24, 0x07	; 7
+     4de:	31 f0       	breq	.+12     	; 0x4ec <can_place_piece+0x82>
+     4e0:	fa 01       	movw	r30, r20
+     4e2:	e0 0f       	add	r30, r16
+     4e4:	f1 1f       	adc	r31, r17
+     4e6:	80 81       	ld	r24, Z
+     4e8:	80 ff       	sbrs	r24, 0
+     4ea:	1d c0       	rjmp	.+58     	; 0x526 <can_place_piece+0xbc>
+     4ec:	21 96       	adiw	r28, 0x01	; 1
+     4ee:	0f 5f       	subi	r16, 0xFF	; 255
+     4f0:	1f 4f       	sbci	r17, 0xFF	; 255
+     4f2:	c4 30       	cpi	r28, 0x04	; 4
+     4f4:	d1 05       	cpc	r29, r1
+     4f6:	d1 f6       	brne	.-76     	; 0x4ac <can_place_piece+0x42>
+     4f8:	ff ef       	ldi	r31, 0xFF	; 255
+     4fa:	af 1a       	sub	r10, r31
+     4fc:	bf 0a       	sbc	r11, r31
+     4fe:	22 e0       	ldi	r18, 0x02	; 2
+     500:	c2 0e       	add	r12, r18
+     502:	d1 1c       	adc	r13, r1
+     504:	34 e0       	ldi	r19, 0x04	; 4
+     506:	a3 16       	cp	r10, r19
+     508:	b1 04       	cpc	r11, r1
+     50a:	79 f0       	breq	.+30     	; 0x52a <can_place_piece+0xc0>
+     50c:	02 2d       	mov	r16, r2
+     50e:	13 2d       	mov	r17, r3
+     510:	c0 e0       	ldi	r28, 0x00	; 0
+     512:	d0 e0       	ldi	r29, 0x00	; 0
+     514:	75 01       	movw	r14, r10
+     516:	35 01       	movw	r6, r10
+     518:	68 0c       	add	r6, r8
+     51a:	79 1c       	adc	r7, r9
+     51c:	c7 cf       	rjmp	.-114    	; 0x4ac <can_place_piece+0x42>
+     51e:	80 e0       	ldi	r24, 0x00	; 0
+     520:	05 c0       	rjmp	.+10     	; 0x52c <can_place_piece+0xc2>
+     522:	80 e0       	ldi	r24, 0x00	; 0
+     524:	03 c0       	rjmp	.+6      	; 0x52c <can_place_piece+0xc2>
+     526:	80 e0       	ldi	r24, 0x00	; 0
+     528:	01 c0       	rjmp	.+2      	; 0x52c <can_place_piece+0xc2>
+     52a:	81 e0       	ldi	r24, 0x01	; 1
+     52c:	df 91       	pop	r29
+     52e:	cf 91       	pop	r28
+     530:	1f 91       	pop	r17
+     532:	0f 91       	pop	r16
+     534:	ff 90       	pop	r15
+     536:	ef 90       	pop	r14
+     538:	df 90       	pop	r13
+     53a:	cf 90       	pop	r12
+     53c:	bf 90       	pop	r11
+     53e:	af 90       	pop	r10
+     540:	9f 90       	pop	r9
+     542:	8f 90       	pop	r8
+     544:	7f 90       	pop	r7
+     546:	6f 90       	pop	r6
+     548:	5f 90       	pop	r5
+     54a:	4f 90       	pop	r4
+     54c:	3f 90       	pop	r3
+     54e:	2f 90       	pop	r2
+     550:	08 95       	ret
+
+00000552 <remove_piece>:
+     552:	af 92       	push	r10
+     554:	bf 92       	push	r11
+     556:	cf 92       	push	r12
+     558:	df 92       	push	r13
+     55a:	ef 92       	push	r14
+     55c:	ff 92       	push	r15
+     55e:	0f 93       	push	r16
+     560:	1f 93       	push	r17
+     562:	cf 93       	push	r28
+     564:	df 93       	push	r29
+     566:	6c 01       	movw	r12, r24
+     568:	a4 2e       	mov	r10, r20
+     56a:	b2 2e       	mov	r11, r18
+     56c:	66 0f       	add	r22, r22
+     56e:	77 1f       	adc	r23, r23
+     570:	cb 01       	movw	r24, r22
+     572:	8a 5d       	subi	r24, 0xDA	; 218
+     574:	99 4f       	sbci	r25, 0xF9	; 249
+     576:	7c 01       	movw	r14, r24
+     578:	00 e0       	ldi	r16, 0x00	; 0
+     57a:	10 e0       	ldi	r17, 0x00	; 0
+     57c:	20 c0       	rjmp	.+64     	; 0x5be <remove_piece+0x6c>
+     57e:	2b 2d       	mov	r18, r11
+     580:	4a 2d       	mov	r20, r10
+     582:	b8 01       	movw	r22, r16
+     584:	ce 01       	movw	r24, r28
+     586:	0e 94 02 02 	call	0x404	; 0x404 <get_piece_data>
+     58a:	88 23       	and	r24, r24
+     58c:	61 f0       	breq	.+24     	; 0x5a6 <remove_piece+0x54>
+     58e:	d7 01       	movw	r26, r14
+     590:	ed 91       	ld	r30, X+
+     592:	fc 91       	ld	r31, X
+     594:	c6 01       	movw	r24, r12
+     596:	8c 0f       	add	r24, r28
+     598:	9d 1f       	adc	r25, r29
+     59a:	e8 0f       	add	r30, r24
+     59c:	f9 1f       	adc	r31, r25
+     59e:	80 81       	ld	r24, Z
+     5a0:	8c 71       	andi	r24, 0x1C	; 28
+     5a2:	82 60       	ori	r24, 0x02	; 2
+     5a4:	80 83       	st	Z, r24
+     5a6:	21 96       	adiw	r28, 0x01	; 1
+     5a8:	c4 30       	cpi	r28, 0x04	; 4
+     5aa:	d1 05       	cpc	r29, r1
+     5ac:	41 f7       	brne	.-48     	; 0x57e <remove_piece+0x2c>
+     5ae:	0f 5f       	subi	r16, 0xFF	; 255
+     5b0:	1f 4f       	sbci	r17, 0xFF	; 255
+     5b2:	b2 e0       	ldi	r27, 0x02	; 2
+     5b4:	eb 0e       	add	r14, r27
+     5b6:	f1 1c       	adc	r15, r1
+     5b8:	04 30       	cpi	r16, 0x04	; 4
+     5ba:	11 05       	cpc	r17, r1
+     5bc:	19 f0       	breq	.+6      	; 0x5c4 <remove_piece+0x72>
+     5be:	c0 e0       	ldi	r28, 0x00	; 0
+     5c0:	d0 e0       	ldi	r29, 0x00	; 0
+     5c2:	dd cf       	rjmp	.-70     	; 0x57e <remove_piece+0x2c>
+     5c4:	df 91       	pop	r29
+     5c6:	cf 91       	pop	r28
+     5c8:	1f 91       	pop	r17
+     5ca:	0f 91       	pop	r16
+     5cc:	ff 90       	pop	r15
+     5ce:	ef 90       	pop	r14
+     5d0:	df 90       	pop	r13
+     5d2:	cf 90       	pop	r12
+     5d4:	bf 90       	pop	r11
+     5d6:	af 90       	pop	r10
+     5d8:	08 95       	ret
+
+000005da <place_falling_piece>:
+     5da:	9f 92       	push	r9
+     5dc:	af 92       	push	r10
+     5de:	bf 92       	push	r11
+     5e0:	cf 92       	push	r12
+     5e2:	df 92       	push	r13
+     5e4:	ef 92       	push	r14
+     5e6:	ff 92       	push	r15
+     5e8:	0f 93       	push	r16
+     5ea:	1f 93       	push	r17
+     5ec:	cf 93       	push	r28
+     5ee:	df 93       	push	r29
+     5f0:	6c 01       	movw	r12, r24
+     5f2:	b4 2e       	mov	r11, r20
+     5f4:	a2 2e       	mov	r10, r18
+     5f6:	66 0f       	add	r22, r22
+     5f8:	77 1f       	adc	r23, r23
+     5fa:	cb 01       	movw	r24, r22
+     5fc:	8a 5d       	subi	r24, 0xDA	; 218
+     5fe:	99 4f       	sbci	r25, 0xF9	; 249
+     600:	7c 01       	movw	r14, r24
+     602:	00 e0       	ldi	r16, 0x00	; 0
+     604:	10 e0       	ldi	r17, 0x00	; 0
+     606:	94 2e       	mov	r9, r20
+     608:	99 0c       	add	r9, r9
+     60a:	99 0c       	add	r9, r9
+     60c:	99 0c       	add	r9, r9
+     60e:	99 0c       	add	r9, r9
+     610:	99 0c       	add	r9, r9
+     612:	21 c0       	rjmp	.+66     	; 0x656 <place_falling_piece+0x7c>
+     614:	2a 2d       	mov	r18, r10
+     616:	4b 2d       	mov	r20, r11
+     618:	b8 01       	movw	r22, r16
+     61a:	ce 01       	movw	r24, r28
+     61c:	0e 94 02 02 	call	0x404	; 0x404 <get_piece_data>
+     620:	88 23       	and	r24, r24
+     622:	69 f0       	breq	.+26     	; 0x63e <place_falling_piece+0x64>
+     624:	d7 01       	movw	r26, r14
+     626:	ed 91       	ld	r30, X+
+     628:	fc 91       	ld	r31, X
+     62a:	c6 01       	movw	r24, r12
+     62c:	8c 0f       	add	r24, r28
+     62e:	9d 1f       	adc	r25, r29
+     630:	e8 0f       	add	r30, r24
+     632:	f9 1f       	adc	r31, r25
+     634:	80 81       	ld	r24, Z
+     636:	8c 71       	andi	r24, 0x1C	; 28
+     638:	83 60       	ori	r24, 0x03	; 3
+     63a:	89 29       	or	r24, r9
+     63c:	80 83       	st	Z, r24
+     63e:	21 96       	adiw	r28, 0x01	; 1
+     640:	c4 30       	cpi	r28, 0x04	; 4
+     642:	d1 05       	cpc	r29, r1
+     644:	39 f7       	brne	.-50     	; 0x614 <place_falling_piece+0x3a>
+     646:	0f 5f       	subi	r16, 0xFF	; 255
+     648:	1f 4f       	sbci	r17, 0xFF	; 255
+     64a:	b2 e0       	ldi	r27, 0x02	; 2
+     64c:	eb 0e       	add	r14, r27
+     64e:	f1 1c       	adc	r15, r1
+     650:	04 30       	cpi	r16, 0x04	; 4
+     652:	11 05       	cpc	r17, r1
+     654:	19 f0       	breq	.+6      	; 0x65c <place_falling_piece+0x82>
+     656:	c0 e0       	ldi	r28, 0x00	; 0
+     658:	d0 e0       	ldi	r29, 0x00	; 0
+     65a:	dc cf       	rjmp	.-72     	; 0x614 <place_falling_piece+0x3a>
+     65c:	df 91       	pop	r29
+     65e:	cf 91       	pop	r28
+     660:	1f 91       	pop	r17
+     662:	0f 91       	pop	r16
+     664:	ff 90       	pop	r15
+     666:	ef 90       	pop	r14
+     668:	df 90       	pop	r13
+     66a:	cf 90       	pop	r12
+     66c:	bf 90       	pop	r11
+     66e:	af 90       	pop	r10
+     670:	9f 90       	pop	r9
+     672:	08 95       	ret
+
+00000674 <game_pause_animation>:
+     674:	cf 93       	push	r28
+     676:	c0 91 b5 04 	lds	r28, 0x04B5	; 0x8004b5 <count.2242>
+     67a:	c0 ff       	sbrs	r28, 0
+     67c:	07 c0       	rjmp	.+14     	; 0x68c <game_pause_animation+0x18>
+     67e:	70 e0       	ldi	r23, 0x00	; 0
+     680:	08 2e       	mov	r0, r24
+     682:	00 0c       	add	r0, r0
+     684:	99 0b       	sbc	r25, r25
+     686:	0e 94 a9 02 	call	0x552	; 0x552 <remove_piece>
+     68a:	06 c0       	rjmp	.+12     	; 0x698 <game_pause_animation+0x24>
+     68c:	70 e0       	ldi	r23, 0x00	; 0
+     68e:	08 2e       	mov	r0, r24
+     690:	00 0c       	add	r0, r0
+     692:	99 0b       	sbc	r25, r25
+     694:	0e 94 ed 02 	call	0x5da	; 0x5da <place_falling_piece>
+     698:	cf 5f       	subi	r28, 0xFF	; 255
+     69a:	c0 93 b5 04 	sts	0x04B5, r28	; 0x8004b5 <count.2242>
+     69e:	cf 91       	pop	r28
+     6a0:	08 95       	ret
+
+000006a2 <place_static_piece>:
+     6a2:	9f 92       	push	r9
+     6a4:	af 92       	push	r10
+     6a6:	bf 92       	push	r11
+     6a8:	cf 92       	push	r12
+     6aa:	df 92       	push	r13
+     6ac:	ef 92       	push	r14
+     6ae:	ff 92       	push	r15
+     6b0:	0f 93       	push	r16
+     6b2:	1f 93       	push	r17
+     6b4:	cf 93       	push	r28
+     6b6:	df 93       	push	r29
+     6b8:	6c 01       	movw	r12, r24
+     6ba:	b4 2e       	mov	r11, r20
+     6bc:	a2 2e       	mov	r10, r18
+     6be:	66 0f       	add	r22, r22
+     6c0:	77 1f       	adc	r23, r23
+     6c2:	cb 01       	movw	r24, r22
+     6c4:	8a 5d       	subi	r24, 0xDA	; 218
+     6c6:	99 4f       	sbci	r25, 0xF9	; 249
+     6c8:	7c 01       	movw	r14, r24
+     6ca:	00 e0       	ldi	r16, 0x00	; 0
+     6cc:	10 e0       	ldi	r17, 0x00	; 0
+     6ce:	94 2e       	mov	r9, r20
+     6d0:	99 0c       	add	r9, r9
+     6d2:	99 0c       	add	r9, r9
+     6d4:	99 0c       	add	r9, r9
+     6d6:	99 0c       	add	r9, r9
+     6d8:	99 0c       	add	r9, r9
+     6da:	21 c0       	rjmp	.+66     	; 0x71e <place_static_piece+0x7c>
+     6dc:	2a 2d       	mov	r18, r10
+     6de:	4b 2d       	mov	r20, r11
+     6e0:	b8 01       	movw	r22, r16
+     6e2:	ce 01       	movw	r24, r28
+     6e4:	0e 94 02 02 	call	0x404	; 0x404 <get_piece_data>
+     6e8:	88 23       	and	r24, r24
+     6ea:	69 f0       	breq	.+26     	; 0x706 <place_static_piece+0x64>
+     6ec:	d7 01       	movw	r26, r14
+     6ee:	ed 91       	ld	r30, X+
+     6f0:	fc 91       	ld	r31, X
+     6f2:	c6 01       	movw	r24, r12
+     6f4:	8c 0f       	add	r24, r28
+     6f6:	9d 1f       	adc	r25, r29
+     6f8:	e8 0f       	add	r30, r24
+     6fa:	f9 1f       	adc	r31, r25
+     6fc:	80 81       	ld	r24, Z
+     6fe:	8c 71       	andi	r24, 0x1C	; 28
+     700:	82 60       	ori	r24, 0x02	; 2
+     702:	89 29       	or	r24, r9
+     704:	80 83       	st	Z, r24
+     706:	21 96       	adiw	r28, 0x01	; 1
+     708:	c4 30       	cpi	r28, 0x04	; 4
+     70a:	d1 05       	cpc	r29, r1
+     70c:	39 f7       	brne	.-50     	; 0x6dc <place_static_piece+0x3a>
+     70e:	0f 5f       	subi	r16, 0xFF	; 255
+     710:	1f 4f       	sbci	r17, 0xFF	; 255
+     712:	b2 e0       	ldi	r27, 0x02	; 2
+     714:	eb 0e       	add	r14, r27
+     716:	f1 1c       	adc	r15, r1
+     718:	04 30       	cpi	r16, 0x04	; 4
+     71a:	11 05       	cpc	r17, r1
+     71c:	19 f0       	breq	.+6      	; 0x724 <place_static_piece+0x82>
+     71e:	c0 e0       	ldi	r28, 0x00	; 0
+     720:	d0 e0       	ldi	r29, 0x00	; 0
+     722:	dc cf       	rjmp	.-72     	; 0x6dc <place_static_piece+0x3a>
+     724:	df 91       	pop	r29
+     726:	cf 91       	pop	r28
+     728:	1f 91       	pop	r17
+     72a:	0f 91       	pop	r16
+     72c:	ff 90       	pop	r15
+     72e:	ef 90       	pop	r14
+     730:	df 90       	pop	r13
+     732:	cf 90       	pop	r12
+     734:	bf 90       	pop	r11
+     736:	af 90       	pop	r10
+     738:	9f 90       	pop	r9
+     73a:	08 95       	ret
+
+0000073c <move_piece_down>:
+*		rotation: The rotation of the piece (straight, upside_down, left,right)
+* Return value:
+*		bool : True(1) if it can be moved down, false(0) if it cannot be placed.
+*/
+unsigned char move_piece_down(signed char x, signed char y, piece_type_t piece_type, rotation_t rotation)
+{
+     73c:	df 92       	push	r13
+     73e:	ef 92       	push	r14
+     740:	ff 92       	push	r15
+     742:	0f 93       	push	r16
+     744:	1f 93       	push	r17
+     746:	cf 93       	push	r28
+     748:	df 93       	push	r29
+     74a:	f6 2e       	mov	r15, r22
+     74c:	e4 2e       	mov	r14, r20
+     74e:	d2 2e       	mov	r13, r18
+	if (can_place_piece(x, y + 1, piece_type, rotation))
+     750:	06 2f       	mov	r16, r22
+     752:	66 0f       	add	r22, r22
+     754:	11 0b       	sbc	r17, r17
+     756:	0f 5f       	subi	r16, 0xFF	; 255
+     758:	1f 4f       	sbci	r17, 0xFF	; 255
+     75a:	c8 2f       	mov	r28, r24
+     75c:	88 0f       	add	r24, r24
+     75e:	dd 0b       	sbc	r29, r29
+     760:	b8 01       	movw	r22, r16
+     762:	ce 01       	movw	r24, r28
+     764:	0e 94 35 02 	call	0x46a	; 0x46a <can_place_piece>
+     768:	88 23       	and	r24, r24
+     76a:	79 f0       	breq	.+30     	; 0x78a <move_piece_down+0x4e>
+	{
+		remove_piece(x, y, piece_type, rotation);
+     76c:	6f 2d       	mov	r22, r15
+     76e:	ff 0c       	add	r15, r15
+     770:	77 0b       	sbc	r23, r23
+     772:	2d 2d       	mov	r18, r13
+     774:	4e 2d       	mov	r20, r14
+     776:	ce 01       	movw	r24, r28
+     778:	0e 94 a9 02 	call	0x552	; 0x552 <remove_piece>
+		place_falling_piece(x, y + 1, piece_type, rotation);
+     77c:	2d 2d       	mov	r18, r13
+     77e:	4e 2d       	mov	r20, r14
+     780:	b8 01       	movw	r22, r16
+     782:	ce 01       	movw	r24, r28
+     784:	0e 94 ed 02 	call	0x5da	; 0x5da <place_falling_piece>
+		return 1;
+     788:	81 e0       	ldi	r24, 0x01	; 1
+	}
+	else
+		return 0;
+
+}
+     78a:	df 91       	pop	r29
+     78c:	cf 91       	pop	r28
+     78e:	1f 91       	pop	r17
+     790:	0f 91       	pop	r16
+     792:	ff 90       	pop	r15
+     794:	ef 90       	pop	r14
+     796:	df 90       	pop	r13
+     798:	08 95       	ret
+
+0000079a <move_piece_left>:
+*		rotation: The rotation of the piece (straight, upside_down, left,right)
+* Return value:
+*		bool : True(1) if it can be moved left, false(0) if it cannot be placed.
+*/
+unsigned char move_piece_left(signed char x, signed char y, piece_type_t piece_type, rotation_t rotation)
+{
+     79a:	cf 92       	push	r12
+     79c:	df 92       	push	r13
+     79e:	ef 92       	push	r14
+     7a0:	ff 92       	push	r15
+     7a2:	0f 93       	push	r16
+     7a4:	1f 93       	push	r17
+     7a6:	cf 93       	push	r28
+     7a8:	df 93       	push	r29
+     7aa:	f4 2e       	mov	r15, r20
+     7ac:	e2 2e       	mov	r14, r18
+	if (can_place_piece(x - 1, y, piece_type, rotation))
+     7ae:	c6 2f       	mov	r28, r22
+     7b0:	66 0f       	add	r22, r22
+     7b2:	dd 0b       	sbc	r29, r29
+     7b4:	08 2f       	mov	r16, r24
+     7b6:	88 0f       	add	r24, r24
+     7b8:	11 0b       	sbc	r17, r17
+     7ba:	68 01       	movw	r12, r16
+     7bc:	81 e0       	ldi	r24, 0x01	; 1
+     7be:	c8 1a       	sub	r12, r24
+     7c0:	d1 08       	sbc	r13, r1
+     7c2:	be 01       	movw	r22, r28
+     7c4:	c6 01       	movw	r24, r12
+     7c6:	0e 94 35 02 	call	0x46a	; 0x46a <can_place_piece>
+     7ca:	88 23       	and	r24, r24
+     7cc:	69 f0       	breq	.+26     	; 0x7e8 <move_piece_left+0x4e>
+	{
+		remove_piece(x, y, piece_type, rotation);
+     7ce:	2e 2d       	mov	r18, r14
+     7d0:	4f 2d       	mov	r20, r15
+     7d2:	be 01       	movw	r22, r28
+     7d4:	c8 01       	movw	r24, r16
+     7d6:	0e 94 a9 02 	call	0x552	; 0x552 <remove_piece>
+		place_falling_piece(x - 1, y, piece_type, rotation);
+     7da:	2e 2d       	mov	r18, r14
+     7dc:	4f 2d       	mov	r20, r15
+     7de:	be 01       	movw	r22, r28
+     7e0:	c6 01       	movw	r24, r12
+     7e2:	0e 94 ed 02 	call	0x5da	; 0x5da <place_falling_piece>
+		return 1;
+     7e6:	81 e0       	ldi	r24, 0x01	; 1
+	}
+	else
+		return 0;
+
+}
+     7e8:	df 91       	pop	r29
+     7ea:	cf 91       	pop	r28
+     7ec:	1f 91       	pop	r17
+     7ee:	0f 91       	pop	r16
+     7f0:	ff 90       	pop	r15
+     7f2:	ef 90       	pop	r14
+     7f4:	df 90       	pop	r13
+     7f6:	cf 90       	pop	r12
+     7f8:	08 95       	ret
+
+000007fa <move_piece_right>:
+*		rotation: The rotation of the piece (straight, upside_down, left,right)
+* Return value:
+*		bool : True(1) if it can be moved right, false(0) if it cannot be placed.
+*/
+unsigned char move_piece_right(signed char x, signed char y, piece_type_t piece_type, rotation_t rotation)
+{
+     7fa:	cf 92       	push	r12
+     7fc:	df 92       	push	r13
+     7fe:	ef 92       	push	r14
+     800:	ff 92       	push	r15
+     802:	0f 93       	push	r16
+     804:	1f 93       	push	r17
+     806:	cf 93       	push	r28
+     808:	df 93       	push	r29
+     80a:	f4 2e       	mov	r15, r20
+     80c:	e2 2e       	mov	r14, r18
+	if (can_place_piece(x + 1, y, piece_type, rotation))
+     80e:	c6 2f       	mov	r28, r22
+     810:	66 0f       	add	r22, r22
+     812:	dd 0b       	sbc	r29, r29
+     814:	08 2f       	mov	r16, r24
+     816:	88 0f       	add	r24, r24
+     818:	11 0b       	sbc	r17, r17
+     81a:	68 01       	movw	r12, r16
+     81c:	8f ef       	ldi	r24, 0xFF	; 255
+     81e:	c8 1a       	sub	r12, r24
+     820:	d8 0a       	sbc	r13, r24
+     822:	be 01       	movw	r22, r28
+     824:	c6 01       	movw	r24, r12
+     826:	0e 94 35 02 	call	0x46a	; 0x46a <can_place_piece>
+     82a:	88 23       	and	r24, r24
+     82c:	69 f0       	breq	.+26     	; 0x848 <move_piece_right+0x4e>
+	{
+		remove_piece(x, y, piece_type, rotation);
+     82e:	2e 2d       	mov	r18, r14
+     830:	4f 2d       	mov	r20, r15
+     832:	be 01       	movw	r22, r28
+     834:	c8 01       	movw	r24, r16
+     836:	0e 94 a9 02 	call	0x552	; 0x552 <remove_piece>
+		place_falling_piece(x + 1, y, piece_type, rotation);
+     83a:	2e 2d       	mov	r18, r14
+     83c:	4f 2d       	mov	r20, r15
+     83e:	be 01       	movw	r22, r28
+     840:	c6 01       	movw	r24, r12
+     842:	0e 94 ed 02 	call	0x5da	; 0x5da <place_falling_piece>
+		return 1;
+     846:	81 e0       	ldi	r24, 0x01	; 1
+	}
+	else
+		return 0;
+
+}
+     848:	df 91       	pop	r29
+     84a:	cf 91       	pop	r28
+     84c:	1f 91       	pop	r17
+     84e:	0f 91       	pop	r16
+     850:	ff 90       	pop	r15
+     852:	ef 90       	pop	r14
+     854:	df 90       	pop	r13
+     856:	cf 90       	pop	r12
+     858:	08 95       	ret
+
+0000085a <rotate_piece_clockwise>:
+*		bool : True(1) if it can be rotated, false(0) if it cannot be rotated.
+*
+* THIS FUNCTION MODIFIES X, Y AND ROTATION
+*/
+unsigned char rotate_piece_clockwise(signed char * x, signed char * y, piece_type_t *piece_type, rotation_t * rotation)
+{
+     85a:	3f 92       	push	r3
+     85c:	4f 92       	push	r4
+     85e:	5f 92       	push	r5
+     860:	6f 92       	push	r6
+     862:	7f 92       	push	r7
+     864:	8f 92       	push	r8
+     866:	9f 92       	push	r9
+     868:	af 92       	push	r10
+     86a:	bf 92       	push	r11
+     86c:	cf 92       	push	r12
+     86e:	df 92       	push	r13
+     870:	ef 92       	push	r14
+     872:	ff 92       	push	r15
+     874:	0f 93       	push	r16
+     876:	1f 93       	push	r17
+     878:	cf 93       	push	r28
+     87a:	df 93       	push	r29
+     87c:	6c 01       	movw	r12, r24
+     87e:	4b 01       	movw	r8, r22
+     880:	5a 01       	movw	r10, r20
+     882:	89 01       	movw	r16, r18
+	//TO_DO: IMPLEMENT COMPLEX ROTATION!
+	if (can_place_piece(*x, *y, *piece_type, ((*rotation) + 1) & 0x03))
+     884:	f9 01       	movw	r30, r18
+     886:	30 80       	ld	r3, Z
+     888:	81 e0       	ldi	r24, 0x01	; 1
+     88a:	83 0d       	add	r24, r3
+     88c:	83 70       	andi	r24, 0x03	; 3
+     88e:	78 2e       	mov	r7, r24
+     890:	fa 01       	movw	r30, r20
+     892:	40 80       	ld	r4, Z
+     894:	fb 01       	movw	r30, r22
+     896:	c0 81       	ld	r28, Z
+     898:	0c 2e       	mov	r0, r28
+     89a:	00 0c       	add	r0, r0
+     89c:	dd 0b       	sbc	r29, r29
+     89e:	f6 01       	movw	r30, r12
+     8a0:	60 80       	ld	r6, Z
+     8a2:	e6 2c       	mov	r14, r6
+     8a4:	06 2c       	mov	r0, r6
+     8a6:	00 0c       	add	r0, r0
+     8a8:	ff 08       	sbc	r15, r15
+     8aa:	28 2f       	mov	r18, r24
+     8ac:	44 2d       	mov	r20, r4
+     8ae:	be 01       	movw	r22, r28
+     8b0:	c7 01       	movw	r24, r14
+     8b2:	0e 94 35 02 	call	0x46a	; 0x46a <can_place_piece>
+     8b6:	58 2e       	mov	r5, r24
+     8b8:	88 23       	and	r24, r24
+     8ba:	01 f1       	breq	.+64     	; 0x8fc <rotate_piece_clockwise+0xa2>
+	{
+		remove_piece(*x, *y, *piece_type, *rotation);
+     8bc:	23 2d       	mov	r18, r3
+     8be:	44 2d       	mov	r20, r4
+     8c0:	be 01       	movw	r22, r28
+     8c2:	c7 01       	movw	r24, r14
+     8c4:	0e 94 a9 02 	call	0x552	; 0x552 <remove_piece>
+		place_falling_piece(*x, *y, *piece_type, ((*rotation) + 1) & 0x03);
+     8c8:	f8 01       	movw	r30, r16
+     8ca:	20 81       	ld	r18, Z
+     8cc:	2f 5f       	subi	r18, 0xFF	; 255
+     8ce:	23 70       	andi	r18, 0x03	; 3
+     8d0:	f4 01       	movw	r30, r8
+     8d2:	60 81       	ld	r22, Z
+     8d4:	06 2e       	mov	r0, r22
+     8d6:	00 0c       	add	r0, r0
+     8d8:	77 0b       	sbc	r23, r23
+     8da:	f6 01       	movw	r30, r12
+     8dc:	80 81       	ld	r24, Z
+     8de:	f5 01       	movw	r30, r10
+     8e0:	40 81       	ld	r20, Z
+     8e2:	08 2e       	mov	r0, r24
+     8e4:	00 0c       	add	r0, r0
+     8e6:	99 0b       	sbc	r25, r25
+     8e8:	0e 94 ed 02 	call	0x5da	; 0x5da <place_falling_piece>
+		(*rotation) = ((*rotation) + 1) & 0x03;
+     8ec:	f8 01       	movw	r30, r16
+     8ee:	80 81       	ld	r24, Z
+     8f0:	8f 5f       	subi	r24, 0xFF	; 255
+     8f2:	83 70       	andi	r24, 0x03	; 3
+     8f4:	80 83       	st	Z, r24
+		return 1;
+     8f6:	55 24       	eor	r5, r5
+     8f8:	53 94       	inc	r5
+     8fa:	c6 c0       	rjmp	.+396    	; 0xa88 <__stack+0x189>
+	}
+	else if (*x < 0 && can_place_piece((*x) + 1, *y, *piece_type, ((*rotation) + 1) & 0x03))
+     8fc:	66 20       	and	r6, r6
+     8fe:	74 f5       	brge	.+92     	; 0x95c <__stack+0x5d>
+     900:	27 2d       	mov	r18, r7
+     902:	44 2d       	mov	r20, r4
+     904:	be 01       	movw	r22, r28
+     906:	c7 01       	movw	r24, r14
+     908:	01 96       	adiw	r24, 0x01	; 1
+     90a:	0e 94 35 02 	call	0x46a	; 0x46a <can_place_piece>
+     90e:	88 23       	and	r24, r24
+     910:	29 f1       	breq	.+74     	; 0x95c <__stack+0x5d>
+	{
+		remove_piece(*x, *y, *piece_type, *rotation);
+     912:	23 2d       	mov	r18, r3
+     914:	44 2d       	mov	r20, r4
+     916:	be 01       	movw	r22, r28
+     918:	c7 01       	movw	r24, r14
+     91a:	0e 94 a9 02 	call	0x552	; 0x552 <remove_piece>
+		place_falling_piece((*x) + 1, *y, *piece_type, ((*rotation) + 1) & 0x03);
+     91e:	f8 01       	movw	r30, r16
+     920:	20 81       	ld	r18, Z
+     922:	2f 5f       	subi	r18, 0xFF	; 255
+     924:	23 70       	andi	r18, 0x03	; 3
+     926:	f4 01       	movw	r30, r8
+     928:	60 81       	ld	r22, Z
+     92a:	06 2e       	mov	r0, r22
+     92c:	00 0c       	add	r0, r0
+     92e:	77 0b       	sbc	r23, r23
+     930:	f6 01       	movw	r30, r12
+     932:	80 81       	ld	r24, Z
+     934:	08 2e       	mov	r0, r24
+     936:	00 0c       	add	r0, r0
+     938:	99 0b       	sbc	r25, r25
+     93a:	f5 01       	movw	r30, r10
+     93c:	40 81       	ld	r20, Z
+     93e:	01 96       	adiw	r24, 0x01	; 1
+     940:	0e 94 ed 02 	call	0x5da	; 0x5da <place_falling_piece>
+		(*x)++;
+     944:	f6 01       	movw	r30, r12
+     946:	80 81       	ld	r24, Z
+     948:	8f 5f       	subi	r24, 0xFF	; 255
+     94a:	80 83       	st	Z, r24
+		(*rotation) = ((*rotation) + 1) & 0x03;
+     94c:	f8 01       	movw	r30, r16
+     94e:	80 81       	ld	r24, Z
+     950:	8f 5f       	subi	r24, 0xFF	; 255
+     952:	83 70       	andi	r24, 0x03	; 3
+     954:	80 83       	st	Z, r24
+		return 1;
+     956:	55 24       	eor	r5, r5
+     958:	53 94       	inc	r5
+     95a:	96 c0       	rjmp	.+300    	; 0xa88 <__stack+0x189>
+	}
+	else if (*x >(DISPLAY_WIDTH - PIECE_CONTAINER_SIZE) && can_place_piece((*x) - 1, *y, *piece_type, ((*rotation) + 1) & 0x03))
+     95c:	f4 e0       	ldi	r31, 0x04	; 4
+     95e:	f6 15       	cp	r31, r6
+     960:	74 f5       	brge	.+92     	; 0x9be <__stack+0xbf>
+     962:	27 2d       	mov	r18, r7
+     964:	44 2d       	mov	r20, r4
+     966:	be 01       	movw	r22, r28
+     968:	c7 01       	movw	r24, r14
+     96a:	01 97       	sbiw	r24, 0x01	; 1
+     96c:	0e 94 35 02 	call	0x46a	; 0x46a <can_place_piece>
+     970:	88 23       	and	r24, r24
+     972:	29 f1       	breq	.+74     	; 0x9be <__stack+0xbf>
+	{
+		remove_piece(*x, *y, *piece_type, *rotation);
+     974:	23 2d       	mov	r18, r3
+     976:	44 2d       	mov	r20, r4
+     978:	be 01       	movw	r22, r28
+     97a:	c7 01       	movw	r24, r14
+     97c:	0e 94 a9 02 	call	0x552	; 0x552 <remove_piece>
+		place_falling_piece((*x) - 1, *y, *piece_type, ((*rotation) + 1) & 0x03);
+     980:	f8 01       	movw	r30, r16
+     982:	20 81       	ld	r18, Z
+     984:	2f 5f       	subi	r18, 0xFF	; 255
+     986:	23 70       	andi	r18, 0x03	; 3
+     988:	f4 01       	movw	r30, r8
+     98a:	60 81       	ld	r22, Z
+     98c:	06 2e       	mov	r0, r22
+     98e:	00 0c       	add	r0, r0
+     990:	77 0b       	sbc	r23, r23
+     992:	f6 01       	movw	r30, r12
+     994:	80 81       	ld	r24, Z
+     996:	08 2e       	mov	r0, r24
+     998:	00 0c       	add	r0, r0
+     99a:	99 0b       	sbc	r25, r25
+     99c:	f5 01       	movw	r30, r10
+     99e:	40 81       	ld	r20, Z
+     9a0:	01 97       	sbiw	r24, 0x01	; 1
+     9a2:	0e 94 ed 02 	call	0x5da	; 0x5da <place_falling_piece>
+		(*x)--;
+     9a6:	f6 01       	movw	r30, r12
+     9a8:	80 81       	ld	r24, Z
+     9aa:	81 50       	subi	r24, 0x01	; 1
+     9ac:	80 83       	st	Z, r24
+		(*rotation) = ((*rotation) + 1) & 0x03;
+     9ae:	f8 01       	movw	r30, r16
+     9b0:	80 81       	ld	r24, Z
+     9b2:	8f 5f       	subi	r24, 0xFF	; 255
+     9b4:	83 70       	andi	r24, 0x03	; 3
+     9b6:	80 83       	st	Z, r24
+		return 1;
+     9b8:	55 24       	eor	r5, r5
+     9ba:	53 94       	inc	r5
+     9bc:	65 c0       	rjmp	.+202    	; 0xa88 <__stack+0x189>
+	}
+	else if (*piece_type == PIECE_I && *x < -1 && can_place_piece((*x) + 2, *y, *piece_type, ((*rotation) + 1) & 0x03))
+     9be:	f1 e0       	ldi	r31, 0x01	; 1
+     9c0:	4f 12       	cpse	r4, r31
+     9c2:	62 c0       	rjmp	.+196    	; 0xa88 <__stack+0x189>
+     9c4:	8f ef       	ldi	r24, 0xFF	; 255
+     9c6:	68 16       	cp	r6, r24
+     9c8:	74 f5       	brge	.+92     	; 0xa26 <__stack+0x127>
+     9ca:	27 2d       	mov	r18, r7
+     9cc:	41 e0       	ldi	r20, 0x01	; 1
+     9ce:	be 01       	movw	r22, r28
+     9d0:	c7 01       	movw	r24, r14
+     9d2:	02 96       	adiw	r24, 0x02	; 2
+     9d4:	0e 94 35 02 	call	0x46a	; 0x46a <can_place_piece>
+     9d8:	88 23       	and	r24, r24
+     9da:	29 f1       	breq	.+74     	; 0xa26 <__stack+0x127>
+	{
+		remove_piece(*x, *y, *piece_type, *rotation);
+     9dc:	23 2d       	mov	r18, r3
+     9de:	41 e0       	ldi	r20, 0x01	; 1
+     9e0:	be 01       	movw	r22, r28
+     9e2:	c7 01       	movw	r24, r14
+     9e4:	0e 94 a9 02 	call	0x552	; 0x552 <remove_piece>
+		place_falling_piece((*x) + 2, *y, *piece_type, ((*rotation) + 1) & 0x03);
+     9e8:	f8 01       	movw	r30, r16
+     9ea:	20 81       	ld	r18, Z
+     9ec:	2f 5f       	subi	r18, 0xFF	; 255
+     9ee:	23 70       	andi	r18, 0x03	; 3
+     9f0:	f4 01       	movw	r30, r8
+     9f2:	60 81       	ld	r22, Z
+     9f4:	06 2e       	mov	r0, r22
+     9f6:	00 0c       	add	r0, r0
+     9f8:	77 0b       	sbc	r23, r23
+     9fa:	f6 01       	movw	r30, r12
+     9fc:	80 81       	ld	r24, Z
+     9fe:	08 2e       	mov	r0, r24
+     a00:	00 0c       	add	r0, r0
+     a02:	99 0b       	sbc	r25, r25
+     a04:	f5 01       	movw	r30, r10
+     a06:	40 81       	ld	r20, Z
+     a08:	02 96       	adiw	r24, 0x02	; 2
+     a0a:	0e 94 ed 02 	call	0x5da	; 0x5da <place_falling_piece>
+		(*x) += 2;
+     a0e:	f6 01       	movw	r30, r12
+     a10:	80 81       	ld	r24, Z
+     a12:	8e 5f       	subi	r24, 0xFE	; 254
+     a14:	80 83       	st	Z, r24
+		(*rotation) = ((*rotation) + 1) & 0x03;
+     a16:	f8 01       	movw	r30, r16
+     a18:	80 81       	ld	r24, Z
+     a1a:	8f 5f       	subi	r24, 0xFF	; 255
+     a1c:	83 70       	andi	r24, 0x03	; 3
+     a1e:	80 83       	st	Z, r24
+		return 1;
+     a20:	55 24       	eor	r5, r5
+     a22:	53 94       	inc	r5
+     a24:	31 c0       	rjmp	.+98     	; 0xa88 <__stack+0x189>
+
+	}
+	else if (*piece_type == PIECE_I && *x >(DISPLAY_WIDTH - 3) && can_place_piece((*x) - 2, *y, *piece_type, ((*rotation) + 1) & 0x03))
+     a26:	f5 e0       	ldi	r31, 0x05	; 5
+     a28:	f6 15       	cp	r31, r6
+     a2a:	74 f5       	brge	.+92     	; 0xa88 <__stack+0x189>
+     a2c:	27 2d       	mov	r18, r7
+     a2e:	41 e0       	ldi	r20, 0x01	; 1
+     a30:	be 01       	movw	r22, r28
+     a32:	c7 01       	movw	r24, r14
+     a34:	02 97       	sbiw	r24, 0x02	; 2
+     a36:	0e 94 35 02 	call	0x46a	; 0x46a <can_place_piece>
+     a3a:	58 2e       	mov	r5, r24
+     a3c:	88 23       	and	r24, r24
+     a3e:	21 f1       	breq	.+72     	; 0xa88 <__stack+0x189>
+	{
+		remove_piece(*x, *y, *piece_type, *rotation);
+     a40:	23 2d       	mov	r18, r3
+     a42:	41 e0       	ldi	r20, 0x01	; 1
+     a44:	be 01       	movw	r22, r28
+     a46:	c7 01       	movw	r24, r14
+     a48:	0e 94 a9 02 	call	0x552	; 0x552 <remove_piece>
+		place_falling_piece((*x) - 2, *y, *piece_type, ((*rotation) + 1) & 0x03);
+     a4c:	f8 01       	movw	r30, r16
+     a4e:	20 81       	ld	r18, Z
+     a50:	2f 5f       	subi	r18, 0xFF	; 255
+     a52:	23 70       	andi	r18, 0x03	; 3
+     a54:	f4 01       	movw	r30, r8
+     a56:	60 81       	ld	r22, Z
+     a58:	06 2e       	mov	r0, r22
+     a5a:	00 0c       	add	r0, r0
+     a5c:	77 0b       	sbc	r23, r23
+     a5e:	f6 01       	movw	r30, r12
+     a60:	80 81       	ld	r24, Z
+     a62:	08 2e       	mov	r0, r24
+     a64:	00 0c       	add	r0, r0
+     a66:	99 0b       	sbc	r25, r25
+     a68:	f5 01       	movw	r30, r10
+     a6a:	40 81       	ld	r20, Z
+     a6c:	02 97       	sbiw	r24, 0x02	; 2
+     a6e:	0e 94 ed 02 	call	0x5da	; 0x5da <place_falling_piece>
+		(*x) -= 2;
+     a72:	f6 01       	movw	r30, r12
+     a74:	80 81       	ld	r24, Z
+     a76:	82 50       	subi	r24, 0x02	; 2
+     a78:	80 83       	st	Z, r24
+		(*rotation) = ((*rotation) + 1) & 0x03;
+     a7a:	f8 01       	movw	r30, r16
+     a7c:	80 81       	ld	r24, Z
+     a7e:	8f 5f       	subi	r24, 0xFF	; 255
+     a80:	83 70       	andi	r24, 0x03	; 3
+     a82:	80 83       	st	Z, r24
+		return 1;
+     a84:	55 24       	eor	r5, r5
+     a86:	53 94       	inc	r5
+	}
+	else
+		return 0;
+}
+     a88:	85 2d       	mov	r24, r5
+     a8a:	df 91       	pop	r29
+     a8c:	cf 91       	pop	r28
+     a8e:	1f 91       	pop	r17
+     a90:	0f 91       	pop	r16
+     a92:	ff 90       	pop	r15
+     a94:	ef 90       	pop	r14
+     a96:	df 90       	pop	r13
+     a98:	cf 90       	pop	r12
+     a9a:	bf 90       	pop	r11
+     a9c:	af 90       	pop	r10
+     a9e:	9f 90       	pop	r9
+     aa0:	8f 90       	pop	r8
+     aa2:	7f 90       	pop	r7
+     aa4:	6f 90       	pop	r6
+     aa6:	5f 90       	pop	r5
+     aa8:	4f 90       	pop	r4
+     aaa:	3f 90       	pop	r3
+     aac:	08 95       	ret
+
+00000aae <rotate_piece_counterclockwise>:
+*		bool : True(1) if it can be rotated, false(0) if it cannot be rotated.
+*
+* THIS FUNCTION MODIFIES X, Y AND ROTATION
+*/
+unsigned char rotate_piece_counterclockwise(signed char * x, signed char * y, piece_type_t *piece_type, rotation_t * rotation)
+{
+     aae:	3f 92       	push	r3
+     ab0:	4f 92       	push	r4
+     ab2:	5f 92       	push	r5
+     ab4:	6f 92       	push	r6
+     ab6:	7f 92       	push	r7
+     ab8:	8f 92       	push	r8
+     aba:	9f 92       	push	r9
+     abc:	af 92       	push	r10
+     abe:	bf 92       	push	r11
+     ac0:	cf 92       	push	r12
+     ac2:	df 92       	push	r13
+     ac4:	ef 92       	push	r14
+     ac6:	ff 92       	push	r15
+     ac8:	0f 93       	push	r16
+     aca:	1f 93       	push	r17
+     acc:	cf 93       	push	r28
+     ace:	df 93       	push	r29
+     ad0:	6c 01       	movw	r12, r24
+     ad2:	4b 01       	movw	r8, r22
+     ad4:	5a 01       	movw	r10, r20
+     ad6:	89 01       	movw	r16, r18
+	//TO_DO: IMPLEMENT COMPLEX ROTATION!
+	if (can_place_piece(*x, *y, *piece_type, ((*rotation) + 3) & 0x03))
+     ad8:	f9 01       	movw	r30, r18
+     ada:	30 80       	ld	r3, Z
+     adc:	83 e0       	ldi	r24, 0x03	; 3
+     ade:	83 0d       	add	r24, r3
+     ae0:	83 70       	andi	r24, 0x03	; 3
+     ae2:	78 2e       	mov	r7, r24
+     ae4:	fa 01       	movw	r30, r20
+     ae6:	40 80       	ld	r4, Z
+     ae8:	fb 01       	movw	r30, r22
+     aea:	c0 81       	ld	r28, Z
+     aec:	0c 2e       	mov	r0, r28
+     aee:	00 0c       	add	r0, r0
+     af0:	dd 0b       	sbc	r29, r29
+     af2:	f6 01       	movw	r30, r12
+     af4:	60 80       	ld	r6, Z
+     af6:	e6 2c       	mov	r14, r6
+     af8:	06 2c       	mov	r0, r6
+     afa:	00 0c       	add	r0, r0
+     afc:	ff 08       	sbc	r15, r15
+     afe:	28 2f       	mov	r18, r24
+     b00:	44 2d       	mov	r20, r4
+     b02:	be 01       	movw	r22, r28
+     b04:	c7 01       	movw	r24, r14
+     b06:	0e 94 35 02 	call	0x46a	; 0x46a <can_place_piece>
+     b0a:	58 2e       	mov	r5, r24
+     b0c:	88 23       	and	r24, r24
+     b0e:	01 f1       	breq	.+64     	; 0xb50 <rotate_piece_counterclockwise+0xa2>
+	{
+		remove_piece(*x, *y, *piece_type, *rotation);
+     b10:	23 2d       	mov	r18, r3
+     b12:	44 2d       	mov	r20, r4
+     b14:	be 01       	movw	r22, r28
+     b16:	c7 01       	movw	r24, r14
+     b18:	0e 94 a9 02 	call	0x552	; 0x552 <remove_piece>
+		place_falling_piece(*x, *y, *piece_type, ((*rotation) + 3) & 0x03);
+     b1c:	f8 01       	movw	r30, r16
+     b1e:	20 81       	ld	r18, Z
+     b20:	2d 5f       	subi	r18, 0xFD	; 253
+     b22:	23 70       	andi	r18, 0x03	; 3
+     b24:	f4 01       	movw	r30, r8
+     b26:	60 81       	ld	r22, Z
+     b28:	06 2e       	mov	r0, r22
+     b2a:	00 0c       	add	r0, r0
+     b2c:	77 0b       	sbc	r23, r23
+     b2e:	f6 01       	movw	r30, r12
+     b30:	80 81       	ld	r24, Z
+     b32:	f5 01       	movw	r30, r10
+     b34:	40 81       	ld	r20, Z
+     b36:	08 2e       	mov	r0, r24
+     b38:	00 0c       	add	r0, r0
+     b3a:	99 0b       	sbc	r25, r25
+     b3c:	0e 94 ed 02 	call	0x5da	; 0x5da <place_falling_piece>
+		(*rotation) = ((*rotation) + 3) & 0x03;
+     b40:	f8 01       	movw	r30, r16
+     b42:	80 81       	ld	r24, Z
+     b44:	8d 5f       	subi	r24, 0xFD	; 253
+     b46:	83 70       	andi	r24, 0x03	; 3
+     b48:	80 83       	st	Z, r24
+		return 1;
+     b4a:	55 24       	eor	r5, r5
+     b4c:	53 94       	inc	r5
+     b4e:	c6 c0       	rjmp	.+396    	; 0xcdc <rotate_piece_counterclockwise+0x22e>
+	}
+	else if (*x < 0 && can_place_piece((*x) + 1, *y, *piece_type, ((*rotation) + 3) & 0x03))
+     b50:	66 20       	and	r6, r6
+     b52:	74 f5       	brge	.+92     	; 0xbb0 <rotate_piece_counterclockwise+0x102>
+     b54:	27 2d       	mov	r18, r7
+     b56:	44 2d       	mov	r20, r4
+     b58:	be 01       	movw	r22, r28
+     b5a:	c7 01       	movw	r24, r14
+     b5c:	01 96       	adiw	r24, 0x01	; 1
+     b5e:	0e 94 35 02 	call	0x46a	; 0x46a <can_place_piece>
+     b62:	88 23       	and	r24, r24
+     b64:	29 f1       	breq	.+74     	; 0xbb0 <rotate_piece_counterclockwise+0x102>
+	{
+		remove_piece(*x, *y, *piece_type, *rotation);
+     b66:	23 2d       	mov	r18, r3
+     b68:	44 2d       	mov	r20, r4
+     b6a:	be 01       	movw	r22, r28
+     b6c:	c7 01       	movw	r24, r14
+     b6e:	0e 94 a9 02 	call	0x552	; 0x552 <remove_piece>
+		place_falling_piece((*x) + 1, *y, *piece_type, ((*rotation) + 3) & 0x03);
+     b72:	f8 01       	movw	r30, r16
+     b74:	20 81       	ld	r18, Z
+     b76:	2d 5f       	subi	r18, 0xFD	; 253
+     b78:	23 70       	andi	r18, 0x03	; 3
+     b7a:	f4 01       	movw	r30, r8
+     b7c:	60 81       	ld	r22, Z
+     b7e:	06 2e       	mov	r0, r22
+     b80:	00 0c       	add	r0, r0
+     b82:	77 0b       	sbc	r23, r23
+     b84:	f6 01       	movw	r30, r12
+     b86:	80 81       	ld	r24, Z
+     b88:	08 2e       	mov	r0, r24
+     b8a:	00 0c       	add	r0, r0
+     b8c:	99 0b       	sbc	r25, r25
+     b8e:	f5 01       	movw	r30, r10
+     b90:	40 81       	ld	r20, Z
+     b92:	01 96       	adiw	r24, 0x01	; 1
+     b94:	0e 94 ed 02 	call	0x5da	; 0x5da <place_falling_piece>
+		(*x)++;
+     b98:	f6 01       	movw	r30, r12
+     b9a:	80 81       	ld	r24, Z
+     b9c:	8f 5f       	subi	r24, 0xFF	; 255
+     b9e:	80 83       	st	Z, r24
+		(*rotation) = ((*rotation) + 3) & 0x03;
+     ba0:	f8 01       	movw	r30, r16
+     ba2:	80 81       	ld	r24, Z
+     ba4:	8d 5f       	subi	r24, 0xFD	; 253
+     ba6:	83 70       	andi	r24, 0x03	; 3
+     ba8:	80 83       	st	Z, r24
+		return 1;
+     baa:	55 24       	eor	r5, r5
+     bac:	53 94       	inc	r5
+     bae:	96 c0       	rjmp	.+300    	; 0xcdc <rotate_piece_counterclockwise+0x22e>
+	}
+	else if (*x >(DISPLAY_WIDTH - PIECE_CONTAINER_SIZE) && can_place_piece((*x) - 1, *y, *piece_type, ((*rotation) + 3) & 0x03))
+     bb0:	f4 e0       	ldi	r31, 0x04	; 4
+     bb2:	f6 15       	cp	r31, r6
+     bb4:	74 f5       	brge	.+92     	; 0xc12 <rotate_piece_counterclockwise+0x164>
+     bb6:	27 2d       	mov	r18, r7
+     bb8:	44 2d       	mov	r20, r4
+     bba:	be 01       	movw	r22, r28
+     bbc:	c7 01       	movw	r24, r14
+     bbe:	01 97       	sbiw	r24, 0x01	; 1
+     bc0:	0e 94 35 02 	call	0x46a	; 0x46a <can_place_piece>
+     bc4:	88 23       	and	r24, r24
+     bc6:	29 f1       	breq	.+74     	; 0xc12 <rotate_piece_counterclockwise+0x164>
+	{
+		remove_piece(*x, *y, *piece_type, *rotation);
+     bc8:	23 2d       	mov	r18, r3
+     bca:	44 2d       	mov	r20, r4
+     bcc:	be 01       	movw	r22, r28
+     bce:	c7 01       	movw	r24, r14
+     bd0:	0e 94 a9 02 	call	0x552	; 0x552 <remove_piece>
+		place_falling_piece((*x) - 1, *y, *piece_type, ((*rotation) + 3) & 0x03);
+     bd4:	f8 01       	movw	r30, r16
+     bd6:	20 81       	ld	r18, Z
+     bd8:	2d 5f       	subi	r18, 0xFD	; 253
+     bda:	23 70       	andi	r18, 0x03	; 3
+     bdc:	f4 01       	movw	r30, r8
+     bde:	60 81       	ld	r22, Z
+     be0:	06 2e       	mov	r0, r22
+     be2:	00 0c       	add	r0, r0
+     be4:	77 0b       	sbc	r23, r23
+     be6:	f6 01       	movw	r30, r12
+     be8:	80 81       	ld	r24, Z
+     bea:	08 2e       	mov	r0, r24
+     bec:	00 0c       	add	r0, r0
+     bee:	99 0b       	sbc	r25, r25
+     bf0:	f5 01       	movw	r30, r10
+     bf2:	40 81       	ld	r20, Z
+     bf4:	01 97       	sbiw	r24, 0x01	; 1
+     bf6:	0e 94 ed 02 	call	0x5da	; 0x5da <place_falling_piece>
+		(*x)--;
+     bfa:	f6 01       	movw	r30, r12
+     bfc:	80 81       	ld	r24, Z
+     bfe:	81 50       	subi	r24, 0x01	; 1
+     c00:	80 83       	st	Z, r24
+		(*rotation) = ((*rotation) + 3) & 0x03;
+     c02:	f8 01       	movw	r30, r16
+     c04:	80 81       	ld	r24, Z
+     c06:	8d 5f       	subi	r24, 0xFD	; 253
+     c08:	83 70       	andi	r24, 0x03	; 3
+     c0a:	80 83       	st	Z, r24
+		return 1;
+     c0c:	55 24       	eor	r5, r5
+     c0e:	53 94       	inc	r5
+     c10:	65 c0       	rjmp	.+202    	; 0xcdc <rotate_piece_counterclockwise+0x22e>
+	}
+	else if (*piece_type == PIECE_I && *x < -1 && can_place_piece((*x) + 2, *y, *piece_type, ((*rotation) + 3) & 0x03))
+     c12:	f1 e0       	ldi	r31, 0x01	; 1
+     c14:	4f 12       	cpse	r4, r31
+     c16:	62 c0       	rjmp	.+196    	; 0xcdc <rotate_piece_counterclockwise+0x22e>
+     c18:	8f ef       	ldi	r24, 0xFF	; 255
+     c1a:	68 16       	cp	r6, r24
+     c1c:	74 f5       	brge	.+92     	; 0xc7a <rotate_piece_counterclockwise+0x1cc>
+     c1e:	27 2d       	mov	r18, r7
+     c20:	41 e0       	ldi	r20, 0x01	; 1
+     c22:	be 01       	movw	r22, r28
+     c24:	c7 01       	movw	r24, r14
+     c26:	02 96       	adiw	r24, 0x02	; 2
+     c28:	0e 94 35 02 	call	0x46a	; 0x46a <can_place_piece>
+     c2c:	88 23       	and	r24, r24
+     c2e:	29 f1       	breq	.+74     	; 0xc7a <rotate_piece_counterclockwise+0x1cc>
+	{
+		remove_piece(*x, *y, *piece_type, *rotation);
+     c30:	23 2d       	mov	r18, r3
+     c32:	41 e0       	ldi	r20, 0x01	; 1
+     c34:	be 01       	movw	r22, r28
+     c36:	c7 01       	movw	r24, r14
+     c38:	0e 94 a9 02 	call	0x552	; 0x552 <remove_piece>
+		place_falling_piece((*x) + 2, *y, *piece_type, ((*rotation) + 3) & 0x03);
+     c3c:	f8 01       	movw	r30, r16
+     c3e:	20 81       	ld	r18, Z
+     c40:	2d 5f       	subi	r18, 0xFD	; 253
+     c42:	23 70       	andi	r18, 0x03	; 3
+     c44:	f4 01       	movw	r30, r8
+     c46:	60 81       	ld	r22, Z
+     c48:	06 2e       	mov	r0, r22
+     c4a:	00 0c       	add	r0, r0
+     c4c:	77 0b       	sbc	r23, r23
+     c4e:	f6 01       	movw	r30, r12
+     c50:	80 81       	ld	r24, Z
+     c52:	08 2e       	mov	r0, r24
+     c54:	00 0c       	add	r0, r0
+     c56:	99 0b       	sbc	r25, r25
+     c58:	f5 01       	movw	r30, r10
+     c5a:	40 81       	ld	r20, Z
+     c5c:	02 96       	adiw	r24, 0x02	; 2
+     c5e:	0e 94 ed 02 	call	0x5da	; 0x5da <place_falling_piece>
+		(*x) += 2;
+     c62:	f6 01       	movw	r30, r12
+     c64:	80 81       	ld	r24, Z
+     c66:	8e 5f       	subi	r24, 0xFE	; 254
+     c68:	80 83       	st	Z, r24
+		(*rotation) = ((*rotation) + 3) & 0x03;
+     c6a:	f8 01       	movw	r30, r16
+     c6c:	80 81       	ld	r24, Z
+     c6e:	8d 5f       	subi	r24, 0xFD	; 253
+     c70:	83 70       	andi	r24, 0x03	; 3
+     c72:	80 83       	st	Z, r24
+		return 1;
+     c74:	55 24       	eor	r5, r5
+     c76:	53 94       	inc	r5
+     c78:	31 c0       	rjmp	.+98     	; 0xcdc <rotate_piece_counterclockwise+0x22e>
+
+	}
+	else if (*piece_type == PIECE_I && *x >(DISPLAY_WIDTH - 3) && can_place_piece((*x) - 2, *y, *piece_type, ((*rotation) + 3) & 0x03))
+     c7a:	f5 e0       	ldi	r31, 0x05	; 5
+     c7c:	f6 15       	cp	r31, r6
+     c7e:	74 f5       	brge	.+92     	; 0xcdc <rotate_piece_counterclockwise+0x22e>
+     c80:	27 2d       	mov	r18, r7
+     c82:	41 e0       	ldi	r20, 0x01	; 1
+     c84:	be 01       	movw	r22, r28
+     c86:	c7 01       	movw	r24, r14
+     c88:	02 97       	sbiw	r24, 0x02	; 2
+     c8a:	0e 94 35 02 	call	0x46a	; 0x46a <can_place_piece>
+     c8e:	58 2e       	mov	r5, r24
+     c90:	88 23       	and	r24, r24
+     c92:	21 f1       	breq	.+72     	; 0xcdc <rotate_piece_counterclockwise+0x22e>
+	{
+		remove_piece(*x, *y, *piece_type, *rotation);
+     c94:	23 2d       	mov	r18, r3
+     c96:	41 e0       	ldi	r20, 0x01	; 1
+     c98:	be 01       	movw	r22, r28
+     c9a:	c7 01       	movw	r24, r14
+     c9c:	0e 94 a9 02 	call	0x552	; 0x552 <remove_piece>
+		place_falling_piece((*x) - 2, *y, *piece_type, ((*rotation) + 3) & 0x03);
+     ca0:	f8 01       	movw	r30, r16
+     ca2:	20 81       	ld	r18, Z
+     ca4:	2d 5f       	subi	r18, 0xFD	; 253
+     ca6:	23 70       	andi	r18, 0x03	; 3
+     ca8:	f4 01       	movw	r30, r8
+     caa:	60 81       	ld	r22, Z
+     cac:	06 2e       	mov	r0, r22
+     cae:	00 0c       	add	r0, r0
+     cb0:	77 0b       	sbc	r23, r23
+     cb2:	f6 01       	movw	r30, r12
+     cb4:	80 81       	ld	r24, Z
+     cb6:	08 2e       	mov	r0, r24
+     cb8:	00 0c       	add	r0, r0
+     cba:	99 0b       	sbc	r25, r25
+     cbc:	f5 01       	movw	r30, r10
+     cbe:	40 81       	ld	r20, Z
+     cc0:	02 97       	sbiw	r24, 0x02	; 2
+     cc2:	0e 94 ed 02 	call	0x5da	; 0x5da <place_falling_piece>
+		(*x) -= 2;
+     cc6:	f6 01       	movw	r30, r12
+     cc8:	80 81       	ld	r24, Z
+     cca:	82 50       	subi	r24, 0x02	; 2
+     ccc:	80 83       	st	Z, r24
+		(*rotation) = ((*rotation) + 3) & 0x03;
+     cce:	f8 01       	movw	r30, r16
+     cd0:	80 81       	ld	r24, Z
+     cd2:	8d 5f       	subi	r24, 0xFD	; 253
+     cd4:	83 70       	andi	r24, 0x03	; 3
+     cd6:	80 83       	st	Z, r24
+		return 1;
+     cd8:	55 24       	eor	r5, r5
+     cda:	53 94       	inc	r5
+	}
+	else
+		return 0;
+}
+     cdc:	85 2d       	mov	r24, r5
+     cde:	df 91       	pop	r29
+     ce0:	cf 91       	pop	r28
+     ce2:	1f 91       	pop	r17
+     ce4:	0f 91       	pop	r16
+     ce6:	ff 90       	pop	r15
+     ce8:	ef 90       	pop	r14
+     cea:	df 90       	pop	r13
+     cec:	cf 90       	pop	r12
+     cee:	bf 90       	pop	r11
+     cf0:	af 90       	pop	r10
+     cf2:	9f 90       	pop	r9
+     cf4:	8f 90       	pop	r8
+     cf6:	7f 90       	pop	r7
+     cf8:	6f 90       	pop	r6
+     cfa:	5f 90       	pop	r5
+     cfc:	4f 90       	pop	r4
+     cfe:	3f 90       	pop	r3
+     d00:	08 95       	ret
+
+00000d02 <check_cleared_rows>:
+	unsigned char rows_to_clear = 0x00;
+	char moving_mask = 0x01;
+	char row_flag;
+	//printf("Called with %d\n",y_cord);
+	//sleep(1);
+	for (y = y_cord; y < (DISPLAY_HEIGHT + HIDDEN_ROWS) && y < (y_cord + PIECE_CONTAINER_SIZE); y++, moving_mask <<= 1)
+     d02:	48 2f       	mov	r20, r24
+     d04:	84 32       	cpi	r24, 0x24	; 36
+     d06:	c4 f5       	brge	.+112    	; 0xd78 <check_cleared_rows+0x76>
+     d08:	28 2f       	mov	r18, r24
+     d0a:	08 2e       	mov	r0, r24
+     d0c:	00 0c       	add	r0, r0
+     d0e:	33 0b       	sbc	r19, r19
+     d10:	68 2f       	mov	r22, r24
+     d12:	70 e0       	ldi	r23, 0x00	; 0
+     d14:	6c 5f       	subi	r22, 0xFC	; 252
+     d16:	7f 4f       	sbci	r23, 0xFF	; 255
+     d18:	26 17       	cp	r18, r22
+     d1a:	37 07       	cpc	r19, r23
+     d1c:	e4 f0       	brlt	.+56     	; 0xd56 <check_cleared_rows+0x54>
+*
+*/
+unsigned char check_cleared_rows(unsigned char y_cord)
+{
+	signed char x, y;
+	unsigned char rows_to_clear = 0x00;
+     d1e:	80 e0       	ldi	r24, 0x00	; 0
+     d20:	08 95       	ret
+	//printf("Called with %d\n",y_cord);
+	//sleep(1);
+	for (y = y_cord; y < (DISPLAY_HEIGHT + HIDDEN_ROWS) && y < (y_cord + PIECE_CONTAINER_SIZE); y++, moving_mask <<= 1)
+	{
+		for (x = 0, row_flag = 1; x < DISPLAY_WIDTH; x++)
+			if ((*board[y])[x].piece_type == NO_PIECE)
+     d22:	fd 01       	movw	r30, r26
+     d24:	e2 0f       	add	r30, r18
+     d26:	f3 1f       	adc	r31, r19
+     d28:	90 81       	ld	r25, Z
+     d2a:	92 95       	swap	r25
+     d2c:	96 95       	lsr	r25
+     d2e:	97 70       	andi	r25, 0x07	; 7
+     d30:	31 f0       	breq	.+12     	; 0xd3e <check_cleared_rows+0x3c>
+     d32:	2f 5f       	subi	r18, 0xFF	; 255
+     d34:	3f 4f       	sbci	r19, 0xFF	; 255
+	char row_flag;
+	//printf("Called with %d\n",y_cord);
+	//sleep(1);
+	for (y = y_cord; y < (DISPLAY_HEIGHT + HIDDEN_ROWS) && y < (y_cord + PIECE_CONTAINER_SIZE); y++, moving_mask <<= 1)
+	{
+		for (x = 0, row_flag = 1; x < DISPLAY_WIDTH; x++)
+     d36:	28 30       	cpi	r18, 0x08	; 8
+     d38:	31 05       	cpc	r19, r1
+     d3a:	99 f7       	brne	.-26     	; 0xd22 <check_cleared_rows+0x20>
+     d3c:	1f c0       	rjmp	.+62     	; 0xd7c <check_cleared_rows+0x7a>
+     d3e:	4f 5f       	subi	r20, 0xFF	; 255
+	unsigned char rows_to_clear = 0x00;
+	char moving_mask = 0x01;
+	char row_flag;
+	//printf("Called with %d\n",y_cord);
+	//sleep(1);
+	for (y = y_cord; y < (DISPLAY_HEIGHT + HIDDEN_ROWS) && y < (y_cord + PIECE_CONTAINER_SIZE); y++, moving_mask <<= 1)
+     d40:	55 0f       	add	r21, r21
+     d42:	44 32       	cpi	r20, 0x24	; 36
+     d44:	e9 f0       	breq	.+58     	; 0xd80 <check_cleared_rows+0x7e>
+     d46:	24 2f       	mov	r18, r20
+     d48:	04 2e       	mov	r0, r20
+     d4a:	00 0c       	add	r0, r0
+     d4c:	33 0b       	sbc	r19, r19
+     d4e:	26 17       	cp	r18, r22
+     d50:	37 07       	cpc	r19, r23
+     d52:	1c f0       	brlt	.+6      	; 0xd5a <check_cleared_rows+0x58>
+     d54:	08 95       	ret
+     d56:	51 e0       	ldi	r21, 0x01	; 1
+     d58:	80 e0       	ldi	r24, 0x00	; 0
+	{
+		for (x = 0, row_flag = 1; x < DISPLAY_WIDTH; x++)
+			if ((*board[y])[x].piece_type == NO_PIECE)
+     d5a:	22 0f       	add	r18, r18
+     d5c:	33 1f       	adc	r19, r19
+     d5e:	f9 01       	movw	r30, r18
+     d60:	ea 5d       	subi	r30, 0xDA	; 218
+     d62:	f9 4f       	sbci	r31, 0xF9	; 249
+     d64:	a0 81       	ld	r26, Z
+     d66:	b1 81       	ldd	r27, Z+1	; 0x01
+     d68:	9c 91       	ld	r25, X
+     d6a:	92 95       	swap	r25
+     d6c:	96 95       	lsr	r25
+     d6e:	97 70       	andi	r25, 0x07	; 7
+     d70:	31 f3       	breq	.-52     	; 0xd3e <check_cleared_rows+0x3c>
+     d72:	21 e0       	ldi	r18, 0x01	; 1
+     d74:	30 e0       	ldi	r19, 0x00	; 0
+     d76:	d5 cf       	rjmp	.-86     	; 0xd22 <check_cleared_rows+0x20>
+*
+*/
+unsigned char check_cleared_rows(unsigned char y_cord)
+{
+	signed char x, y;
+	unsigned char rows_to_clear = 0x00;
+     d78:	80 e0       	ldi	r24, 0x00	; 0
+			}
+		if (row_flag)
+			rows_to_clear |= moving_mask;
+
+	}
+	return rows_to_clear;
+     d7a:	08 95       	ret
+			{
+				row_flag = 0;
+				break;
+			}
+		if (row_flag)
+			rows_to_clear |= moving_mask;
+     d7c:	85 2b       	or	r24, r21
+     d7e:	df cf       	rjmp	.-66     	; 0xd3e <check_cleared_rows+0x3c>
+
+	}
+	return rows_to_clear;
+
+}
+     d80:	08 95       	ret
+
+00000d82 <move_line_to_top>:
+*	 -line_row: the row in the array which will be move to the top row (first hidden row).
+*/
+void move_line_to_top(unsigned char line_row)
+{
+	block_t(*temp_line)[DISPLAY_WIDTH];
+	for (; line_row > 0; --line_row)
+     d82:	88 23       	and	r24, r24
+     d84:	b1 f0       	breq	.+44     	; 0xdb2 <move_line_to_top+0x30>
+	{
+		temp_line = board[line_row];
+     d86:	e8 2f       	mov	r30, r24
+     d88:	f0 e0       	ldi	r31, 0x00	; 0
+     d8a:	df 01       	movw	r26, r30
+     d8c:	aa 0f       	add	r26, r26
+     d8e:	bb 1f       	adc	r27, r27
+     d90:	aa 5d       	subi	r26, 0xDA	; 218
+     d92:	b9 4f       	sbci	r27, 0xF9	; 249
+     d94:	2d 91       	ld	r18, X+
+     d96:	3c 91       	ld	r19, X
+     d98:	11 97       	sbiw	r26, 0x01	; 1
+		board[line_row] = board[line_row - 1];
+     d9a:	ee 0f       	add	r30, r30
+     d9c:	ff 1f       	adc	r31, r31
+     d9e:	ec 5d       	subi	r30, 0xDC	; 220
+     da0:	f9 4f       	sbci	r31, 0xF9	; 249
+     da2:	40 81       	ld	r20, Z
+     da4:	51 81       	ldd	r21, Z+1	; 0x01
+     da6:	4d 93       	st	X+, r20
+     da8:	5c 93       	st	X, r21
+		board[line_row - 1] = temp_line;
+     daa:	31 83       	std	Z+1, r19	; 0x01
+     dac:	20 83       	st	Z, r18
+*	 -line_row: the row in the array which will be move to the top row (first hidden row).
+*/
+void move_line_to_top(unsigned char line_row)
+{
+	block_t(*temp_line)[DISPLAY_WIDTH];
+	for (; line_row > 0; --line_row)
+     dae:	81 50       	subi	r24, 0x01	; 1
+     db0:	51 f7       	brne	.-44     	; 0xd86 <move_line_to_top+0x4>
+     db2:	08 95       	ret
+
+00000db4 <is_game_over>:
+*		0: game is not over
+* The function checks 4 invisible line above playing rows if any block is present then the game is over
+*
+*/
+unsigned char is_game_over(void)
+{
+     db4:	cf 93       	push	r28
+     db6:	df 93       	push	r29
+     db8:	c6 e2       	ldi	r28, 0x26	; 38
+     dba:	d6 e0       	ldi	r29, 0x06	; 6
+     dbc:	4e e2       	ldi	r20, 0x2E	; 46
+     dbe:	56 e0       	ldi	r21, 0x06	; 6
+     dc0:	11 c0       	rjmp	.+34     	; 0xde4 <is_game_over+0x30>
+	int i, j;
+	for (i = 0; i < HIDDEN_ROWS; i++)
+		for (j = 0; j < DISPLAY_WIDTH; j++)
+			if ((*board[i])[j].piece_type != NO_PIECE)
+     dc2:	81 e0       	ldi	r24, 0x01	; 1
+     dc4:	90 e0       	ldi	r25, 0x00	; 0
+     dc6:	fd 01       	movw	r30, r26
+     dc8:	e8 0f       	add	r30, r24
+     dca:	f9 1f       	adc	r31, r25
+     dcc:	20 81       	ld	r18, Z
+     dce:	22 95       	swap	r18
+     dd0:	26 95       	lsr	r18
+     dd2:	27 70       	andi	r18, 0x07	; 7
+     dd4:	81 f4       	brne	.+32     	; 0xdf6 <is_game_over+0x42>
+*/
+unsigned char is_game_over(void)
+{
+	int i, j;
+	for (i = 0; i < HIDDEN_ROWS; i++)
+		for (j = 0; j < DISPLAY_WIDTH; j++)
+     dd6:	01 96       	adiw	r24, 0x01	; 1
+     dd8:	88 30       	cpi	r24, 0x08	; 8
+     dda:	91 05       	cpc	r25, r1
+     ddc:	a1 f7       	brne	.-24     	; 0xdc6 <is_game_over+0x12>
+*
+*/
+unsigned char is_game_over(void)
+{
+	int i, j;
+	for (i = 0; i < HIDDEN_ROWS; i++)
+     dde:	c4 17       	cp	r28, r20
+     de0:	d5 07       	cpc	r29, r21
+     de2:	59 f0       	breq	.+22     	; 0xdfa <is_game_over+0x46>
+		for (j = 0; j < DISPLAY_WIDTH; j++)
+			if ((*board[i])[j].piece_type != NO_PIECE)
+     de4:	a9 91       	ld	r26, Y+
+     de6:	b9 91       	ld	r27, Y+
+     de8:	8c 91       	ld	r24, X
+     dea:	82 95       	swap	r24
+     dec:	86 95       	lsr	r24
+     dee:	87 70       	andi	r24, 0x07	; 7
+     df0:	41 f3       	breq	.-48     	; 0xdc2 <is_game_over+0xe>
+				return 1;
+     df2:	81 e0       	ldi	r24, 0x01	; 1
+     df4:	03 c0       	rjmp	.+6      	; 0xdfc <is_game_over+0x48>
+     df6:	81 e0       	ldi	r24, 0x01	; 1
+     df8:	01 c0       	rjmp	.+2      	; 0xdfc <is_game_over+0x48>
+	return 0;
+     dfa:	80 e0       	ldi	r24, 0x00	; 0
+}
+     dfc:	df 91       	pop	r29
+     dfe:	cf 91       	pop	r28
+     e00:	08 95       	ret
+
+00000e02 <manage_button_down>:
+*	-move_piece_left : moves the active tetris piece left if possible.
+*	-rotate_piece_clockwise : rotates the piece clockwise/right if possible.
+*	-rotate_piece_counterclockwise : rotates the piece counterclockwise/left if possible.
+*/
+void manage_button_down(signed char * x, signed char * y, piece_type_t * piece, rotation_t * rotation, EVENT_T * ev, unsigned char *drop_piece_f, game_states_t * current_state)
+{
+     e02:	8f 92       	push	r8
+     e04:	9f 92       	push	r9
+     e06:	af 92       	push	r10
+     e08:	bf 92       	push	r11
+     e0a:	cf 92       	push	r12
+     e0c:	df 92       	push	r13
+     e0e:	ef 92       	push	r14
+     e10:	ff 92       	push	r15
+     e12:	0f 93       	push	r16
+     e14:	1f 93       	push	r17
+     e16:	cf 93       	push	r28
+     e18:	df 93       	push	r29
+	switch (ev->data)//Possible buttons to press
+     e1a:	d8 01       	movw	r26, r16
+     e1c:	11 96       	adiw	r26, 0x01	; 1
+     e1e:	ec 91       	ld	r30, X
+     e20:	8e 2e       	mov	r8, r30
+     e22:	91 2c       	mov	r9, r1
+     e24:	b7 e0       	ldi	r27, 0x07	; 7
+     e26:	8b 16       	cp	r8, r27
+     e28:	91 04       	cpc	r9, r1
+     e2a:	08 f0       	brcs	.+2      	; 0xe2e <manage_button_down+0x2c>
+     e2c:	4b c0       	rjmp	.+150    	; 0xec4 <manage_button_down+0xc2>
+     e2e:	d6 01       	movw	r26, r12
+     e30:	8b 01       	movw	r16, r22
+     e32:	ec 01       	movw	r28, r24
+     e34:	f4 01       	movw	r30, r8
+     e36:	ec 5c       	subi	r30, 0xCC	; 204
+     e38:	ff 4f       	sbci	r31, 0xFF	; 255
+     e3a:	0c 94 d6 0d 	jmp	0x1bac	; 0x1bac <__tablejump2__>
+	{
+	case JOYSTICK_UP:
+		*drop_piece_f = 1; //Me parece que conviene como un estado pq es muy cabeza como esta pero nose...
+     e3e:	81 e0       	ldi	r24, 0x01	; 1
+     e40:	f7 01       	movw	r30, r14
+     e42:	80 83       	st	Z, r24
+		set_timer_period_ms(TIMER_0, 50); //Lo mas rapido que se banca
+     e44:	62 e3       	ldi	r22, 0x32	; 50
+     e46:	70 e0       	ldi	r23, 0x00	; 0
+     e48:	80 e0       	ldi	r24, 0x00	; 0
+     e4a:	0e 94 5c 00 	call	0xb8	; 0xb8 <set_timer_period_ms>
+		break;
+     e4e:	3a c0       	rjmp	.+116    	; 0xec4 <manage_button_down+0xc2>
+
+	case JOYSTICK_LEFT:
+		if (move_piece_left(*x, *y, *piece, *rotation))
+     e50:	d9 01       	movw	r26, r18
+     e52:	2c 91       	ld	r18, X
+     e54:	fa 01       	movw	r30, r20
+     e56:	40 81       	ld	r20, Z
+     e58:	db 01       	movw	r26, r22
+     e5a:	6c 91       	ld	r22, X
+     e5c:	88 81       	ld	r24, Y
+     e5e:	0e 94 cd 03 	call	0x79a	; 0x79a <move_piece_left>
+     e62:	88 23       	and	r24, r24
+     e64:	79 f1       	breq	.+94     	; 0xec4 <manage_button_down+0xc2>
+			--(*x);
+     e66:	88 81       	ld	r24, Y
+     e68:	81 50       	subi	r24, 0x01	; 1
+     e6a:	88 83       	st	Y, r24
+     e6c:	2b c0       	rjmp	.+86     	; 0xec4 <manage_button_down+0xc2>
+		break;
+
+	case JOYSTICK_DOWN:
+		if (move_piece_down(*x, *y, *piece, *rotation))
+     e6e:	f9 01       	movw	r30, r18
+     e70:	20 81       	ld	r18, Z
+     e72:	da 01       	movw	r26, r20
+     e74:	4c 91       	ld	r20, X
+     e76:	fb 01       	movw	r30, r22
+     e78:	60 81       	ld	r22, Z
+     e7a:	88 81       	ld	r24, Y
+     e7c:	0e 94 9e 03 	call	0x73c	; 0x73c <move_piece_down>
+     e80:	88 23       	and	r24, r24
+     e82:	01 f1       	breq	.+64     	; 0xec4 <manage_button_down+0xc2>
+			++(*y);
+     e84:	d8 01       	movw	r26, r16
+     e86:	8c 91       	ld	r24, X
+     e88:	8f 5f       	subi	r24, 0xFF	; 255
+     e8a:	8c 93       	st	X, r24
+     e8c:	1b c0       	rjmp	.+54     	; 0xec4 <manage_button_down+0xc2>
+		break;
+
+	case JOYSTICK_RIGHT:
+		if (move_piece_right(*x, *y, *piece, *rotation))
+     e8e:	f9 01       	movw	r30, r18
+     e90:	20 81       	ld	r18, Z
+     e92:	da 01       	movw	r26, r20
+     e94:	4c 91       	ld	r20, X
+     e96:	fb 01       	movw	r30, r22
+     e98:	60 81       	ld	r22, Z
+     e9a:	88 81       	ld	r24, Y
+     e9c:	0e 94 fd 03 	call	0x7fa	; 0x7fa <move_piece_right>
+     ea0:	88 23       	and	r24, r24
+     ea2:	81 f0       	breq	.+32     	; 0xec4 <manage_button_down+0xc2>
+			++(*x);
+     ea4:	88 81       	ld	r24, Y
+     ea6:	8f 5f       	subi	r24, 0xFF	; 255
+     ea8:	88 83       	st	Y, r24
+     eaa:	0c c0       	rjmp	.+24     	; 0xec4 <manage_button_down+0xc2>
+		break;
+
+	case ROTATE_COUNT:
+		if (rotate_piece_counterclockwise(x, y, piece, rotation))
+     eac:	0e 94 57 05 	call	0xaae	; 0xaae <rotate_piece_counterclockwise>
+			;
+		break;
+     eb0:	09 c0       	rjmp	.+18     	; 0xec4 <manage_button_down+0xc2>
+
+	case ROTATE_CLOCK:
+		if (rotate_piece_clockwise(x, y, piece, rotation))
+     eb2:	0e 94 2d 04 	call	0x85a	; 0x85a <rotate_piece_clockwise>
+			;
+		break;
+     eb6:	06 c0       	rjmp	.+12     	; 0xec4 <manage_button_down+0xc2>
+
+	case PAUSE: // Pause button
+		if (*y >= 3)
+     eb8:	fb 01       	movw	r30, r22
+     eba:	80 81       	ld	r24, Z
+     ebc:	83 30       	cpi	r24, 0x03	; 3
+     ebe:	14 f0       	brlt	.+4      	; 0xec4 <manage_button_down+0xc2>
+			*current_state = GAME_PAUSED;
+     ec0:	84 e0       	ldi	r24, 0x04	; 4
+     ec2:	8c 93       	st	X, r24
+		break;
+
+	default:
+		break;
+	}
+}
+     ec4:	df 91       	pop	r29
+     ec6:	cf 91       	pop	r28
+     ec8:	1f 91       	pop	r17
+     eca:	0f 91       	pop	r16
+     ecc:	ff 90       	pop	r15
+     ece:	ef 90       	pop	r14
+     ed0:	df 90       	pop	r13
+     ed2:	cf 90       	pop	r12
+     ed4:	bf 90       	pop	r11
+     ed6:	af 90       	pop	r10
+     ed8:	9f 90       	pop	r9
+     eda:	8f 90       	pop	r8
+     edc:	08 95       	ret
+
+00000ede <clear_line>:
+	int x;
+	empty.fall_piece = 0;
+	empty.redraw = 1;
+	empty.piece_type = NO_PIECE;
+
+	for (x = 0; x < DISPLAY_WIDTH; x++)
+     ede:	20 e0       	ldi	r18, 0x00	; 0
+     ee0:	30 e0       	ldi	r19, 0x00	; 0
+		(*board[y_cord])[x] = empty;
+     ee2:	a8 2f       	mov	r26, r24
+     ee4:	b0 e0       	ldi	r27, 0x00	; 0
+     ee6:	aa 0f       	add	r26, r26
+     ee8:	bb 1f       	adc	r27, r27
+     eea:	aa 5d       	subi	r26, 0xDA	; 218
+     eec:	b9 4f       	sbci	r27, 0xF9	; 249
+     eee:	ed 91       	ld	r30, X+
+     ef0:	fc 91       	ld	r31, X
+     ef2:	11 97       	sbiw	r26, 0x01	; 1
+     ef4:	e2 0f       	add	r30, r18
+     ef6:	f3 1f       	adc	r31, r19
+     ef8:	90 81       	ld	r25, Z
+     efa:	9c 71       	andi	r25, 0x1C	; 28
+     efc:	92 60       	ori	r25, 0x02	; 2
+     efe:	90 83       	st	Z, r25
+	int x;
+	empty.fall_piece = 0;
+	empty.redraw = 1;
+	empty.piece_type = NO_PIECE;
+
+	for (x = 0; x < DISPLAY_WIDTH; x++)
+     f00:	2f 5f       	subi	r18, 0xFF	; 255
+     f02:	3f 4f       	sbci	r19, 0xFF	; 255
+     f04:	28 30       	cpi	r18, 0x08	; 8
+     f06:	31 05       	cpc	r19, r1
+     f08:	91 f7       	brne	.-28     	; 0xeee <clear_line+0x10>
+		(*board[y_cord])[x] = empty;
+}
+     f0a:	08 95       	ret
+
+00000f0c <move_line_up>:
+
+void move_line_up(unsigned char y_cord)
+{
+	block_t(*temp_line)[DISPLAY_WIDTH];
+	temp_line = board[y_cord];
+     f0c:	e8 2f       	mov	r30, r24
+     f0e:	f0 e0       	ldi	r31, 0x00	; 0
+     f10:	df 01       	movw	r26, r30
+     f12:	aa 0f       	add	r26, r26
+     f14:	bb 1f       	adc	r27, r27
+     f16:	aa 5d       	subi	r26, 0xDA	; 218
+     f18:	b9 4f       	sbci	r27, 0xF9	; 249
+     f1a:	8d 91       	ld	r24, X+
+     f1c:	9c 91       	ld	r25, X
+     f1e:	11 97       	sbiw	r26, 0x01	; 1
+	board[y_cord] = board[y_cord - 1];
+     f20:	ee 0f       	add	r30, r30
+     f22:	ff 1f       	adc	r31, r31
+     f24:	ec 5d       	subi	r30, 0xDC	; 220
+     f26:	f9 4f       	sbci	r31, 0xF9	; 249
+     f28:	20 81       	ld	r18, Z
+     f2a:	31 81       	ldd	r19, Z+1	; 0x01
+     f2c:	2d 93       	st	X+, r18
+     f2e:	3c 93       	st	X, r19
+	board[y_cord - 1] = temp_line;
+     f30:	91 83       	std	Z+1, r25	; 0x01
+     f32:	80 83       	st	Z, r24
+     f34:	08 95       	ret
+
+00000f36 <place_piece_line>:
+	int x;
+	block_t piece_block;
+	piece_block.fall_piece = 0;
+	piece_block.redraw = 1;
+	piece_block.piece_type = piece;
+	for (x = 0; x < DISPLAY_WIDTH; x++)
+     f36:	20 e0       	ldi	r18, 0x00	; 0
+     f38:	30 e0       	ldi	r19, 0x00	; 0
+		(*board[y_cord])[x] = piece_block;
+     f3a:	a8 2f       	mov	r26, r24
+     f3c:	b0 e0       	ldi	r27, 0x00	; 0
+     f3e:	aa 0f       	add	r26, r26
+     f40:	bb 1f       	adc	r27, r27
+     f42:	aa 5d       	subi	r26, 0xDA	; 218
+     f44:	b9 4f       	sbci	r27, 0xF9	; 249
+     f46:	62 95       	swap	r22
+     f48:	66 0f       	add	r22, r22
+     f4a:	60 7e       	andi	r22, 0xE0	; 224
+     f4c:	ed 91       	ld	r30, X+
+     f4e:	fc 91       	ld	r31, X
+     f50:	11 97       	sbiw	r26, 0x01	; 1
+     f52:	e2 0f       	add	r30, r18
+     f54:	f3 1f       	adc	r31, r19
+     f56:	90 81       	ld	r25, Z
+     f58:	9c 71       	andi	r25, 0x1C	; 28
+     f5a:	92 60       	ori	r25, 0x02	; 2
+     f5c:	96 2b       	or	r25, r22
+     f5e:	90 83       	st	Z, r25
+	int x;
+	block_t piece_block;
+	piece_block.fall_piece = 0;
+	piece_block.redraw = 1;
+	piece_block.piece_type = piece;
+	for (x = 0; x < DISPLAY_WIDTH; x++)
+     f60:	2f 5f       	subi	r18, 0xFF	; 255
+     f62:	3f 4f       	sbci	r19, 0xFF	; 255
+     f64:	28 30       	cpi	r18, 0x08	; 8
+     f66:	31 05       	cpc	r19, r1
+     f68:	89 f7       	brne	.-30     	; 0xf4c <place_piece_line+0x16>
+		(*board[y_cord])[x] = piece_block;
+}
+     f6a:	08 95       	ret
+
+00000f6c <set_row_redraw>:
+
+void set_row_redraw(unsigned char y_cord)
+{
+	int x;
+	for (x = 0; x < DISPLAY_WIDTH; x++)
+     f6c:	20 e0       	ldi	r18, 0x00	; 0
+     f6e:	30 e0       	ldi	r19, 0x00	; 0
+		(*board[y_cord])[x].redraw = 1;
+     f70:	a8 2f       	mov	r26, r24
+     f72:	b0 e0       	ldi	r27, 0x00	; 0
+     f74:	aa 0f       	add	r26, r26
+     f76:	bb 1f       	adc	r27, r27
+     f78:	aa 5d       	subi	r26, 0xDA	; 218
+     f7a:	b9 4f       	sbci	r27, 0xF9	; 249
+     f7c:	ed 91       	ld	r30, X+
+     f7e:	fc 91       	ld	r31, X
+     f80:	11 97       	sbiw	r26, 0x01	; 1
+     f82:	e2 0f       	add	r30, r18
+     f84:	f3 1f       	adc	r31, r19
+     f86:	90 81       	ld	r25, Z
+     f88:	92 60       	ori	r25, 0x02	; 2
+     f8a:	90 83       	st	Z, r25
+}
+
+void set_row_redraw(unsigned char y_cord)
+{
+	int x;
+	for (x = 0; x < DISPLAY_WIDTH; x++)
+     f8c:	2f 5f       	subi	r18, 0xFF	; 255
+     f8e:	3f 4f       	sbci	r19, 0xFF	; 255
+     f90:	28 30       	cpi	r18, 0x08	; 8
+     f92:	31 05       	cpc	r19, r1
+     f94:	99 f7       	brne	.-26     	; 0xf7c <set_row_redraw+0x10>
+		(*board[y_cord])[x].redraw = 1;
+}
+     f96:	08 95       	ret
+
+00000f98 <game_end_animation>:
+	}
+}
+
+
+unsigned char game_end_animation(signed char * y, piece_type_t last_piece_placed)
+{
+     f98:	cf 93       	push	r28
+     f9a:	df 93       	push	r29
+     f9c:	ec 01       	movw	r28, r24
+	static unsigned char first_call = 1;
+	unsigned char animation_finished = 0; //bool
+	if (first_call)
+     f9e:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <first_call.2438>
+     fa2:	88 23       	and	r24, r24
+     fa4:	69 f0       	breq	.+26     	; 0xfc0 <game_end_animation+0x28>
+	{
+		*y = DISPLAY_HEIGHT + HIDDEN_ROWS - 1;
+     fa6:	83 e2       	ldi	r24, 0x23	; 35
+     fa8:	88 83       	st	Y, r24
+		place_piece_line(*y, last_piece_placed);
+     faa:	0e 94 9b 07 	call	0xf36	; 0xf36 <place_piece_line>
+		set_timer_period_ms(TIMER_0, GAME_END_ANI_SPEED);
+     fae:	6b e4       	ldi	r22, 0x4B	; 75
+     fb0:	70 e0       	ldi	r23, 0x00	; 0
+     fb2:	80 e0       	ldi	r24, 0x00	; 0
+     fb4:	0e 94 5c 00 	call	0xb8	; 0xb8 <set_timer_period_ms>
+		first_call = 0;
+     fb8:	10 92 05 01 	sts	0x0105, r1	; 0x800105 <first_call.2438>
+
+
+unsigned char game_end_animation(signed char * y, piece_type_t last_piece_placed)
+{
+	static unsigned char first_call = 1;
+	unsigned char animation_finished = 0; //bool
+     fbc:	80 e0       	ldi	r24, 0x00	; 0
+     fbe:	15 c0       	rjmp	.+42     	; 0xfea <game_end_animation+0x52>
+		set_timer_period_ms(TIMER_0, GAME_END_ANI_SPEED);
+		first_call = 0;
+	}
+	else
+	{
+		if (*y > 0)
+     fc0:	88 81       	ld	r24, Y
+     fc2:	18 16       	cp	r1, r24
+     fc4:	7c f4       	brge	.+30     	; 0xfe4 <game_end_animation+0x4c>
+		{
+			clear_line((*y) - 1);
+     fc6:	81 50       	subi	r24, 0x01	; 1
+     fc8:	0e 94 6f 07 	call	0xede	; 0xede <clear_line>
+			move_line_up(*y);
+     fcc:	88 81       	ld	r24, Y
+     fce:	0e 94 86 07 	call	0xf0c	; 0xf0c <move_line_up>
+			set_row_redraw((*y) - 1);
+     fd2:	88 81       	ld	r24, Y
+     fd4:	81 50       	subi	r24, 0x01	; 1
+     fd6:	0e 94 b6 07 	call	0xf6c	; 0xf6c <set_row_redraw>
+			--(*y);
+     fda:	88 81       	ld	r24, Y
+     fdc:	81 50       	subi	r24, 0x01	; 1
+     fde:	88 83       	st	Y, r24
+
+
+unsigned char game_end_animation(signed char * y, piece_type_t last_piece_placed)
+{
+	static unsigned char first_call = 1;
+	unsigned char animation_finished = 0; //bool
+     fe0:	80 e0       	ldi	r24, 0x00	; 0
+     fe2:	03 c0       	rjmp	.+6      	; 0xfea <game_end_animation+0x52>
+			set_row_redraw((*y) - 1);
+			--(*y);
+		}
+		else
+		{
+			first_call = 1;
+     fe4:	81 e0       	ldi	r24, 0x01	; 1
+     fe6:	80 93 05 01 	sts	0x0105, r24	; 0x800105 <first_call.2438>
+			animation_finished = 1; // true
+		}
+	}
+	return animation_finished;
+}
+     fea:	df 91       	pop	r29
+     fec:	cf 91       	pop	r28
+     fee:	08 95       	ret
+
+00000ff0 <clearing_row_animation>:
+	for (x = 0; x < DISPLAY_WIDTH; x++)
+		(*board[y_cord])[x].redraw = 1;
+}
+
+unsigned char clearing_row_animation(signed char y, unsigned char cleared_rows, unsigned long int * score)
+{
+     ff0:	ef 92       	push	r14
+     ff2:	ff 92       	push	r15
+     ff4:	0f 93       	push	r16
+     ff6:	1f 93       	push	r17
+     ff8:	cf 93       	push	r28
+     ffa:	df 93       	push	r29
+	block_t(*temp_line)[DISPLAY_WIDTH];
+	block_t empty;
+	empty.fall_piece = 0;
+	empty.piece_type = NO_PIECE;
+	empty.redraw = 1;
+	if (number_blinks_clear-- > 0)
+     ffc:	90 91 04 01 	lds	r25, 0x0104	; 0x800104 <number_blinks_clear.2473>
+    1000:	2f ef       	ldi	r18, 0xFF	; 255
+    1002:	29 0f       	add	r18, r25
+    1004:	20 93 04 01 	sts	0x0104, r18	; 0x800104 <number_blinks_clear.2473>
+    1008:	99 23       	and	r25, r25
+    100a:	81 f1       	breq	.+96     	; 0x106c <clearing_row_animation+0x7c>
+    100c:	88 0f       	add	r24, r24
+    100e:	99 0b       	sbc	r25, r25
+    1010:	ac 01       	movw	r20, r24
+    1012:	4a 5d       	subi	r20, 0xDA	; 218
+    1014:	59 4f       	sbci	r21, 0xF9	; 249
+    1016:	c6 e2       	ldi	r28, 0x26	; 38
+    1018:	d6 e0       	ldi	r29, 0x06	; 6
+    101a:	0e e2       	ldi	r16, 0x2E	; 46
+    101c:	16 e0       	ldi	r17, 0x06	; 6
+    101e:	81 e0       	ldi	r24, 0x01	; 1
+	{
+		for (j = 0, moving_mask = 0x01; j < PIECE_CONTAINER_SIZE; j++, moving_mask <<= 1)
+			if (cleared_rows & moving_mask)
+    1020:	96 2f       	mov	r25, r22
+    1022:	98 23       	and	r25, r24
+    1024:	d1 f0       	breq	.+52     	; 0x105a <clearing_row_animation+0x6a>
+    1026:	da 01       	movw	r26, r20
+			{
+				temp_line = board[y + j];
+    1028:	2d 91       	ld	r18, X+
+    102a:	3c 91       	ld	r19, X
+    102c:	11 97       	sbiw	r26, 0x01	; 1
+				board[y + j] = board[j];
+    102e:	e8 80       	ld	r14, Y
+    1030:	f9 80       	ldd	r15, Y+1	; 0x01
+    1032:	11 96       	adiw	r26, 0x01	; 1
+    1034:	fc 92       	st	X, r15
+    1036:	ee 92       	st	-X, r14
+				board[j] = temp_line;
+    1038:	39 83       	std	Y+1, r19	; 0x01
+    103a:	28 83       	st	Y, r18
+    103c:	20 e0       	ldi	r18, 0x00	; 0
+    103e:	30 e0       	ldi	r19, 0x00	; 0
+				for (i = 0; i <DISPLAY_WIDTH; i++)
+					(*board[y + j])[i].redraw = 1;
+    1040:	ed 91       	ld	r30, X+
+    1042:	fc 91       	ld	r31, X
+    1044:	11 97       	sbiw	r26, 0x01	; 1
+    1046:	e2 0f       	add	r30, r18
+    1048:	f3 1f       	adc	r31, r19
+    104a:	90 81       	ld	r25, Z
+    104c:	92 60       	ori	r25, 0x02	; 2
+    104e:	90 83       	st	Z, r25
+    1050:	2f 5f       	subi	r18, 0xFF	; 255
+    1052:	3f 4f       	sbci	r19, 0xFF	; 255
+			if (cleared_rows & moving_mask)
+			{
+				temp_line = board[y + j];
+				board[y + j] = board[j];
+				board[j] = temp_line;
+				for (i = 0; i <DISPLAY_WIDTH; i++)
+    1054:	28 30       	cpi	r18, 0x08	; 8
+    1056:	31 05       	cpc	r19, r1
+    1058:	99 f7       	brne	.-26     	; 0x1040 <clearing_row_animation+0x50>
+	empty.fall_piece = 0;
+	empty.piece_type = NO_PIECE;
+	empty.redraw = 1;
+	if (number_blinks_clear-- > 0)
+	{
+		for (j = 0, moving_mask = 0x01; j < PIECE_CONTAINER_SIZE; j++, moving_mask <<= 1)
+    105a:	88 0f       	add	r24, r24
+    105c:	4e 5f       	subi	r20, 0xFE	; 254
+    105e:	5f 4f       	sbci	r21, 0xFF	; 255
+    1060:	22 96       	adiw	r28, 0x02	; 2
+    1062:	c0 17       	cp	r28, r16
+    1064:	d1 07       	cpc	r29, r17
+    1066:	e1 f6       	brne	.-72     	; 0x1020 <clearing_row_animation+0x30>
+
+unsigned char clearing_row_animation(signed char y, unsigned char cleared_rows, unsigned long int * score)
+{
+	static unsigned char number_blinks_clear = NUM_BLINK_CLR_LINE, lines_cleared = 0;
+
+	unsigned char i, j, moving_mask, animation_finished = 0;
+    1068:	80 e0       	ldi	r24, 0x00	; 0
+    106a:	5c c0       	rjmp	.+184    	; 0x1124 <clearing_row_animation+0x134>
+    106c:	a6 e2       	ldi	r26, 0x26	; 38
+    106e:	b6 e0       	ldi	r27, 0x06	; 6
+    1070:	c8 2f       	mov	r28, r24
+    1072:	cc 0f       	add	r28, r28
+    1074:	dd 0b       	sbc	r29, r29
+    1076:	ca 5d       	subi	r28, 0xDA	; 218
+    1078:	d9 4f       	sbci	r29, 0xF9	; 249
+    107a:	0e e2       	ldi	r16, 0x2E	; 46
+    107c:	16 e0       	ldi	r17, 0x06	; 6
+	block_t(*temp_line)[DISPLAY_WIDTH];
+	block_t empty;
+	empty.fall_piece = 0;
+	empty.piece_type = NO_PIECE;
+	empty.redraw = 1;
+	if (number_blinks_clear-- > 0)
+    107e:	71 e0       	ldi	r23, 0x01	; 1
+			}
+	}
+	else
+	{
+		for (j = 0, moving_mask = 0x01; j < PIECE_CONTAINER_SIZE; j++, moving_mask <<= 1)
+			if (cleared_rows & moving_mask)
+    1080:	96 2f       	mov	r25, r22
+    1082:	97 23       	and	r25, r23
+    1084:	c1 f0       	breq	.+48     	; 0x10b6 <clearing_row_animation+0xc6>
+    1086:	20 e0       	ldi	r18, 0x00	; 0
+    1088:	30 e0       	ldi	r19, 0x00	; 0
+				for (i = 0; i < DISPLAY_WIDTH; i++)
+				{
+					(*board[j])[i] = empty;
+    108a:	ed 91       	ld	r30, X+
+    108c:	fc 91       	ld	r31, X
+    108e:	11 97       	sbiw	r26, 0x01	; 1
+    1090:	e2 0f       	add	r30, r18
+    1092:	f3 1f       	adc	r31, r19
+    1094:	90 81       	ld	r25, Z
+    1096:	9c 71       	andi	r25, 0x1C	; 28
+    1098:	92 60       	ori	r25, 0x02	; 2
+    109a:	90 83       	st	Z, r25
+					(*board[y + j])[i] = empty;
+    109c:	e8 81       	ld	r30, Y
+    109e:	f9 81       	ldd	r31, Y+1	; 0x01
+    10a0:	e2 0f       	add	r30, r18
+    10a2:	f3 1f       	adc	r31, r19
+    10a4:	90 81       	ld	r25, Z
+    10a6:	9c 71       	andi	r25, 0x1C	; 28
+    10a8:	92 60       	ori	r25, 0x02	; 2
+    10aa:	90 83       	st	Z, r25
+    10ac:	2f 5f       	subi	r18, 0xFF	; 255
+    10ae:	3f 4f       	sbci	r19, 0xFF	; 255
+	}
+	else
+	{
+		for (j = 0, moving_mask = 0x01; j < PIECE_CONTAINER_SIZE; j++, moving_mask <<= 1)
+			if (cleared_rows & moving_mask)
+				for (i = 0; i < DISPLAY_WIDTH; i++)
+    10b0:	28 30       	cpi	r18, 0x08	; 8
+    10b2:	31 05       	cpc	r19, r1
+    10b4:	51 f7       	brne	.-44     	; 0x108a <clearing_row_animation+0x9a>
+				//(*board[j])[i].redraw = 1; // No se ve no tiene sentido redraw
+			}
+	}
+	else
+	{
+		for (j = 0, moving_mask = 0x01; j < PIECE_CONTAINER_SIZE; j++, moving_mask <<= 1)
+    10b6:	77 0f       	add	r23, r23
+    10b8:	12 96       	adiw	r26, 0x02	; 2
+    10ba:	22 96       	adiw	r28, 0x02	; 2
+    10bc:	0a 17       	cp	r16, r26
+    10be:	1b 07       	cpc	r17, r27
+    10c0:	f9 f6       	brne	.-66     	; 0x1080 <clearing_row_animation+0x90>
+    10c2:	7a 01       	movw	r14, r20
+    10c4:	c6 2f       	mov	r28, r22
+    10c6:	d8 2f       	mov	r29, r24
+    10c8:	04 e0       	ldi	r16, 0x04	; 4
+    10ca:	08 0f       	add	r16, r24
+    10cc:	11 e0       	ldi	r17, 0x01	; 1
+					(*board[j])[i] = empty;
+					(*board[y + j])[i] = empty;
+				}
+		//Soy tonto y no lo pude optimizar habria que verlo pero paja anda...
+		for (j = 0, moving_mask = 0x01; j < 4; j++, moving_mask <<= 1)
+			if (cleared_rows & moving_mask)
+    10ce:	8c 2f       	mov	r24, r28
+    10d0:	81 23       	and	r24, r17
+    10d2:	41 f0       	breq	.+16     	; 0x10e4 <clearing_row_animation+0xf4>
+			{
+				move_line_to_top(y + j);
+    10d4:	8d 2f       	mov	r24, r29
+    10d6:	0e 94 c1 06 	call	0xd82	; 0xd82 <move_line_to_top>
+				++lines_cleared;
+    10da:	80 91 b4 04 	lds	r24, 0x04B4	; 0x8004b4 <lines_cleared.2474>
+    10de:	8f 5f       	subi	r24, 0xFF	; 255
+    10e0:	80 93 b4 04 	sts	0x04B4, r24	; 0x8004b4 <lines_cleared.2474>
+				{
+					(*board[j])[i] = empty;
+					(*board[y + j])[i] = empty;
+				}
+		//Soy tonto y no lo pude optimizar habria que verlo pero paja anda...
+		for (j = 0, moving_mask = 0x01; j < 4; j++, moving_mask <<= 1)
+    10e4:	11 0f       	add	r17, r17
+    10e6:	df 5f       	subi	r29, 0xFF	; 255
+    10e8:	d0 13       	cpse	r29, r16
+    10ea:	f1 cf       	rjmp	.-30     	; 0x10ce <clearing_row_animation+0xde>
+			{
+				move_line_to_top(y + j);
+				++lines_cleared;
+			}
+
+		*score += score_per_line_cleared[lines_cleared];
+    10ec:	e0 91 b4 04 	lds	r30, 0x04B4	; 0x8004b4 <lines_cleared.2474>
+    10f0:	f0 e0       	ldi	r31, 0x00	; 0
+    10f2:	ee 0f       	add	r30, r30
+    10f4:	ff 1f       	adc	r31, r31
+    10f6:	ea 5d       	subi	r30, 0xDA	; 218
+    10f8:	fe 4f       	sbci	r31, 0xFE	; 254
+    10fa:	20 81       	ld	r18, Z
+    10fc:	31 81       	ldd	r19, Z+1	; 0x01
+    10fe:	f7 01       	movw	r30, r14
+    1100:	80 81       	ld	r24, Z
+    1102:	91 81       	ldd	r25, Z+1	; 0x01
+    1104:	a2 81       	ldd	r26, Z+2	; 0x02
+    1106:	b3 81       	ldd	r27, Z+3	; 0x03
+    1108:	82 0f       	add	r24, r18
+    110a:	93 1f       	adc	r25, r19
+    110c:	a1 1d       	adc	r26, r1
+    110e:	b1 1d       	adc	r27, r1
+    1110:	80 83       	st	Z, r24
+    1112:	91 83       	std	Z+1, r25	; 0x01
+    1114:	a2 83       	std	Z+2, r26	; 0x02
+    1116:	b3 83       	std	Z+3, r27	; 0x03
+		animation_finished = 1;
+		lines_cleared = 0, number_blinks_clear = NUM_BLINK_CLR_LINE;
+    1118:	10 92 b4 04 	sts	0x04B4, r1	; 0x8004b4 <lines_cleared.2474>
+    111c:	83 e0       	ldi	r24, 0x03	; 3
+    111e:	80 93 04 01 	sts	0x0104, r24	; 0x800104 <number_blinks_clear.2473>
+				move_line_to_top(y + j);
+				++lines_cleared;
+			}
+
+		*score += score_per_line_cleared[lines_cleared];
+		animation_finished = 1;
+    1122:	81 e0       	ldi	r24, 0x01	; 1
+		lines_cleared = 0, number_blinks_clear = NUM_BLINK_CLR_LINE;
+	}
+	return animation_finished;
+
+}
+    1124:	df 91       	pop	r29
+    1126:	cf 91       	pop	r28
+    1128:	1f 91       	pop	r17
+    112a:	0f 91       	pop	r16
+    112c:	ff 90       	pop	r15
+    112e:	ef 90       	pop	r14
+    1130:	08 95       	ret
+
+00001132 <draw_letter_t>:
+{
+	block_t piece_block;
+	piece_block.fall_piece = 0;
+	piece_block.redraw = 1;
+	piece_block.piece_type = (unsigned int)piece;
+	(*board[y])[x] = piece_block;
+    1132:	06 2e       	mov	r0, r22
+    1134:	00 0c       	add	r0, r0
+    1136:	77 0b       	sbc	r23, r23
+    1138:	fb 01       	movw	r30, r22
+    113a:	ee 0f       	add	r30, r30
+    113c:	ff 1f       	adc	r31, r31
+    113e:	ea 5d       	subi	r30, 0xDA	; 218
+    1140:	f9 4f       	sbci	r31, 0xF9	; 249
+    1142:	a0 81       	ld	r26, Z
+    1144:	b1 81       	ldd	r27, Z+1	; 0x01
+    1146:	04 2e       	mov	r0, r20
+    1148:	00 0c       	add	r0, r0
+    114a:	55 0b       	sbc	r21, r21
+    114c:	a4 0f       	add	r26, r20
+    114e:	b5 1f       	adc	r27, r21
+    1150:	9c 91       	ld	r25, X
+    1152:	9c 71       	andi	r25, 0x1C	; 28
+    1154:	82 95       	swap	r24
+    1156:	88 0f       	add	r24, r24
+    1158:	80 7e       	andi	r24, 0xE0	; 224
+    115a:	92 60       	ori	r25, 0x02	; 2
+    115c:	98 2b       	or	r25, r24
+    115e:	9c 93       	st	X, r25
+	(*board[y])[x + 1] = piece_block;
+    1160:	a0 81       	ld	r26, Z
+    1162:	b1 81       	ldd	r27, Z+1	; 0x01
+    1164:	9a 01       	movw	r18, r20
+    1166:	2f 5f       	subi	r18, 0xFF	; 255
+    1168:	3f 4f       	sbci	r19, 0xFF	; 255
+    116a:	a2 0f       	add	r26, r18
+    116c:	b3 1f       	adc	r27, r19
+    116e:	9c 91       	ld	r25, X
+    1170:	9c 71       	andi	r25, 0x1C	; 28
+    1172:	92 60       	ori	r25, 0x02	; 2
+    1174:	98 2b       	or	r25, r24
+    1176:	9c 93       	st	X, r25
+	(*board[y])[x + 2] = piece_block;
+    1178:	a0 81       	ld	r26, Z
+    117a:	b1 81       	ldd	r27, Z+1	; 0x01
+    117c:	4e 5f       	subi	r20, 0xFE	; 254
+    117e:	5f 4f       	sbci	r21, 0xFF	; 255
+    1180:	a4 0f       	add	r26, r20
+    1182:	b5 1f       	adc	r27, r21
+    1184:	9c 91       	ld	r25, X
+    1186:	9c 71       	andi	r25, 0x1C	; 28
+    1188:	92 60       	ori	r25, 0x02	; 2
+    118a:	98 2b       	or	r25, r24
+    118c:	9c 93       	st	X, r25
+	(*board[y + 1])[x + 1] = piece_block;
+    118e:	fb 01       	movw	r30, r22
+    1190:	ee 0f       	add	r30, r30
+    1192:	ff 1f       	adc	r31, r31
+    1194:	e8 5d       	subi	r30, 0xD8	; 216
+    1196:	f9 4f       	sbci	r31, 0xF9	; 249
+    1198:	01 90       	ld	r0, Z+
+    119a:	f0 81       	ld	r31, Z
+    119c:	e0 2d       	mov	r30, r0
+    119e:	e2 0f       	add	r30, r18
+    11a0:	f3 1f       	adc	r31, r19
+    11a2:	90 81       	ld	r25, Z
+    11a4:	9c 71       	andi	r25, 0x1C	; 28
+    11a6:	92 60       	ori	r25, 0x02	; 2
+    11a8:	98 2b       	or	r25, r24
+    11aa:	90 83       	st	Z, r25
+	(*board[y + 2])[x + 1] = piece_block;
+    11ac:	fb 01       	movw	r30, r22
+    11ae:	ee 0f       	add	r30, r30
+    11b0:	ff 1f       	adc	r31, r31
+    11b2:	e6 5d       	subi	r30, 0xD6	; 214
+    11b4:	f9 4f       	sbci	r31, 0xF9	; 249
+    11b6:	01 90       	ld	r0, Z+
+    11b8:	f0 81       	ld	r31, Z
+    11ba:	e0 2d       	mov	r30, r0
+    11bc:	e2 0f       	add	r30, r18
+    11be:	f3 1f       	adc	r31, r19
+    11c0:	90 81       	ld	r25, Z
+    11c2:	9c 71       	andi	r25, 0x1C	; 28
+    11c4:	92 60       	ori	r25, 0x02	; 2
+    11c6:	98 2b       	or	r25, r24
+    11c8:	90 83       	st	Z, r25
+	(*board[y + 3])[x + 1] = piece_block;
+    11ca:	fb 01       	movw	r30, r22
+    11cc:	ee 0f       	add	r30, r30
+    11ce:	ff 1f       	adc	r31, r31
+    11d0:	e4 5d       	subi	r30, 0xD4	; 212
+    11d2:	f9 4f       	sbci	r31, 0xF9	; 249
+    11d4:	01 90       	ld	r0, Z+
+    11d6:	f0 81       	ld	r31, Z
+    11d8:	e0 2d       	mov	r30, r0
+    11da:	e2 0f       	add	r30, r18
+    11dc:	f3 1f       	adc	r31, r19
+    11de:	90 81       	ld	r25, Z
+    11e0:	9c 71       	andi	r25, 0x1C	; 28
+    11e2:	92 60       	ori	r25, 0x02	; 2
+    11e4:	98 2b       	or	r25, r24
+    11e6:	90 83       	st	Z, r25
+	(*board[y + 4])[x + 1] = piece_block;
+    11e8:	66 0f       	add	r22, r22
+    11ea:	77 1f       	adc	r23, r23
+    11ec:	fb 01       	movw	r30, r22
+    11ee:	e2 5d       	subi	r30, 0xD2	; 210
+    11f0:	f9 4f       	sbci	r31, 0xF9	; 249
+    11f2:	01 90       	ld	r0, Z+
+    11f4:	f0 81       	ld	r31, Z
+    11f6:	e0 2d       	mov	r30, r0
+    11f8:	e2 0f       	add	r30, r18
+    11fa:	f3 1f       	adc	r31, r19
+    11fc:	90 81       	ld	r25, Z
+    11fe:	9c 71       	andi	r25, 0x1C	; 28
+    1200:	92 60       	ori	r25, 0x02	; 2
+    1202:	89 2b       	or	r24, r25
+    1204:	80 83       	st	Z, r24
+    1206:	08 95       	ret
+
+00001208 <draw_letter_e>:
+
+}
+
+void draw_letter_e(piece_type_t piece, signed char y, signed char x)
+{
+    1208:	cf 93       	push	r28
+    120a:	df 93       	push	r29
+	block_t piece_block;
+	piece_block.fall_piece = 0;
+	piece_block.redraw = 1;
+	piece_block.piece_type = piece;
+
+	(*board[y])[x] = piece_block;
+    120c:	06 2e       	mov	r0, r22
+    120e:	00 0c       	add	r0, r0
+    1210:	77 0b       	sbc	r23, r23
+    1212:	fb 01       	movw	r30, r22
+    1214:	ee 0f       	add	r30, r30
+    1216:	ff 1f       	adc	r31, r31
+    1218:	ea 5d       	subi	r30, 0xDA	; 218
+    121a:	f9 4f       	sbci	r31, 0xF9	; 249
+    121c:	a0 81       	ld	r26, Z
+    121e:	b1 81       	ldd	r27, Z+1	; 0x01
+    1220:	04 2e       	mov	r0, r20
+    1222:	00 0c       	add	r0, r0
+    1224:	55 0b       	sbc	r21, r21
+    1226:	a4 0f       	add	r26, r20
+    1228:	b5 1f       	adc	r27, r21
+    122a:	9c 91       	ld	r25, X
+    122c:	9c 71       	andi	r25, 0x1C	; 28
+    122e:	82 95       	swap	r24
+    1230:	88 0f       	add	r24, r24
+    1232:	80 7e       	andi	r24, 0xE0	; 224
+    1234:	92 60       	ori	r25, 0x02	; 2
+    1236:	98 2b       	or	r25, r24
+    1238:	9c 93       	st	X, r25
+	(*board[y])[x + 1] = piece_block;
+    123a:	a0 81       	ld	r26, Z
+    123c:	b1 81       	ldd	r27, Z+1	; 0x01
+    123e:	ea 01       	movw	r28, r20
+    1240:	21 96       	adiw	r28, 0x01	; 1
+    1242:	ac 0f       	add	r26, r28
+    1244:	bd 1f       	adc	r27, r29
+    1246:	9c 91       	ld	r25, X
+    1248:	9c 71       	andi	r25, 0x1C	; 28
+    124a:	92 60       	ori	r25, 0x02	; 2
+    124c:	98 2b       	or	r25, r24
+    124e:	9c 93       	st	X, r25
+	(*board[y])[x + 2] = piece_block;
+    1250:	01 90       	ld	r0, Z+
+    1252:	f0 81       	ld	r31, Z
+    1254:	e0 2d       	mov	r30, r0
+    1256:	9a 01       	movw	r18, r20
+    1258:	2e 5f       	subi	r18, 0xFE	; 254
+    125a:	3f 4f       	sbci	r19, 0xFF	; 255
+    125c:	e2 0f       	add	r30, r18
+    125e:	f3 1f       	adc	r31, r19
+    1260:	90 81       	ld	r25, Z
+    1262:	9c 71       	andi	r25, 0x1C	; 28
+    1264:	92 60       	ori	r25, 0x02	; 2
+    1266:	98 2b       	or	r25, r24
+    1268:	90 83       	st	Z, r25
+
+	(*board[y + 1])[x] = piece_block;
+    126a:	fb 01       	movw	r30, r22
+    126c:	ee 0f       	add	r30, r30
+    126e:	ff 1f       	adc	r31, r31
+    1270:	e8 5d       	subi	r30, 0xD8	; 216
+    1272:	f9 4f       	sbci	r31, 0xF9	; 249
+    1274:	01 90       	ld	r0, Z+
+    1276:	f0 81       	ld	r31, Z
+    1278:	e0 2d       	mov	r30, r0
+    127a:	e4 0f       	add	r30, r20
+    127c:	f5 1f       	adc	r31, r21
+    127e:	90 81       	ld	r25, Z
+    1280:	9c 71       	andi	r25, 0x1C	; 28
+    1282:	92 60       	ori	r25, 0x02	; 2
+    1284:	98 2b       	or	r25, r24
+    1286:	90 83       	st	Z, r25
+	(*board[y + 2])[x] = piece_block;
+    1288:	fb 01       	movw	r30, r22
+    128a:	ee 0f       	add	r30, r30
+    128c:	ff 1f       	adc	r31, r31
+    128e:	e6 5d       	subi	r30, 0xD6	; 214
+    1290:	f9 4f       	sbci	r31, 0xF9	; 249
+    1292:	a0 81       	ld	r26, Z
+    1294:	b1 81       	ldd	r27, Z+1	; 0x01
+    1296:	a4 0f       	add	r26, r20
+    1298:	b5 1f       	adc	r27, r21
+    129a:	9c 91       	ld	r25, X
+    129c:	9c 71       	andi	r25, 0x1C	; 28
+    129e:	92 60       	ori	r25, 0x02	; 2
+    12a0:	98 2b       	or	r25, r24
+    12a2:	9c 93       	st	X, r25
+	(*board[y + 2])[x + 1] = piece_block;
+    12a4:	a0 81       	ld	r26, Z
+    12a6:	b1 81       	ldd	r27, Z+1	; 0x01
+    12a8:	ac 0f       	add	r26, r28
+    12aa:	bd 1f       	adc	r27, r29
+    12ac:	9c 91       	ld	r25, X
+    12ae:	9c 71       	andi	r25, 0x1C	; 28
+    12b0:	92 60       	ori	r25, 0x02	; 2
+    12b2:	98 2b       	or	r25, r24
+    12b4:	9c 93       	st	X, r25
+	(*board[y + 2])[x + 2] = piece_block;
+    12b6:	01 90       	ld	r0, Z+
+    12b8:	f0 81       	ld	r31, Z
+    12ba:	e0 2d       	mov	r30, r0
+    12bc:	e2 0f       	add	r30, r18
+    12be:	f3 1f       	adc	r31, r19
+    12c0:	90 81       	ld	r25, Z
+    12c2:	9c 71       	andi	r25, 0x1C	; 28
+    12c4:	92 60       	ori	r25, 0x02	; 2
+    12c6:	98 2b       	or	r25, r24
+    12c8:	90 83       	st	Z, r25
+
+	(*board[y + 3])[x] = piece_block;
+    12ca:	fb 01       	movw	r30, r22
+    12cc:	ee 0f       	add	r30, r30
+    12ce:	ff 1f       	adc	r31, r31
+    12d0:	e4 5d       	subi	r30, 0xD4	; 212
+    12d2:	f9 4f       	sbci	r31, 0xF9	; 249
+    12d4:	01 90       	ld	r0, Z+
+    12d6:	f0 81       	ld	r31, Z
+    12d8:	e0 2d       	mov	r30, r0
+    12da:	e4 0f       	add	r30, r20
+    12dc:	f5 1f       	adc	r31, r21
+    12de:	90 81       	ld	r25, Z
+    12e0:	9c 71       	andi	r25, 0x1C	; 28
+    12e2:	92 60       	ori	r25, 0x02	; 2
+    12e4:	98 2b       	or	r25, r24
+    12e6:	90 83       	st	Z, r25
+	(*board[y + 4])[x] = piece_block;
+    12e8:	66 0f       	add	r22, r22
+    12ea:	77 1f       	adc	r23, r23
+    12ec:	db 01       	movw	r26, r22
+    12ee:	a2 5d       	subi	r26, 0xD2	; 210
+    12f0:	b9 4f       	sbci	r27, 0xF9	; 249
+    12f2:	ed 91       	ld	r30, X+
+    12f4:	fc 91       	ld	r31, X
+    12f6:	11 97       	sbiw	r26, 0x01	; 1
+    12f8:	e4 0f       	add	r30, r20
+    12fa:	f5 1f       	adc	r31, r21
+    12fc:	90 81       	ld	r25, Z
+    12fe:	9c 71       	andi	r25, 0x1C	; 28
+    1300:	92 60       	ori	r25, 0x02	; 2
+    1302:	98 2b       	or	r25, r24
+    1304:	90 83       	st	Z, r25
+	(*board[y + 4])[x + 1] = piece_block;
+    1306:	4d 91       	ld	r20, X+
+    1308:	5c 91       	ld	r21, X
+    130a:	11 97       	sbiw	r26, 0x01	; 1
+    130c:	c4 0f       	add	r28, r20
+    130e:	d5 1f       	adc	r29, r21
+    1310:	98 81       	ld	r25, Y
+    1312:	9c 71       	andi	r25, 0x1C	; 28
+    1314:	92 60       	ori	r25, 0x02	; 2
+    1316:	98 2b       	or	r25, r24
+    1318:	98 83       	st	Y, r25
+	(*board[y + 4])[x + 2] = piece_block;
+    131a:	ed 91       	ld	r30, X+
+    131c:	fc 91       	ld	r31, X
+    131e:	e2 0f       	add	r30, r18
+    1320:	f3 1f       	adc	r31, r19
+    1322:	90 81       	ld	r25, Z
+    1324:	9c 71       	andi	r25, 0x1C	; 28
+    1326:	92 60       	ori	r25, 0x02	; 2
+    1328:	89 2b       	or	r24, r25
+    132a:	80 83       	st	Z, r24
+}
+    132c:	df 91       	pop	r29
+    132e:	cf 91       	pop	r28
+    1330:	08 95       	ret
+
+00001332 <draw_letter_r>:
+
+void draw_letter_r(piece_type_t piece, signed char y, signed char x)
+{
+    1332:	ef 92       	push	r14
+    1334:	ff 92       	push	r15
+    1336:	0f 93       	push	r16
+    1338:	1f 93       	push	r17
+    133a:	cf 93       	push	r28
+    133c:	df 93       	push	r29
+	block_t piece_block;
+	piece_block.fall_piece = 0;
+	piece_block.redraw = 1;
+	piece_block.piece_type = piece;
+	(*board[y])[x] = piece_block;
+    133e:	06 2e       	mov	r0, r22
+    1340:	00 0c       	add	r0, r0
+    1342:	77 0b       	sbc	r23, r23
+    1344:	db 01       	movw	r26, r22
+    1346:	aa 0f       	add	r26, r26
+    1348:	bb 1f       	adc	r27, r27
+    134a:	aa 5d       	subi	r26, 0xDA	; 218
+    134c:	b9 4f       	sbci	r27, 0xF9	; 249
+    134e:	ed 91       	ld	r30, X+
+    1350:	fc 91       	ld	r31, X
+    1352:	11 97       	sbiw	r26, 0x01	; 1
+    1354:	04 2e       	mov	r0, r20
+    1356:	00 0c       	add	r0, r0
+    1358:	55 0b       	sbc	r21, r21
+    135a:	e4 0f       	add	r30, r20
+    135c:	f5 1f       	adc	r31, r21
+    135e:	90 81       	ld	r25, Z
+    1360:	9c 71       	andi	r25, 0x1C	; 28
+    1362:	82 95       	swap	r24
+    1364:	88 0f       	add	r24, r24
+    1366:	80 7e       	andi	r24, 0xE0	; 224
+    1368:	92 60       	ori	r25, 0x02	; 2
+    136a:	98 2b       	or	r25, r24
+    136c:	90 83       	st	Z, r25
+	(*board[y])[x + 1] = piece_block;
+    136e:	cd 91       	ld	r28, X+
+    1370:	dc 91       	ld	r29, X
+    1372:	11 97       	sbiw	r26, 0x01	; 1
+    1374:	fa 01       	movw	r30, r20
+    1376:	31 96       	adiw	r30, 0x01	; 1
+    1378:	ce 0f       	add	r28, r30
+    137a:	df 1f       	adc	r29, r31
+    137c:	98 81       	ld	r25, Y
+    137e:	9c 71       	andi	r25, 0x1C	; 28
+    1380:	92 60       	ori	r25, 0x02	; 2
+    1382:	98 2b       	or	r25, r24
+    1384:	98 83       	st	Y, r25
+	(*board[y])[x + 2] = piece_block;
+    1386:	0d 90       	ld	r0, X+
+    1388:	bc 91       	ld	r27, X
+    138a:	a0 2d       	mov	r26, r0
+    138c:	ea 01       	movw	r28, r20
+    138e:	22 96       	adiw	r28, 0x02	; 2
+    1390:	ac 0f       	add	r26, r28
+    1392:	bd 1f       	adc	r27, r29
+    1394:	9c 91       	ld	r25, X
+    1396:	9c 71       	andi	r25, 0x1C	; 28
+    1398:	92 60       	ori	r25, 0x02	; 2
+    139a:	98 2b       	or	r25, r24
+    139c:	9c 93       	st	X, r25
+
+	(*board[y + 1])[x + 2] = piece_block;
+    139e:	8b 01       	movw	r16, r22
+    13a0:	00 0f       	add	r16, r16
+    13a2:	11 1f       	adc	r17, r17
+    13a4:	08 5d       	subi	r16, 0xD8	; 216
+    13a6:	19 4f       	sbci	r17, 0xF9	; 249
+    13a8:	d8 01       	movw	r26, r16
+    13aa:	2d 91       	ld	r18, X+
+    13ac:	3c 91       	ld	r19, X
+    13ae:	d9 01       	movw	r26, r18
+    13b0:	ac 0f       	add	r26, r28
+    13b2:	bd 1f       	adc	r27, r29
+    13b4:	9c 91       	ld	r25, X
+    13b6:	9c 71       	andi	r25, 0x1C	; 28
+    13b8:	92 60       	ori	r25, 0x02	; 2
+    13ba:	98 2b       	or	r25, r24
+    13bc:	9c 93       	st	X, r25
+	(*board[y + 2])[x + 2] = piece_block;
+    13be:	9b 01       	movw	r18, r22
+    13c0:	22 0f       	add	r18, r18
+    13c2:	33 1f       	adc	r19, r19
+    13c4:	26 5d       	subi	r18, 0xD6	; 214
+    13c6:	39 4f       	sbci	r19, 0xF9	; 249
+    13c8:	d9 01       	movw	r26, r18
+    13ca:	ed 90       	ld	r14, X+
+    13cc:	fc 90       	ld	r15, X
+    13ce:	d7 01       	movw	r26, r14
+    13d0:	ac 0f       	add	r26, r28
+    13d2:	bd 1f       	adc	r27, r29
+    13d4:	9c 91       	ld	r25, X
+    13d6:	9c 71       	andi	r25, 0x1C	; 28
+    13d8:	92 60       	ori	r25, 0x02	; 2
+    13da:	98 2b       	or	r25, r24
+    13dc:	9c 93       	st	X, r25
+	(*board[y + 2])[x + 1] = piece_block;
+    13de:	d9 01       	movw	r26, r18
+    13e0:	ed 90       	ld	r14, X+
+    13e2:	fc 90       	ld	r15, X
+    13e4:	d7 01       	movw	r26, r14
+    13e6:	ae 0f       	add	r26, r30
+    13e8:	bf 1f       	adc	r27, r31
+    13ea:	9c 91       	ld	r25, X
+    13ec:	9c 71       	andi	r25, 0x1C	; 28
+    13ee:	92 60       	ori	r25, 0x02	; 2
+    13f0:	98 2b       	or	r25, r24
+    13f2:	9c 93       	st	X, r25
+	(*board[y + 3])[x + 1] = piece_block;
+    13f4:	db 01       	movw	r26, r22
+    13f6:	aa 0f       	add	r26, r26
+    13f8:	bb 1f       	adc	r27, r27
+    13fa:	a4 5d       	subi	r26, 0xD4	; 212
+    13fc:	b9 4f       	sbci	r27, 0xF9	; 249
+    13fe:	ed 90       	ld	r14, X+
+    1400:	fc 90       	ld	r15, X
+    1402:	11 97       	sbiw	r26, 0x01	; 1
+    1404:	ee 0d       	add	r30, r14
+    1406:	ff 1d       	adc	r31, r15
+    1408:	90 81       	ld	r25, Z
+    140a:	9c 71       	andi	r25, 0x1C	; 28
+    140c:	92 60       	ori	r25, 0x02	; 2
+    140e:	98 2b       	or	r25, r24
+    1410:	90 83       	st	Z, r25
+	(*board[y + 4])[x + 2] = piece_block;
+    1412:	66 0f       	add	r22, r22
+    1414:	77 1f       	adc	r23, r23
+    1416:	fb 01       	movw	r30, r22
+    1418:	e2 5d       	subi	r30, 0xD2	; 210
+    141a:	f9 4f       	sbci	r31, 0xF9	; 249
+    141c:	60 81       	ld	r22, Z
+    141e:	71 81       	ldd	r23, Z+1	; 0x01
+    1420:	c6 0f       	add	r28, r22
+    1422:	d7 1f       	adc	r29, r23
+    1424:	98 81       	ld	r25, Y
+    1426:	9c 71       	andi	r25, 0x1C	; 28
+    1428:	92 60       	ori	r25, 0x02	; 2
+    142a:	98 2b       	or	r25, r24
+    142c:	98 83       	st	Y, r25
+
+	(*board[y + 1])[x] = piece_block;
+    142e:	e8 01       	movw	r28, r16
+    1430:	68 81       	ld	r22, Y
+    1432:	79 81       	ldd	r23, Y+1	; 0x01
+    1434:	eb 01       	movw	r28, r22
+    1436:	c4 0f       	add	r28, r20
+    1438:	d5 1f       	adc	r29, r21
+    143a:	98 81       	ld	r25, Y
+    143c:	9c 71       	andi	r25, 0x1C	; 28
+    143e:	92 60       	ori	r25, 0x02	; 2
+    1440:	98 2b       	or	r25, r24
+    1442:	98 83       	st	Y, r25
+	(*board[y + 2])[x] = piece_block;
+    1444:	e9 01       	movw	r28, r18
+    1446:	28 81       	ld	r18, Y
+    1448:	39 81       	ldd	r19, Y+1	; 0x01
+    144a:	e9 01       	movw	r28, r18
+    144c:	c4 0f       	add	r28, r20
+    144e:	d5 1f       	adc	r29, r21
+    1450:	98 81       	ld	r25, Y
+    1452:	9c 71       	andi	r25, 0x1C	; 28
+    1454:	92 60       	ori	r25, 0x02	; 2
+    1456:	98 2b       	or	r25, r24
+    1458:	98 83       	st	Y, r25
+	(*board[y + 3])[x] = piece_block;
+    145a:	0d 90       	ld	r0, X+
+    145c:	bc 91       	ld	r27, X
+    145e:	a0 2d       	mov	r26, r0
+    1460:	a4 0f       	add	r26, r20
+    1462:	b5 1f       	adc	r27, r21
+    1464:	9c 91       	ld	r25, X
+    1466:	9c 71       	andi	r25, 0x1C	; 28
+    1468:	92 60       	ori	r25, 0x02	; 2
+    146a:	98 2b       	or	r25, r24
+    146c:	9c 93       	st	X, r25
+	(*board[y + 4])[x] = piece_block;
+    146e:	01 90       	ld	r0, Z+
+    1470:	f0 81       	ld	r31, Z
+    1472:	e0 2d       	mov	r30, r0
+    1474:	e4 0f       	add	r30, r20
+    1476:	f5 1f       	adc	r31, r21
+    1478:	90 81       	ld	r25, Z
+    147a:	9c 71       	andi	r25, 0x1C	; 28
+    147c:	92 60       	ori	r25, 0x02	; 2
+    147e:	89 2b       	or	r24, r25
+    1480:	80 83       	st	Z, r24
+
+
+}
+    1482:	df 91       	pop	r29
+    1484:	cf 91       	pop	r28
+    1486:	1f 91       	pop	r17
+    1488:	0f 91       	pop	r16
+    148a:	ff 90       	pop	r15
+    148c:	ef 90       	pop	r14
+    148e:	08 95       	ret
+
+00001490 <draw_letter_i>:
+
+void draw_letter_i(piece_type_t piece, signed char y, signed char x)
+{
+    1490:	cf 93       	push	r28
+    1492:	df 93       	push	r29
+	block_t piece_block;
+	piece_block.fall_piece = 0;
+	piece_block.redraw = 1;
+	piece_block.piece_type = piece;
+	(*board[y])[x] = piece_block;
+    1494:	06 2e       	mov	r0, r22
+    1496:	00 0c       	add	r0, r0
+    1498:	77 0b       	sbc	r23, r23
+    149a:	fb 01       	movw	r30, r22
+    149c:	ee 0f       	add	r30, r30
+    149e:	ff 1f       	adc	r31, r31
+    14a0:	ea 5d       	subi	r30, 0xDA	; 218
+    14a2:	f9 4f       	sbci	r31, 0xF9	; 249
+    14a4:	a0 81       	ld	r26, Z
+    14a6:	b1 81       	ldd	r27, Z+1	; 0x01
+    14a8:	04 2e       	mov	r0, r20
+    14aa:	00 0c       	add	r0, r0
+    14ac:	55 0b       	sbc	r21, r21
+    14ae:	a4 0f       	add	r26, r20
+    14b0:	b5 1f       	adc	r27, r21
+    14b2:	9c 91       	ld	r25, X
+    14b4:	9c 71       	andi	r25, 0x1C	; 28
+    14b6:	82 95       	swap	r24
+    14b8:	88 0f       	add	r24, r24
+    14ba:	80 7e       	andi	r24, 0xE0	; 224
+    14bc:	92 60       	ori	r25, 0x02	; 2
+    14be:	98 2b       	or	r25, r24
+    14c0:	9c 93       	st	X, r25
+	(*board[y])[x + 1] = piece_block;
+    14c2:	c0 81       	ld	r28, Z
+    14c4:	d1 81       	ldd	r29, Z+1	; 0x01
+    14c6:	da 01       	movw	r26, r20
+    14c8:	11 96       	adiw	r26, 0x01	; 1
+    14ca:	ca 0f       	add	r28, r26
+    14cc:	db 1f       	adc	r29, r27
+    14ce:	98 81       	ld	r25, Y
+    14d0:	9c 71       	andi	r25, 0x1C	; 28
+    14d2:	92 60       	ori	r25, 0x02	; 2
+    14d4:	98 2b       	or	r25, r24
+    14d6:	98 83       	st	Y, r25
+	(*board[y])[x + 2] = piece_block;
+    14d8:	01 90       	ld	r0, Z+
+    14da:	f0 81       	ld	r31, Z
+    14dc:	e0 2d       	mov	r30, r0
+    14de:	9a 01       	movw	r18, r20
+    14e0:	2e 5f       	subi	r18, 0xFE	; 254
+    14e2:	3f 4f       	sbci	r19, 0xFF	; 255
+    14e4:	e2 0f       	add	r30, r18
+    14e6:	f3 1f       	adc	r31, r19
+    14e8:	90 81       	ld	r25, Z
+    14ea:	9c 71       	andi	r25, 0x1C	; 28
+    14ec:	92 60       	ori	r25, 0x02	; 2
+    14ee:	98 2b       	or	r25, r24
+    14f0:	90 83       	st	Z, r25
+
+	(*board[y + 1])[x + 1] = piece_block;
+    14f2:	fb 01       	movw	r30, r22
+    14f4:	ee 0f       	add	r30, r30
+    14f6:	ff 1f       	adc	r31, r31
+    14f8:	e8 5d       	subi	r30, 0xD8	; 216
+    14fa:	f9 4f       	sbci	r31, 0xF9	; 249
+    14fc:	01 90       	ld	r0, Z+
+    14fe:	f0 81       	ld	r31, Z
+    1500:	e0 2d       	mov	r30, r0
+    1502:	ea 0f       	add	r30, r26
+    1504:	fb 1f       	adc	r31, r27
+    1506:	90 81       	ld	r25, Z
+    1508:	9c 71       	andi	r25, 0x1C	; 28
+    150a:	92 60       	ori	r25, 0x02	; 2
+    150c:	98 2b       	or	r25, r24
+    150e:	90 83       	st	Z, r25
+	(*board[y + 2])[x + 1] = piece_block;
+    1510:	fb 01       	movw	r30, r22
+    1512:	ee 0f       	add	r30, r30
+    1514:	ff 1f       	adc	r31, r31
+    1516:	e6 5d       	subi	r30, 0xD6	; 214
+    1518:	f9 4f       	sbci	r31, 0xF9	; 249
+    151a:	01 90       	ld	r0, Z+
+    151c:	f0 81       	ld	r31, Z
+    151e:	e0 2d       	mov	r30, r0
+    1520:	ea 0f       	add	r30, r26
+    1522:	fb 1f       	adc	r31, r27
+    1524:	90 81       	ld	r25, Z
+    1526:	9c 71       	andi	r25, 0x1C	; 28
+    1528:	92 60       	ori	r25, 0x02	; 2
+    152a:	98 2b       	or	r25, r24
+    152c:	90 83       	st	Z, r25
+	(*board[y + 3])[x + 1] = piece_block;
+    152e:	fb 01       	movw	r30, r22
+    1530:	ee 0f       	add	r30, r30
+    1532:	ff 1f       	adc	r31, r31
+    1534:	e4 5d       	subi	r30, 0xD4	; 212
+    1536:	f9 4f       	sbci	r31, 0xF9	; 249
+    1538:	01 90       	ld	r0, Z+
+    153a:	f0 81       	ld	r31, Z
+    153c:	e0 2d       	mov	r30, r0
+    153e:	ea 0f       	add	r30, r26
+    1540:	fb 1f       	adc	r31, r27
+    1542:	90 81       	ld	r25, Z
+    1544:	9c 71       	andi	r25, 0x1C	; 28
+    1546:	92 60       	ori	r25, 0x02	; 2
+    1548:	98 2b       	or	r25, r24
+    154a:	90 83       	st	Z, r25
+
+	(*board[y + 4])[x] = piece_block;
+    154c:	66 0f       	add	r22, r22
+    154e:	77 1f       	adc	r23, r23
+    1550:	fb 01       	movw	r30, r22
+    1552:	e2 5d       	subi	r30, 0xD2	; 210
+    1554:	f9 4f       	sbci	r31, 0xF9	; 249
+    1556:	c0 81       	ld	r28, Z
+    1558:	d1 81       	ldd	r29, Z+1	; 0x01
+    155a:	c4 0f       	add	r28, r20
+    155c:	d5 1f       	adc	r29, r21
+    155e:	98 81       	ld	r25, Y
+    1560:	9c 71       	andi	r25, 0x1C	; 28
+    1562:	92 60       	ori	r25, 0x02	; 2
+    1564:	98 2b       	or	r25, r24
+    1566:	98 83       	st	Y, r25
+	(*board[y + 4])[x + 1] = piece_block;
+    1568:	40 81       	ld	r20, Z
+    156a:	51 81       	ldd	r21, Z+1	; 0x01
+    156c:	a4 0f       	add	r26, r20
+    156e:	b5 1f       	adc	r27, r21
+    1570:	9c 91       	ld	r25, X
+    1572:	9c 71       	andi	r25, 0x1C	; 28
+    1574:	92 60       	ori	r25, 0x02	; 2
+    1576:	98 2b       	or	r25, r24
+    1578:	9c 93       	st	X, r25
+	(*board[y + 4])[x + 2] = piece_block;
+    157a:	01 90       	ld	r0, Z+
+    157c:	f0 81       	ld	r31, Z
+    157e:	e0 2d       	mov	r30, r0
+    1580:	e2 0f       	add	r30, r18
+    1582:	f3 1f       	adc	r31, r19
+    1584:	90 81       	ld	r25, Z
+    1586:	9c 71       	andi	r25, 0x1C	; 28
+    1588:	92 60       	ori	r25, 0x02	; 2
+    158a:	89 2b       	or	r24, r25
+    158c:	80 83       	st	Z, r24
+}
+    158e:	df 91       	pop	r29
+    1590:	cf 91       	pop	r28
+    1592:	08 95       	ret
+
+00001594 <draw_letter_s>:
+
+void draw_letter_s(piece_type_t piece, signed char y, signed char x)
+{
+    1594:	cf 93       	push	r28
+    1596:	df 93       	push	r29
+	block_t piece_block;
+	piece_block.fall_piece = 0;
+	piece_block.redraw = 1;
+	piece_block.piece_type = piece;
+	(*board[y])[x] = piece_block;
+    1598:	06 2e       	mov	r0, r22
+    159a:	00 0c       	add	r0, r0
+    159c:	77 0b       	sbc	r23, r23
+    159e:	fb 01       	movw	r30, r22
+    15a0:	ee 0f       	add	r30, r30
+    15a2:	ff 1f       	adc	r31, r31
+    15a4:	ea 5d       	subi	r30, 0xDA	; 218
+    15a6:	f9 4f       	sbci	r31, 0xF9	; 249
+    15a8:	a0 81       	ld	r26, Z
+    15aa:	b1 81       	ldd	r27, Z+1	; 0x01
+    15ac:	04 2e       	mov	r0, r20
+    15ae:	00 0c       	add	r0, r0
+    15b0:	55 0b       	sbc	r21, r21
+    15b2:	a4 0f       	add	r26, r20
+    15b4:	b5 1f       	adc	r27, r21
+    15b6:	9c 91       	ld	r25, X
+    15b8:	9c 71       	andi	r25, 0x1C	; 28
+    15ba:	82 95       	swap	r24
+    15bc:	88 0f       	add	r24, r24
+    15be:	80 7e       	andi	r24, 0xE0	; 224
+    15c0:	92 60       	ori	r25, 0x02	; 2
+    15c2:	98 2b       	or	r25, r24
+    15c4:	9c 93       	st	X, r25
+	(*board[y])[x + 1] = piece_block;
+    15c6:	a0 81       	ld	r26, Z
+    15c8:	b1 81       	ldd	r27, Z+1	; 0x01
+    15ca:	ea 01       	movw	r28, r20
+    15cc:	21 96       	adiw	r28, 0x01	; 1
+    15ce:	ac 0f       	add	r26, r28
+    15d0:	bd 1f       	adc	r27, r29
+    15d2:	9c 91       	ld	r25, X
+    15d4:	9c 71       	andi	r25, 0x1C	; 28
+    15d6:	92 60       	ori	r25, 0x02	; 2
+    15d8:	98 2b       	or	r25, r24
+    15da:	9c 93       	st	X, r25
+	(*board[y])[x + 2] = piece_block;
+    15dc:	01 90       	ld	r0, Z+
+    15de:	f0 81       	ld	r31, Z
+    15e0:	e0 2d       	mov	r30, r0
+    15e2:	9a 01       	movw	r18, r20
+    15e4:	2e 5f       	subi	r18, 0xFE	; 254
+    15e6:	3f 4f       	sbci	r19, 0xFF	; 255
+    15e8:	e2 0f       	add	r30, r18
+    15ea:	f3 1f       	adc	r31, r19
+    15ec:	90 81       	ld	r25, Z
+    15ee:	9c 71       	andi	r25, 0x1C	; 28
+    15f0:	92 60       	ori	r25, 0x02	; 2
+    15f2:	98 2b       	or	r25, r24
+    15f4:	90 83       	st	Z, r25
+
+	(*board[y + 1])[x] = piece_block;
+    15f6:	fb 01       	movw	r30, r22
+    15f8:	ee 0f       	add	r30, r30
+    15fa:	ff 1f       	adc	r31, r31
+    15fc:	e8 5d       	subi	r30, 0xD8	; 216
+    15fe:	f9 4f       	sbci	r31, 0xF9	; 249
+    1600:	01 90       	ld	r0, Z+
+    1602:	f0 81       	ld	r31, Z
+    1604:	e0 2d       	mov	r30, r0
+    1606:	e4 0f       	add	r30, r20
+    1608:	f5 1f       	adc	r31, r21
+    160a:	90 81       	ld	r25, Z
+    160c:	9c 71       	andi	r25, 0x1C	; 28
+    160e:	92 60       	ori	r25, 0x02	; 2
+    1610:	98 2b       	or	r25, r24
+    1612:	90 83       	st	Z, r25
+	(*board[y + 2])[x] = piece_block;
+    1614:	fb 01       	movw	r30, r22
+    1616:	ee 0f       	add	r30, r30
+    1618:	ff 1f       	adc	r31, r31
+    161a:	e6 5d       	subi	r30, 0xD6	; 214
+    161c:	f9 4f       	sbci	r31, 0xF9	; 249
+    161e:	a0 81       	ld	r26, Z
+    1620:	b1 81       	ldd	r27, Z+1	; 0x01
+    1622:	a4 0f       	add	r26, r20
+    1624:	b5 1f       	adc	r27, r21
+    1626:	9c 91       	ld	r25, X
+    1628:	9c 71       	andi	r25, 0x1C	; 28
+    162a:	92 60       	ori	r25, 0x02	; 2
+    162c:	98 2b       	or	r25, r24
+    162e:	9c 93       	st	X, r25
+	(*board[y + 2])[x + 1] = piece_block;
+    1630:	a0 81       	ld	r26, Z
+    1632:	b1 81       	ldd	r27, Z+1	; 0x01
+    1634:	ac 0f       	add	r26, r28
+    1636:	bd 1f       	adc	r27, r29
+    1638:	9c 91       	ld	r25, X
+    163a:	9c 71       	andi	r25, 0x1C	; 28
+    163c:	92 60       	ori	r25, 0x02	; 2
+    163e:	98 2b       	or	r25, r24
+    1640:	9c 93       	st	X, r25
+	(*board[y + 2])[x + 2] = piece_block;
+    1642:	01 90       	ld	r0, Z+
+    1644:	f0 81       	ld	r31, Z
+    1646:	e0 2d       	mov	r30, r0
+    1648:	e2 0f       	add	r30, r18
+    164a:	f3 1f       	adc	r31, r19
+    164c:	90 81       	ld	r25, Z
+    164e:	9c 71       	andi	r25, 0x1C	; 28
+    1650:	92 60       	ori	r25, 0x02	; 2
+    1652:	98 2b       	or	r25, r24
+    1654:	90 83       	st	Z, r25
+
+	(*board[y + 3])[x + 2] = piece_block;
+    1656:	fb 01       	movw	r30, r22
+    1658:	ee 0f       	add	r30, r30
+    165a:	ff 1f       	adc	r31, r31
+    165c:	e4 5d       	subi	r30, 0xD4	; 212
+    165e:	f9 4f       	sbci	r31, 0xF9	; 249
+    1660:	01 90       	ld	r0, Z+
+    1662:	f0 81       	ld	r31, Z
+    1664:	e0 2d       	mov	r30, r0
+    1666:	e2 0f       	add	r30, r18
+    1668:	f3 1f       	adc	r31, r19
+    166a:	90 81       	ld	r25, Z
+    166c:	9c 71       	andi	r25, 0x1C	; 28
+    166e:	92 60       	ori	r25, 0x02	; 2
+    1670:	98 2b       	or	r25, r24
+    1672:	90 83       	st	Z, r25
+	(*board[y + 4])[x] = piece_block;
+    1674:	66 0f       	add	r22, r22
+    1676:	77 1f       	adc	r23, r23
+    1678:	db 01       	movw	r26, r22
+    167a:	a2 5d       	subi	r26, 0xD2	; 210
+    167c:	b9 4f       	sbci	r27, 0xF9	; 249
+    167e:	ed 91       	ld	r30, X+
+    1680:	fc 91       	ld	r31, X
+    1682:	11 97       	sbiw	r26, 0x01	; 1
+    1684:	e4 0f       	add	r30, r20
+    1686:	f5 1f       	adc	r31, r21
+    1688:	90 81       	ld	r25, Z
+    168a:	9c 71       	andi	r25, 0x1C	; 28
+    168c:	92 60       	ori	r25, 0x02	; 2
+    168e:	98 2b       	or	r25, r24
+    1690:	90 83       	st	Z, r25
+	(*board[y + 4])[x + 1] = piece_block;
+    1692:	4d 91       	ld	r20, X+
+    1694:	5c 91       	ld	r21, X
+    1696:	11 97       	sbiw	r26, 0x01	; 1
+    1698:	c4 0f       	add	r28, r20
+    169a:	d5 1f       	adc	r29, r21
+    169c:	98 81       	ld	r25, Y
+    169e:	9c 71       	andi	r25, 0x1C	; 28
+    16a0:	92 60       	ori	r25, 0x02	; 2
+    16a2:	98 2b       	or	r25, r24
+    16a4:	98 83       	st	Y, r25
+	(*board[y + 4])[x + 2] = piece_block;
+    16a6:	ed 91       	ld	r30, X+
+    16a8:	fc 91       	ld	r31, X
+    16aa:	e2 0f       	add	r30, r18
+    16ac:	f3 1f       	adc	r31, r19
+    16ae:	90 81       	ld	r25, Z
+    16b0:	9c 71       	andi	r25, 0x1C	; 28
+    16b2:	92 60       	ori	r25, 0x02	; 2
+    16b4:	89 2b       	or	r24, r25
+    16b6:	80 83       	st	Z, r24
+}
+    16b8:	df 91       	pop	r29
+    16ba:	cf 91       	pop	r28
+    16bc:	08 95       	ret
+
+000016be <main>:
+void draw_letter_i(piece_type_t piece, signed char y, signed char x);
+void draw_letter_s(piece_type_t piece, signed char y, signed char x);
+//Note for allegro simulator:
+//BUTTONS 0 to 7 are mapped from Q to I. You can change this in buttons_and_timers.c variable button_map!
+int main(void)
+{
+    16be:	cf 93       	push	r28
+    16c0:	df 93       	push	r29
+    16c2:	cd b7       	in	r28, 0x3d	; 61
+    16c4:	de b7       	in	r29, 0x3e	; 62
+    16c6:	2c 97       	sbiw	r28, 0x0c	; 12
+    16c8:	0f b6       	in	r0, 0x3f	; 63
+    16ca:	f8 94       	cli
+    16cc:	de bf       	out	0x3e, r29	; 62
+    16ce:	0f be       	out	0x3f, r0	; 63
+    16d0:	cd bf       	out	0x3d, r28	; 61
+	//REMEMBER VARIABLES BEFORE CODE!
+	//Connect buttons to PORTB with pull-up resistors
+	unsigned char redraw = 0, cleared_rows, drop_piece_f = 0;
+    16d2:	19 82       	std	Y+1, r1	; 0x01
+	unsigned int piece_fall_time = 50; //ms para que empiece rapido la animacion
+	unsigned long int score = 0;
+    16d4:	1a 82       	std	Y+2, r1	; 0x02
+    16d6:	1b 82       	std	Y+3, r1	; 0x03
+    16d8:	1c 82       	std	Y+4, r1	; 0x04
+    16da:	1d 82       	std	Y+5, r1	; 0x05
+	signed char x, y;
+	piece_type_t piece;
+	rotation_t rotation;
+	game_states_t current_state = PRE_START;
+    16dc:	1a 86       	std	Y+10, r1	; 0x0a
+	block_t empty;
+	//DO NOT FORGET THIS FUNCTION
+	init_row_pointers();
+    16de:	0e 94 6a 01 	call	0x2d4	; 0x2d4 <init_row_pointers>
+
+	configure_spi_max7219_display();
+    16e2:	0e 94 5e 00 	call	0xbc	; 0xbc <configure_spi_max7219_display>
+	empty.fall_piece = 0;
+    16e6:	41 2c       	mov	r4, r1
+    16e8:	e8 94       	clt
+    16ea:	40 f8       	bld	r4, 0
+	empty.redraw = 1;
+    16ec:	68 94       	set
+    16ee:	41 f8       	bld	r4, 1
+	empty.piece_type = NO_PIECE;
+    16f0:	24 2d       	mov	r18, r4
+    16f2:	2f 71       	andi	r18, 0x1F	; 31
+    16f4:	42 2e       	mov	r4, r18
+	LEDdisplay_init();
+    16f6:	0e 94 0e 01 	call	0x21c	; 0x21c <LEDdisplay_init>
+	buttons_and_timers_init();
+    16fa:	0e 94 5a 00 	call	0xb4	; 0xb4 <buttons_and_timers_init>
+	set_timer_period_ms(TIMER_0, piece_fall_time);
+    16fe:	62 e3       	ldi	r22, 0x32	; 50
+    1700:	70 e0       	ldi	r23, 0x00	; 0
+    1702:	80 e0       	ldi	r24, 0x00	; 0
+    1704:	0e 94 5c 00 	call	0xb8	; 0xb8 <set_timer_period_ms>
+	clear_board_to_block(empty);
+    1708:	84 2d       	mov	r24, r4
+    170a:	0e 94 88 01 	call	0x310	; 0x310 <clear_board_to_block>
+	update_display_data();
+    170e:	0e 94 a1 01 	call	0x342	; 0x342 <update_display_data>
+	//This is to indicate that device is working and waiting for input to seed rand
+	LEDdisplay_set_pixel(0, 0, LEDdisplay_map_rgb(255, 255, 255));
+    1712:	4f ef       	ldi	r20, 0xFF	; 255
+    1714:	6f ef       	ldi	r22, 0xFF	; 255
+    1716:	8f ef       	ldi	r24, 0xFF	; 255
+    1718:	0e 94 11 01 	call	0x222	; 0x222 <LEDdisplay_map_rgb>
+    171c:	9b 01       	movw	r18, r22
+    171e:	48 2f       	mov	r20, r24
+    1720:	60 e0       	ldi	r22, 0x00	; 0
+    1722:	80 e0       	ldi	r24, 0x00	; 0
+    1724:	0e 94 14 01 	call	0x228	; 0x228 <LEDdisplay_set_pixel>
+	LEDdisplay_set_pixel(DISPLAY_WIDTH - 1, 0, LEDdisplay_map_rgb(255, 255, 255));
+    1728:	4f ef       	ldi	r20, 0xFF	; 255
+    172a:	6f ef       	ldi	r22, 0xFF	; 255
+    172c:	8f ef       	ldi	r24, 0xFF	; 255
+    172e:	0e 94 11 01 	call	0x222	; 0x222 <LEDdisplay_map_rgb>
+    1732:	9b 01       	movw	r18, r22
+    1734:	48 2f       	mov	r20, r24
+    1736:	60 e0       	ldi	r22, 0x00	; 0
+    1738:	87 e0       	ldi	r24, 0x07	; 7
+    173a:	0e 94 14 01 	call	0x228	; 0x228 <LEDdisplay_set_pixel>
+	LEDdisplay_set_pixel(0, DISPLAY_HEIGHT - 1, LEDdisplay_map_rgb(255, 255, 255));
+    173e:	4f ef       	ldi	r20, 0xFF	; 255
+    1740:	6f ef       	ldi	r22, 0xFF	; 255
+    1742:	8f ef       	ldi	r24, 0xFF	; 255
+    1744:	0e 94 11 01 	call	0x222	; 0x222 <LEDdisplay_map_rgb>
+    1748:	9b 01       	movw	r18, r22
+    174a:	48 2f       	mov	r20, r24
+    174c:	6f e1       	ldi	r22, 0x1F	; 31
+    174e:	80 e0       	ldi	r24, 0x00	; 0
+    1750:	0e 94 14 01 	call	0x228	; 0x228 <LEDdisplay_set_pixel>
+	LEDdisplay_set_pixel(DISPLAY_WIDTH - 1, DISPLAY_HEIGHT - 1, LEDdisplay_map_rgb(255, 255, 255));
+    1754:	4f ef       	ldi	r20, 0xFF	; 255
+    1756:	6f ef       	ldi	r22, 0xFF	; 255
+    1758:	8f ef       	ldi	r24, 0xFF	; 255
+    175a:	0e 94 11 01 	call	0x222	; 0x222 <LEDdisplay_map_rgb>
+    175e:	9b 01       	movw	r18, r22
+    1760:	48 2f       	mov	r20, r24
+    1762:	6f e1       	ldi	r22, 0x1F	; 31
+    1764:	87 e0       	ldi	r24, 0x07	; 7
+    1766:	0e 94 14 01 	call	0x228	; 0x228 <LEDdisplay_set_pixel>
+
+	LEDdisplay_update();
+    176a:	0e 94 5f 01 	call	0x2be	; 0x2be <LEDdisplay_update>
+	send_number_display(12345678);
+    176e:	6e e4       	ldi	r22, 0x4E	; 78
+    1770:	71 e6       	ldi	r23, 0x61	; 97
+    1772:	8c eb       	ldi	r24, 0xBC	; 188
+    1774:	90 e0       	ldi	r25, 0x00	; 0
+    1776:	0e 94 5d 00 	call	0xba	; 0xba <send_number_display>
+	seed_rand();
+    177a:	0e 94 77 01 	call	0x2ee	; 0x2ee <seed_rand>
+	clear_board_to_block(empty);
+    177e:	84 2d       	mov	r24, r4
+    1780:	0e 94 88 01 	call	0x310	; 0x310 <clear_board_to_block>
+	update_display_data();
+    1784:	0e 94 a1 01 	call	0x342	; 0x342 <update_display_data>
+	LEDdisplay_update();
+    1788:	0e 94 5f 01 	call	0x2be	; 0x2be <LEDdisplay_update>
+	set_button_repeat_period_ms(100);
+    178c:	84 e6       	ldi	r24, 0x64	; 100
+    178e:	90 e0       	ldi	r25, 0x00	; 0
+    1790:	0e 94 5b 00 	call	0xb6	; 0xb6 <set_button_repeat_period_ms>
+	flush_event_queue();
+    1794:	0e 94 f5 00 	call	0x1ea	; 0x1ea <flush_event_queue>
+int main(void)
+{
+	//REMEMBER VARIABLES BEFORE CODE!
+	//Connect buttons to PORTB with pull-up resistors
+	unsigned char redraw = 0, cleared_rows, drop_piece_f = 0;
+	unsigned int piece_fall_time = 50; //ms para que empiece rapido la animacion
+    1798:	0f 2e       	mov	r0, r31
+    179a:	f2 e3       	ldi	r31, 0x32	; 50
+    179c:	8f 2e       	mov	r8, r31
+    179e:	91 2c       	mov	r9, r1
+    17a0:	f0 2d       	mov	r31, r0
+					}
+					else if (y <= 4 && is_game_over()) // no point in checking if y is over 4
+						current_state = GAME_FINISHED_ANIMATION;
+					else
+					{
+						place_falling_piece(x = DROP_XCORD, y = DROP_YCORD, piece = (rand() % TOTAL_PIECES) + 1, rotation = rand() % TOTAL_ORIENTATIONS);//cambiar por and dsp
+    17a2:	0f 2e       	mov	r0, r31
+    17a4:	f7 e0       	ldi	r31, 0x07	; 7
+    17a6:	6f 2e       	mov	r6, r31
+    17a8:	71 2c       	mov	r7, r1
+    17aa:	f0 2d       	mov	r31, r0
+    17ac:	bb 24       	eor	r11, r11
+    17ae:	b3 94       	inc	r11
+    17b0:	68 94       	set
+    17b2:	aa 24       	eor	r10, r10
+    17b4:	a1 f8       	bld	r10, 1
+					{
+						set_timer_period_ms(TIMER_0, 200); //Clear screen time
+						current_state = CLEARING_ROWS;//desactivar el redraw
+					}
+					else if (y <= 4 && is_game_over()) // no point in checking if y is over 4
+						current_state = GAME_FINISHED_ANIMATION;
+    17b6:	0f 2e       	mov	r0, r31
+    17b8:	f6 e0       	ldi	r31, 0x06	; 6
+    17ba:	5f 2e       	mov	r5, r31
+    17bc:	f0 2d       	mov	r31, r0
+	flush_event_queue();
+	for (;;)
+	{
+		EVENT_T ev;
+		redraw = 0;
+		configure_spi_max7219_display();
+    17be:	0e 94 5e 00 	call	0xbc	; 0xbc <configure_spi_max7219_display>
+		send_number_display(score);
+    17c2:	6a 81       	ldd	r22, Y+2	; 0x02
+    17c4:	7b 81       	ldd	r23, Y+3	; 0x03
+    17c6:	8c 81       	ldd	r24, Y+4	; 0x04
+    17c8:	9d 81       	ldd	r25, Y+5	; 0x05
+    17ca:	0e 94 5d 00 	call	0xba	; 0xba <send_number_display>
+		wait_for_event(&ev);
+    17ce:	ce 01       	movw	r24, r28
+    17d0:	0b 96       	adiw	r24, 0x0b	; 11
+    17d2:	0e 94 9c 00 	call	0x138	; 0x138 <wait_for_event>
+
+		switch (current_state)
+    17d6:	8a 85       	ldd	r24, Y+10	; 0x0a
+    17d8:	83 30       	cpi	r24, 0x03	; 3
+    17da:	09 f4       	brne	.+2      	; 0x17de <main+0x120>
+    17dc:	74 c0       	rjmp	.+232    	; 0x18c6 <main+0x208>
+    17de:	28 f4       	brcc	.+10     	; 0x17ea <main+0x12c>
+    17e0:	88 23       	and	r24, r24
+    17e2:	61 f0       	breq	.+24     	; 0x17fc <main+0x13e>
+    17e4:	81 30       	cpi	r24, 0x01	; 1
+    17e6:	b1 f1       	breq	.+108    	; 0x1854 <main+0x196>
+    17e8:	ea cf       	rjmp	.-44     	; 0x17be <main+0x100>
+    17ea:	85 30       	cpi	r24, 0x05	; 5
+    17ec:	09 f4       	brne	.+2      	; 0x17f0 <main+0x132>
+    17ee:	ee c0       	rjmp	.+476    	; 0x19cc <main+0x30e>
+    17f0:	08 f4       	brcc	.+2      	; 0x17f4 <main+0x136>
+    17f2:	4b c1       	rjmp	.+662    	; 0x1a8a <main+0x3cc>
+    17f4:	86 30       	cpi	r24, 0x06	; 6
+    17f6:	09 f4       	brne	.+2      	; 0x17fa <main+0x13c>
+    17f8:	82 c1       	rjmp	.+772    	; 0x1afe <main+0x440>
+    17fa:	e1 cf       	rjmp	.-62     	; 0x17be <main+0x100>
+		{
+		case PRE_START:
+			score = 0;
+    17fc:	1a 82       	std	Y+2, r1	; 0x02
+    17fe:	1b 82       	std	Y+3, r1	; 0x03
+    1800:	1c 82       	std	Y+4, r1	; 0x04
+    1802:	1d 82       	std	Y+5, r1	; 0x05
+			send_number_display(score);
+    1804:	60 e0       	ldi	r22, 0x00	; 0
+    1806:	70 e0       	ldi	r23, 0x00	; 0
+    1808:	cb 01       	movw	r24, r22
+    180a:	0e 94 5d 00 	call	0xba	; 0xba <send_number_display>
+			draw_letter_t(PIECE_I, HIDDEN_ROWS + 1, 1);
+    180e:	4b 2d       	mov	r20, r11
+    1810:	65 e0       	ldi	r22, 0x05	; 5
+    1812:	8b 2d       	mov	r24, r11
+    1814:	0e 94 99 08 	call	0x1132	; 0x1132 <draw_letter_t>
+			draw_letter_e(PIECE_J, HIDDEN_ROWS + 6, 4);
+    1818:	44 e0       	ldi	r20, 0x04	; 4
+    181a:	6a e0       	ldi	r22, 0x0A	; 10
+    181c:	8a 2d       	mov	r24, r10
+    181e:	0e 94 04 09 	call	0x1208	; 0x1208 <draw_letter_e>
+			draw_letter_t(PIECE_L, HIDDEN_ROWS + 11, 1);
+    1822:	4b 2d       	mov	r20, r11
+    1824:	6f e0       	ldi	r22, 0x0F	; 15
+    1826:	83 e0       	ldi	r24, 0x03	; 3
+    1828:	0e 94 99 08 	call	0x1132	; 0x1132 <draw_letter_t>
+			draw_letter_r(PIECE_O, HIDDEN_ROWS + 16, 4);
+    182c:	44 e0       	ldi	r20, 0x04	; 4
+    182e:	64 e1       	ldi	r22, 0x14	; 20
+    1830:	84 e0       	ldi	r24, 0x04	; 4
+    1832:	0e 94 99 09 	call	0x1332	; 0x1332 <draw_letter_r>
+			draw_letter_i(PIECE_S, HIDDEN_ROWS + 21, 1);
+    1836:	4b 2d       	mov	r20, r11
+    1838:	69 e1       	ldi	r22, 0x19	; 25
+    183a:	85 e0       	ldi	r24, 0x05	; 5
+    183c:	0e 94 48 0a 	call	0x1490	; 0x1490 <draw_letter_i>
+			draw_letter_s(PIECE_T, HIDDEN_ROWS + 26, 4);
+    1840:	44 e0       	ldi	r20, 0x04	; 4
+    1842:	6e e1       	ldi	r22, 0x1E	; 30
+    1844:	85 2d       	mov	r24, r5
+    1846:	0e 94 ca 0a 	call	0x1594	; 0x1594 <draw_letter_s>
+			if (ev.id == BUTTON_PRESS)
+    184a:	8b 85       	ldd	r24, Y+11	; 0x0b
+    184c:	81 11       	cpse	r24, r1
+    184e:	6e c1       	rjmp	.+732    	; 0x1b2c <main+0x46e>
+				current_state = GAME_START;
+    1850:	ba 86       	std	Y+10, r11	; 0x0a
+    1852:	6c c1       	rjmp	.+728    	; 0x1b2c <main+0x46e>
+			redraw = 1;
+			break;
+		case GAME_START:
+
+			flush_event_queue();
+    1854:	0e 94 f5 00 	call	0x1ea	; 0x1ea <flush_event_queue>
+			clear_board_to_block(empty);
+    1858:	84 2d       	mov	r24, r4
+    185a:	0e 94 88 01 	call	0x310	; 0x310 <clear_board_to_block>
+			place_falling_piece(x = DROP_XCORD, y = DROP_YCORD, piece = (rand() % TOTAL_PIECES) + 1, rotation = rand() % TOTAL_ORIENTATIONS); //DESPUES CAMBIAR RESTO/MODULO
+    185e:	0e 94 3c 0e 	call	0x1c78	; 0x1c78 <rand>
+    1862:	83 70       	andi	r24, 0x03	; 3
+    1864:	90 78       	andi	r25, 0x80	; 128
+    1866:	4c 01       	movw	r8, r24
+    1868:	99 23       	and	r25, r25
+    186a:	54 f4       	brge	.+20     	; 0x1880 <main+0x1c2>
+    186c:	81 e0       	ldi	r24, 0x01	; 1
+    186e:	88 1a       	sub	r8, r24
+    1870:	91 08       	sbc	r9, r1
+    1872:	9c ef       	ldi	r25, 0xFC	; 252
+    1874:	89 2a       	or	r8, r25
+    1876:	99 24       	eor	r9, r9
+    1878:	9a 94       	dec	r9
+    187a:	2f ef       	ldi	r18, 0xFF	; 255
+    187c:	82 1a       	sub	r8, r18
+    187e:	92 0a       	sbc	r9, r18
+    1880:	89 86       	std	Y+9, r8	; 0x09
+    1882:	0e 94 3c 0e 	call	0x1c78	; 0x1c78 <rand>
+    1886:	b3 01       	movw	r22, r6
+    1888:	0e 94 a0 0d 	call	0x1b40	; 0x1b40 <__divmodhi4>
+    188c:	41 e0       	ldi	r20, 0x01	; 1
+    188e:	48 0f       	add	r20, r24
+    1890:	48 87       	std	Y+8, r20	; 0x08
+    1892:	bf 82       	std	Y+7, r11	; 0x07
+    1894:	ae 82       	std	Y+6, r10	; 0x06
+    1896:	28 2d       	mov	r18, r8
+    1898:	61 e0       	ldi	r22, 0x01	; 1
+    189a:	70 e0       	ldi	r23, 0x00	; 0
+    189c:	82 e0       	ldi	r24, 0x02	; 2
+    189e:	90 e0       	ldi	r25, 0x00	; 0
+    18a0:	0e 94 ed 02 	call	0x5da	; 0x5da <place_falling_piece>
+			update_display_data();
+    18a4:	0e 94 a1 01 	call	0x342	; 0x342 <update_display_data>
+			LEDdisplay_update();
+    18a8:	0e 94 5f 01 	call	0x2be	; 0x2be <LEDdisplay_update>
+			current_state = NORMAL_PLAY;
+    18ac:	83 e0       	ldi	r24, 0x03	; 3
+    18ae:	8a 87       	std	Y+10, r24	; 0x0a
+			set_timer_period_ms(TIMER_0, piece_fall_time = game_speed[0]);//FALL TIME
+    18b0:	68 ec       	ldi	r22, 0xC8	; 200
+    18b2:	70 e0       	ldi	r23, 0x00	; 0
+    18b4:	80 e0       	ldi	r24, 0x00	; 0
+    18b6:	0e 94 5c 00 	call	0xb8	; 0xb8 <set_timer_period_ms>
+    18ba:	0f 2e       	mov	r0, r31
+    18bc:	f8 ec       	ldi	r31, 0xC8	; 200
+    18be:	8f 2e       	mov	r8, r31
+    18c0:	91 2c       	mov	r9, r1
+    18c2:	f0 2d       	mov	r31, r0
+
+			break;
+    18c4:	7c cf       	rjmp	.-264    	; 0x17be <main+0x100>
+
+		case NORMAL_PLAY:
+			switch (ev.id)
+    18c6:	8b 85       	ldd	r24, Y+11	; 0x0b
+    18c8:	81 30       	cpi	r24, 0x01	; 1
+    18ca:	e1 f0       	breq	.+56     	; 0x1904 <main+0x246>
+    18cc:	18 f0       	brcs	.+6      	; 0x18d4 <main+0x216>
+    18ce:	83 30       	cpi	r24, 0x03	; 3
+    18d0:	19 f1       	breq	.+70     	; 0x1918 <main+0x25a>
+    18d2:	75 cf       	rjmp	.-278    	; 0x17be <main+0x100>
+			{
+			case BUTTON_PRESS:
+				if (!drop_piece_f) // If a piece is hard dropping, (joystick moved up) no other events button events are attended
+    18d4:	89 81       	ldd	r24, Y+1	; 0x01
+    18d6:	81 11       	cpse	r24, r1
+    18d8:	72 cf       	rjmp	.-284    	; 0x17be <main+0x100>
+				{
+					manage_button_down(&x, &y, &piece, &rotation, &ev, &drop_piece_f, &current_state);
+    18da:	ce 01       	movw	r24, r28
+    18dc:	0a 96       	adiw	r24, 0x0a	; 10
+    18de:	6c 01       	movw	r12, r24
+    18e0:	09 97       	sbiw	r24, 0x09	; 9
+    18e2:	7c 01       	movw	r14, r24
+    18e4:	8e 01       	movw	r16, r28
+    18e6:	05 5f       	subi	r16, 0xF5	; 245
+    18e8:	1f 4f       	sbci	r17, 0xFF	; 255
+    18ea:	9e 01       	movw	r18, r28
+    18ec:	27 5f       	subi	r18, 0xF7	; 247
+    18ee:	3f 4f       	sbci	r19, 0xFF	; 255
+    18f0:	ae 01       	movw	r20, r28
+    18f2:	48 5f       	subi	r20, 0xF8	; 248
+    18f4:	5f 4f       	sbci	r21, 0xFF	; 255
+    18f6:	be 01       	movw	r22, r28
+    18f8:	69 5f       	subi	r22, 0xF9	; 249
+    18fa:	7f 4f       	sbci	r23, 0xFF	; 255
+    18fc:	05 96       	adiw	r24, 0x05	; 5
+    18fe:	0e 94 01 07 	call	0xe02	; 0xe02 <manage_button_down>
+    1902:	14 c1       	rjmp	.+552    	; 0x1b2c <main+0x46e>
+					redraw = 1;
+				}
+				break;
+
+			case BUTTON_REPEAT: //Instead of detecting button repeat, it's send to priority queue as button press
+				if (ev.data == JOYSTICK_UP || ev.data == JOYSTICK_DOWN || ev.data == JOYSTICK_LEFT || ev.data == JOYSTICK_RIGHT) //Only repeat the movement buttons no the rotating
+    1904:	8c 85       	ldd	r24, Y+12	; 0x0c
+    1906:	84 30       	cpi	r24, 0x04	; 4
+    1908:	08 f0       	brcs	.+2      	; 0x190c <main+0x24e>
+    190a:	59 cf       	rjmp	.-334    	; 0x17be <main+0x100>
+				{
+					ev.id = BUTTON_PRESS;
+    190c:	1b 86       	std	Y+11, r1	; 0x0b
+					register_event_in_priority_queue(&ev);
+    190e:	ce 01       	movw	r24, r28
+    1910:	0b 96       	adiw	r24, 0x0b	; 11
+    1912:	0e 94 6a 00 	call	0xd4	; 0xd4 <register_event_in_priority_queue>
+    1916:	53 cf       	rjmp	.-346    	; 0x17be <main+0x100>
+				}
+				break;
+
+			case TIMER:
+
+				if (move_piece_down(x, y, piece, rotation))
+    1918:	29 85       	ldd	r18, Y+9	; 0x09
+    191a:	48 85       	ldd	r20, Y+8	; 0x08
+    191c:	6f 81       	ldd	r22, Y+7	; 0x07
+    191e:	8e 81       	ldd	r24, Y+6	; 0x06
+    1920:	0e 94 9e 03 	call	0x73c	; 0x73c <move_piece_down>
+    1924:	88 23       	and	r24, r24
+    1926:	21 f0       	breq	.+8      	; 0x1930 <main+0x272>
+				{
+					y++;
+    1928:	8f 81       	ldd	r24, Y+7	; 0x07
+    192a:	8f 5f       	subi	r24, 0xFF	; 255
+    192c:	8f 83       	std	Y+7, r24	; 0x07
+    192e:	fe c0       	rjmp	.+508    	; 0x1b2c <main+0x46e>
+					redraw = 1;
+				}
+				else
+				{
+					place_static_piece(x, y, piece, rotation);
+    1930:	6f 81       	ldd	r22, Y+7	; 0x07
+    1932:	06 2e       	mov	r0, r22
+    1934:	00 0c       	add	r0, r0
+    1936:	77 0b       	sbc	r23, r23
+    1938:	8e 81       	ldd	r24, Y+6	; 0x06
+    193a:	29 85       	ldd	r18, Y+9	; 0x09
+    193c:	48 85       	ldd	r20, Y+8	; 0x08
+    193e:	08 2e       	mov	r0, r24
+    1940:	00 0c       	add	r0, r0
+    1942:	99 0b       	sbc	r25, r25
+    1944:	0e 94 51 03 	call	0x6a2	; 0x6a2 <place_static_piece>
+					if (drop_piece_f)
+    1948:	89 81       	ldd	r24, Y+1	; 0x01
+    194a:	88 23       	and	r24, r24
+    194c:	41 f0       	breq	.+16     	; 0x195e <main+0x2a0>
+					{
+						drop_piece_f ^= 1; //sets to 0
+    194e:	8b 25       	eor	r24, r11
+    1950:	89 83       	std	Y+1, r24	; 0x01
+						set_timer_period_ms(TIMER_0, piece_fall_time);//FALL TIME
+    1952:	b4 01       	movw	r22, r8
+    1954:	80 e0       	ldi	r24, 0x00	; 0
+    1956:	0e 94 5c 00 	call	0xb8	; 0xb8 <set_timer_period_ms>
+						flush_event_queue();
+    195a:	0e 94 f5 00 	call	0x1ea	; 0x1ea <flush_event_queue>
+					}
+					cleared_rows = check_cleared_rows(y);
+    195e:	1f 81       	ldd	r17, Y+7	; 0x07
+    1960:	81 2f       	mov	r24, r17
+    1962:	0e 94 81 06 	call	0xd02	; 0xd02 <check_cleared_rows>
+    1966:	38 2e       	mov	r3, r24
+					if (cleared_rows)
+    1968:	88 23       	and	r24, r24
+    196a:	41 f0       	breq	.+16     	; 0x197c <main+0x2be>
+					{
+						set_timer_period_ms(TIMER_0, 200); //Clear screen time
+    196c:	68 ec       	ldi	r22, 0xC8	; 200
+    196e:	70 e0       	ldi	r23, 0x00	; 0
+    1970:	80 e0       	ldi	r24, 0x00	; 0
+    1972:	0e 94 5c 00 	call	0xb8	; 0xb8 <set_timer_period_ms>
+						current_state = CLEARING_ROWS;//desactivar el redraw
+    1976:	85 e0       	ldi	r24, 0x05	; 5
+    1978:	8a 87       	std	Y+10, r24	; 0x0a
+    197a:	21 cf       	rjmp	.-446    	; 0x17be <main+0x100>
+					}
+					else if (y <= 4 && is_game_over()) // no point in checking if y is over 4
+    197c:	15 30       	cpi	r17, 0x05	; 5
+    197e:	34 f4       	brge	.+12     	; 0x198c <main+0x2ce>
+    1980:	0e 94 da 06 	call	0xdb4	; 0xdb4 <is_game_over>
+    1984:	88 23       	and	r24, r24
+    1986:	11 f0       	breq	.+4      	; 0x198c <main+0x2ce>
+						current_state = GAME_FINISHED_ANIMATION;
+    1988:	5a 86       	std	Y+10, r5	; 0x0a
+    198a:	19 cf       	rjmp	.-462    	; 0x17be <main+0x100>
+					else
+					{
+						place_falling_piece(x = DROP_XCORD, y = DROP_YCORD, piece = (rand() % TOTAL_PIECES) + 1, rotation = rand() % TOTAL_ORIENTATIONS);//cambiar por and dsp
+    198c:	0e 94 3c 0e 	call	0x1c78	; 0x1c78 <rand>
+    1990:	8c 01       	movw	r16, r24
+    1992:	03 70       	andi	r16, 0x03	; 3
+    1994:	10 78       	andi	r17, 0x80	; 128
+    1996:	11 23       	and	r17, r17
+    1998:	34 f4       	brge	.+12     	; 0x19a6 <main+0x2e8>
+    199a:	01 50       	subi	r16, 0x01	; 1
+    199c:	11 09       	sbc	r17, r1
+    199e:	0c 6f       	ori	r16, 0xFC	; 252
+    19a0:	1f 6f       	ori	r17, 0xFF	; 255
+    19a2:	0f 5f       	subi	r16, 0xFF	; 255
+    19a4:	1f 4f       	sbci	r17, 0xFF	; 255
+    19a6:	09 87       	std	Y+9, r16	; 0x09
+    19a8:	0e 94 3c 0e 	call	0x1c78	; 0x1c78 <rand>
+    19ac:	b3 01       	movw	r22, r6
+    19ae:	0e 94 a0 0d 	call	0x1b40	; 0x1b40 <__divmodhi4>
+    19b2:	41 e0       	ldi	r20, 0x01	; 1
+    19b4:	48 0f       	add	r20, r24
+    19b6:	48 87       	std	Y+8, r20	; 0x08
+    19b8:	bf 82       	std	Y+7, r11	; 0x07
+    19ba:	ae 82       	std	Y+6, r10	; 0x06
+    19bc:	20 2f       	mov	r18, r16
+    19be:	61 e0       	ldi	r22, 0x01	; 1
+    19c0:	70 e0       	ldi	r23, 0x00	; 0
+    19c2:	82 e0       	ldi	r24, 0x02	; 2
+    19c4:	90 e0       	ldi	r25, 0x00	; 0
+    19c6:	0e 94 ed 02 	call	0x5da	; 0x5da <place_falling_piece>
+    19ca:	b0 c0       	rjmp	.+352    	; 0x1b2c <main+0x46e>
+				break;
+			}
+			break;
+
+		case CLEARING_ROWS:
+			if (ev.id == TIMER)
+    19cc:	8b 85       	ldd	r24, Y+11	; 0x0b
+    19ce:	83 30       	cpi	r24, 0x03	; 3
+    19d0:	09 f0       	breq	.+2      	; 0x19d4 <main+0x316>
+    19d2:	f5 ce       	rjmp	.-534    	; 0x17be <main+0x100>
+			{
+				if (clearing_row_animation(y, cleared_rows, &score))//If clear row animation finished
+    19d4:	ae 01       	movw	r20, r28
+    19d6:	4e 5f       	subi	r20, 0xFE	; 254
+    19d8:	5f 4f       	sbci	r21, 0xFF	; 255
+    19da:	63 2d       	mov	r22, r3
+    19dc:	8f 81       	ldd	r24, Y+7	; 0x07
+    19de:	0e 94 f8 07 	call	0xff0	; 0xff0 <clearing_row_animation>
+    19e2:	88 23       	and	r24, r24
+    19e4:	09 f4       	brne	.+2      	; 0x19e8 <main+0x32a>
+    19e6:	a2 c0       	rjmp	.+324    	; 0x1b2c <main+0x46e>
+				{
+					if (is_game_over())//might still be game over after clearing
+    19e8:	0e 94 da 06 	call	0xdb4	; 0xdb4 <is_game_over>
+    19ec:	88 23       	and	r24, r24
+    19ee:	11 f0       	breq	.+4      	; 0x19f4 <main+0x336>
+						current_state = GAME_FINISHED_ANIMATION;
+    19f0:	5a 86       	std	Y+10, r5	; 0x0a
+    19f2:	9c c0       	rjmp	.+312    	; 0x1b2c <main+0x46e>
+					else
+					{
+						place_falling_piece(x = DROP_XCORD, y = DROP_YCORD, piece = (rand() % TOTAL_PIECES) + 1, rotation = rand() % TOTAL_ORIENTATIONS);//cambiar por and dsp
+    19f4:	0e 94 3c 0e 	call	0x1c78	; 0x1c78 <rand>
+    19f8:	8c 01       	movw	r16, r24
+    19fa:	03 70       	andi	r16, 0x03	; 3
+    19fc:	10 78       	andi	r17, 0x80	; 128
+    19fe:	11 23       	and	r17, r17
+    1a00:	34 f4       	brge	.+12     	; 0x1a0e <main+0x350>
+    1a02:	01 50       	subi	r16, 0x01	; 1
+    1a04:	11 09       	sbc	r17, r1
+    1a06:	0c 6f       	ori	r16, 0xFC	; 252
+    1a08:	1f 6f       	ori	r17, 0xFF	; 255
+    1a0a:	0f 5f       	subi	r16, 0xFF	; 255
+    1a0c:	1f 4f       	sbci	r17, 0xFF	; 255
+    1a0e:	09 87       	std	Y+9, r16	; 0x09
+    1a10:	0e 94 3c 0e 	call	0x1c78	; 0x1c78 <rand>
+    1a14:	b3 01       	movw	r22, r6
+    1a16:	0e 94 a0 0d 	call	0x1b40	; 0x1b40 <__divmodhi4>
+    1a1a:	41 e0       	ldi	r20, 0x01	; 1
+    1a1c:	48 0f       	add	r20, r24
+    1a1e:	48 87       	std	Y+8, r20	; 0x08
+    1a20:	bf 82       	std	Y+7, r11	; 0x07
+    1a22:	ae 82       	std	Y+6, r10	; 0x06
+    1a24:	20 2f       	mov	r18, r16
+    1a26:	61 e0       	ldi	r22, 0x01	; 1
+    1a28:	70 e0       	ldi	r23, 0x00	; 0
+    1a2a:	82 e0       	ldi	r24, 0x02	; 2
+    1a2c:	90 e0       	ldi	r25, 0x00	; 0
+    1a2e:	0e 94 ed 02 	call	0x5da	; 0x5da <place_falling_piece>
+						current_state = NORMAL_PLAY;
+    1a32:	83 e0       	ldi	r24, 0x03	; 3
+    1a34:	8a 87       	std	Y+10, r24	; 0x0a
+						piece_fall_time = ((score / SCORE_LEVEL_UP) < NUMBER_SPEEDS) ? game_speed[score / SCORE_LEVEL_UP] : game_speed[NUMBER_SPEEDS - 1];
+    1a36:	6a 81       	ldd	r22, Y+2	; 0x02
+    1a38:	7b 81       	ldd	r23, Y+3	; 0x03
+    1a3a:	8c 81       	ldd	r24, Y+4	; 0x04
+    1a3c:	9d 81       	ldd	r25, Y+5	; 0x05
+    1a3e:	60 38       	cpi	r22, 0x80	; 128
+    1a40:	2c e0       	ldi	r18, 0x0C	; 12
+    1a42:	72 07       	cpc	r23, r18
+    1a44:	81 05       	cpc	r24, r1
+    1a46:	91 05       	cpc	r25, r1
+    1a48:	70 f4       	brcc	.+28     	; 0x1a66 <main+0x3a8>
+    1a4a:	28 ec       	ldi	r18, 0xC8	; 200
+    1a4c:	30 e0       	ldi	r19, 0x00	; 0
+    1a4e:	40 e0       	ldi	r20, 0x00	; 0
+    1a50:	50 e0       	ldi	r21, 0x00	; 0
+    1a52:	0e 94 b4 0d 	call	0x1b68	; 0x1b68 <__udivmodsi4>
+    1a56:	22 0f       	add	r18, r18
+    1a58:	33 1f       	adc	r19, r19
+    1a5a:	f9 01       	movw	r30, r18
+    1a5c:	e0 5d       	subi	r30, 0xD0	; 208
+    1a5e:	fe 4f       	sbci	r31, 0xFE	; 254
+    1a60:	80 80       	ld	r8, Z
+    1a62:	91 80       	ldd	r9, Z+1	; 0x01
+    1a64:	05 c0       	rjmp	.+10     	; 0x1a70 <main+0x3b2>
+    1a66:	0f 2e       	mov	r0, r31
+    1a68:	f2 e3       	ldi	r31, 0x32	; 50
+    1a6a:	8f 2e       	mov	r8, r31
+    1a6c:	91 2c       	mov	r9, r1
+    1a6e:	f0 2d       	mov	r31, r0
+						set_timer_period_ms(TIMER_0, piece_fall_time);//FALL TIME
+    1a70:	b4 01       	movw	r22, r8
+    1a72:	80 e0       	ldi	r24, 0x00	; 0
+    1a74:	0e 94 5c 00 	call	0xb8	; 0xb8 <set_timer_period_ms>
+						send_number_display(score);
+    1a78:	6a 81       	ldd	r22, Y+2	; 0x02
+    1a7a:	7b 81       	ldd	r23, Y+3	; 0x03
+    1a7c:	8c 81       	ldd	r24, Y+4	; 0x04
+    1a7e:	9d 81       	ldd	r25, Y+5	; 0x05
+    1a80:	0e 94 5d 00 	call	0xba	; 0xba <send_number_display>
+						update_all_display_data();
+    1a84:	0e 94 e7 01 	call	0x3ce	; 0x3ce <update_all_display_data>
+    1a88:	51 c0       	rjmp	.+162    	; 0x1b2c <main+0x46e>
+				redraw = 1;
+			}
+			break;
+
+		case GAME_PAUSED:
+			if (ev.id == TIMER)
+    1a8a:	8b 85       	ldd	r24, Y+11	; 0x0b
+    1a8c:	83 30       	cpi	r24, 0x03	; 3
+    1a8e:	61 f4       	brne	.+24     	; 0x1aa8 <main+0x3ea>
+			{
+				set_timer_period_ms(TIMER_0, 400);
+    1a90:	60 e9       	ldi	r22, 0x90	; 144
+    1a92:	71 e0       	ldi	r23, 0x01	; 1
+    1a94:	80 e0       	ldi	r24, 0x00	; 0
+    1a96:	0e 94 5c 00 	call	0xb8	; 0xb8 <set_timer_period_ms>
+				game_pause_animation(x, y, piece, rotation);
+    1a9a:	29 85       	ldd	r18, Y+9	; 0x09
+    1a9c:	48 85       	ldd	r20, Y+8	; 0x08
+    1a9e:	6f 81       	ldd	r22, Y+7	; 0x07
+    1aa0:	8e 81       	ldd	r24, Y+6	; 0x06
+    1aa2:	0e 94 3a 03 	call	0x674	; 0x674 <game_pause_animation>
+    1aa6:	42 c0       	rjmp	.+132    	; 0x1b2c <main+0x46e>
+				redraw = 1;
+			}
+			else if (ev.id == BUTTON_PRESS && ev.data == BUTTON_6) //Resumes games
+    1aa8:	81 11       	cpse	r24, r1
+    1aaa:	89 ce       	rjmp	.-750    	; 0x17be <main+0x100>
+    1aac:	8c 85       	ldd	r24, Y+12	; 0x0c
+    1aae:	86 30       	cpi	r24, 0x06	; 6
+    1ab0:	a9 f4       	brne	.+42     	; 0x1adc <main+0x41e>
+			{
+				set_timer_period_ms(TIMER_0, piece_fall_time);
+    1ab2:	b4 01       	movw	r22, r8
+    1ab4:	80 e0       	ldi	r24, 0x00	; 0
+    1ab6:	0e 94 5c 00 	call	0xb8	; 0xb8 <set_timer_period_ms>
+				place_falling_piece(x, y, piece, rotation);
+    1aba:	6f 81       	ldd	r22, Y+7	; 0x07
+    1abc:	06 2e       	mov	r0, r22
+    1abe:	00 0c       	add	r0, r0
+    1ac0:	77 0b       	sbc	r23, r23
+    1ac2:	8e 81       	ldd	r24, Y+6	; 0x06
+    1ac4:	29 85       	ldd	r18, Y+9	; 0x09
+    1ac6:	48 85       	ldd	r20, Y+8	; 0x08
+    1ac8:	08 2e       	mov	r0, r24
+    1aca:	00 0c       	add	r0, r0
+    1acc:	99 0b       	sbc	r25, r25
+    1ace:	0e 94 ed 02 	call	0x5da	; 0x5da <place_falling_piece>
+				update_all_display_data();
+    1ad2:	0e 94 e7 01 	call	0x3ce	; 0x3ce <update_all_display_data>
+				current_state = NORMAL_PLAY; //RESUME_GAME
+    1ad6:	83 e0       	ldi	r24, 0x03	; 3
+    1ad8:	8a 87       	std	Y+10, r24	; 0x0a
+    1ada:	71 ce       	rjmp	.-798    	; 0x17be <main+0x100>
+			}
+			else if (ev.id == BUTTON_PRESS && ev.data == BUTTON_7) // Reset game
+    1adc:	87 30       	cpi	r24, 0x07	; 7
+    1ade:	09 f0       	breq	.+2      	; 0x1ae2 <main+0x424>
+    1ae0:	6e ce       	rjmp	.-804    	; 0x17be <main+0x100>
+			{
+				place_falling_piece(x, y, piece, rotation);
+    1ae2:	6f 81       	ldd	r22, Y+7	; 0x07
+    1ae4:	06 2e       	mov	r0, r22
+    1ae6:	00 0c       	add	r0, r0
+    1ae8:	77 0b       	sbc	r23, r23
+    1aea:	8e 81       	ldd	r24, Y+6	; 0x06
+    1aec:	29 85       	ldd	r18, Y+9	; 0x09
+    1aee:	48 85       	ldd	r20, Y+8	; 0x08
+    1af0:	08 2e       	mov	r0, r24
+    1af2:	00 0c       	add	r0, r0
+    1af4:	99 0b       	sbc	r25, r25
+    1af6:	0e 94 ed 02 	call	0x5da	; 0x5da <place_falling_piece>
+				current_state = GAME_FINISHED_ANIMATION;
+    1afa:	5a 86       	std	Y+10, r5	; 0x0a
+    1afc:	60 ce       	rjmp	.-832    	; 0x17be <main+0x100>
+			}
+			break;
+
+
+		case GAME_FINISHED_ANIMATION:
+			if (ev.id == TIMER)
+    1afe:	8b 85       	ldd	r24, Y+11	; 0x0b
+    1b00:	83 30       	cpi	r24, 0x03	; 3
+    1b02:	09 f0       	breq	.+2      	; 0x1b06 <main+0x448>
+    1b04:	5c ce       	rjmp	.-840    	; 0x17be <main+0x100>
+			{
+				if (game_end_animation(&y, piece))
+    1b06:	68 85       	ldd	r22, Y+8	; 0x08
+    1b08:	ce 01       	movw	r24, r28
+    1b0a:	07 96       	adiw	r24, 0x07	; 7
+    1b0c:	0e 94 cc 07 	call	0xf98	; 0xf98 <game_end_animation>
+    1b10:	88 23       	and	r24, r24
+    1b12:	61 f0       	breq	.+24     	; 0x1b2c <main+0x46e>
+				{
+					set_timer_period_ms(TIMER_0, 50);//So that the animation happens faster
+    1b14:	62 e3       	ldi	r22, 0x32	; 50
+    1b16:	70 e0       	ldi	r23, 0x00	; 0
+    1b18:	80 e0       	ldi	r24, 0x00	; 0
+    1b1a:	0e 94 5c 00 	call	0xb8	; 0xb8 <set_timer_period_ms>
+					current_state = PRE_START;
+    1b1e:	1a 86       	std	Y+10, r1	; 0x0a
+    1b20:	05 c0       	rjmp	.+10     	; 0x1b2c <main+0x46e>
+		}
+
+
+		if (redraw && !get_total_events_in_queue())  //This is important.
+		{
+			update_display_data();
+    1b22:	0e 94 a1 01 	call	0x342	; 0x342 <update_display_data>
+			//So, there are about 25ms left for other things!
+			//We want to have some spare time, just waiting for new events,
+			//so that next interrupt arrives when display is not being updated.
+			//else, interrupt will be postponed (interrupts are disabled while sending data),
+			//and so will events!
+			LEDdisplay_update();
+    1b26:	0e 94 5f 01 	call	0x2be	; 0x2be <LEDdisplay_update>
+    1b2a:	49 ce       	rjmp	.-878    	; 0x17be <main+0x100>
+
+			break;
+		}
+
+
+		if (redraw && !get_total_events_in_queue())  //This is important.
+    1b2c:	0e 94 5f 00 	call	0xbe	; 0xbe <get_total_events_in_queue>
+    1b30:	89 2b       	or	r24, r25
+    1b32:	09 f0       	breq	.+2      	; 0x1b36 <main+0x478>
+    1b34:	44 ce       	rjmp	.-888    	; 0x17be <main+0x100>
+    1b36:	f5 cf       	rjmp	.-22     	; 0x1b22 <main+0x464>
+
+00001b38 <WS2812B_Set_Data_Length>:
+// OC6  pin 17 H3   (Din WS2812B)
+// OC7  pin 18 H3   (Scope Test Point)
+
+// ======================================
+
+void WS2812B_Set_Data_Length( unsigned int length ) {
+    1b38:	08 95       	ret
+
+00001b3a <WS2812B_Set_Data_pointer>:
+        ByteCtr=length;    //
+
+
+}
+
+void WS2812B_Set_Data_pointer( unsigned char *data_ptr ) {
+    1b3a:	08 95       	ret
+
+00001b3c <WS2812B_Send_data>:
+
+
+
+void WS2812B_Send_data(void)  // Important we don't use any local variables for speed reasons
+
+{
+    1b3c:	08 95       	ret
+
+00001b3e <WS2812B_Init>:
+//===============================================================
+
+
+void WS2812B_Init(void)
+
+{
+    1b3e:	08 95       	ret
+
+00001b40 <__divmodhi4>:
+    1b40:	97 fb       	bst	r25, 7
+    1b42:	07 2e       	mov	r0, r23
+    1b44:	16 f4       	brtc	.+4      	; 0x1b4a <__divmodhi4+0xa>
+    1b46:	00 94       	com	r0
+    1b48:	07 d0       	rcall	.+14     	; 0x1b58 <__divmodhi4_neg1>
+    1b4a:	77 fd       	sbrc	r23, 7
+    1b4c:	09 d0       	rcall	.+18     	; 0x1b60 <__divmodhi4_neg2>
+    1b4e:	0e 94 dc 0d 	call	0x1bb8	; 0x1bb8 <__udivmodhi4>
+    1b52:	07 fc       	sbrc	r0, 7
+    1b54:	05 d0       	rcall	.+10     	; 0x1b60 <__divmodhi4_neg2>
+    1b56:	3e f4       	brtc	.+14     	; 0x1b66 <__divmodhi4_exit>
+
+00001b58 <__divmodhi4_neg1>:
+    1b58:	90 95       	com	r25
+    1b5a:	81 95       	neg	r24
+    1b5c:	9f 4f       	sbci	r25, 0xFF	; 255
+    1b5e:	08 95       	ret
+
+00001b60 <__divmodhi4_neg2>:
+    1b60:	70 95       	com	r23
+    1b62:	61 95       	neg	r22
+    1b64:	7f 4f       	sbci	r23, 0xFF	; 255
+
+00001b66 <__divmodhi4_exit>:
+    1b66:	08 95       	ret
+
+00001b68 <__udivmodsi4>:
+    1b68:	a1 e2       	ldi	r26, 0x21	; 33
+    1b6a:	1a 2e       	mov	r1, r26
+    1b6c:	aa 1b       	sub	r26, r26
+    1b6e:	bb 1b       	sub	r27, r27
+    1b70:	fd 01       	movw	r30, r26
+    1b72:	0d c0       	rjmp	.+26     	; 0x1b8e <__udivmodsi4_ep>
+
+00001b74 <__udivmodsi4_loop>:
+    1b74:	aa 1f       	adc	r26, r26
+    1b76:	bb 1f       	adc	r27, r27
+    1b78:	ee 1f       	adc	r30, r30
+    1b7a:	ff 1f       	adc	r31, r31
+    1b7c:	a2 17       	cp	r26, r18
+    1b7e:	b3 07       	cpc	r27, r19
+    1b80:	e4 07       	cpc	r30, r20
+    1b82:	f5 07       	cpc	r31, r21
+    1b84:	20 f0       	brcs	.+8      	; 0x1b8e <__udivmodsi4_ep>
+    1b86:	a2 1b       	sub	r26, r18
+    1b88:	b3 0b       	sbc	r27, r19
+    1b8a:	e4 0b       	sbc	r30, r20
+    1b8c:	f5 0b       	sbc	r31, r21
+
+00001b8e <__udivmodsi4_ep>:
+    1b8e:	66 1f       	adc	r22, r22
+    1b90:	77 1f       	adc	r23, r23
+    1b92:	88 1f       	adc	r24, r24
+    1b94:	99 1f       	adc	r25, r25
+    1b96:	1a 94       	dec	r1
+    1b98:	69 f7       	brne	.-38     	; 0x1b74 <__udivmodsi4_loop>
+    1b9a:	60 95       	com	r22
+    1b9c:	70 95       	com	r23
+    1b9e:	80 95       	com	r24
+    1ba0:	90 95       	com	r25
+    1ba2:	9b 01       	movw	r18, r22
+    1ba4:	ac 01       	movw	r20, r24
+    1ba6:	bd 01       	movw	r22, r26
+    1ba8:	cf 01       	movw	r24, r30
+    1baa:	08 95       	ret
+
+00001bac <__tablejump2__>:
+    1bac:	ee 0f       	add	r30, r30
+    1bae:	ff 1f       	adc	r31, r31
+    1bb0:	05 90       	lpm	r0, Z+
+    1bb2:	f4 91       	lpm	r31, Z
+    1bb4:	e0 2d       	mov	r30, r0
+    1bb6:	09 94       	ijmp
+
+00001bb8 <__udivmodhi4>:
+    1bb8:	aa 1b       	sub	r26, r26
+    1bba:	bb 1b       	sub	r27, r27
+    1bbc:	51 e1       	ldi	r21, 0x11	; 17
+    1bbe:	07 c0       	rjmp	.+14     	; 0x1bce <__udivmodhi4_ep>
+
+00001bc0 <__udivmodhi4_loop>:
+    1bc0:	aa 1f       	adc	r26, r26
+    1bc2:	bb 1f       	adc	r27, r27
+    1bc4:	a6 17       	cp	r26, r22
+    1bc6:	b7 07       	cpc	r27, r23
+    1bc8:	10 f0       	brcs	.+4      	; 0x1bce <__udivmodhi4_ep>
+    1bca:	a6 1b       	sub	r26, r22
+    1bcc:	b7 0b       	sbc	r27, r23
+
+00001bce <__udivmodhi4_ep>:
+    1bce:	88 1f       	adc	r24, r24
+    1bd0:	99 1f       	adc	r25, r25
+    1bd2:	5a 95       	dec	r21
+    1bd4:	a9 f7       	brne	.-22     	; 0x1bc0 <__udivmodhi4_loop>
+    1bd6:	80 95       	com	r24
+    1bd8:	90 95       	com	r25
+    1bda:	bc 01       	movw	r22, r24
+    1bdc:	cd 01       	movw	r24, r26
+    1bde:	08 95       	ret
+
+00001be0 <do_rand>:
+    1be0:	8f 92       	push	r8
+    1be2:	9f 92       	push	r9
+    1be4:	af 92       	push	r10
+    1be6:	bf 92       	push	r11
+    1be8:	cf 92       	push	r12
+    1bea:	df 92       	push	r13
+    1bec:	ef 92       	push	r14
+    1bee:	ff 92       	push	r15
+    1bf0:	cf 93       	push	r28
+    1bf2:	df 93       	push	r29
+    1bf4:	ec 01       	movw	r28, r24
+    1bf6:	68 81       	ld	r22, Y
+    1bf8:	79 81       	ldd	r23, Y+1	; 0x01
+    1bfa:	8a 81       	ldd	r24, Y+2	; 0x02
+    1bfc:	9b 81       	ldd	r25, Y+3	; 0x03
+    1bfe:	61 15       	cp	r22, r1
+    1c00:	71 05       	cpc	r23, r1
+    1c02:	81 05       	cpc	r24, r1
+    1c04:	91 05       	cpc	r25, r1
+    1c06:	21 f4       	brne	.+8      	; 0x1c10 <do_rand+0x30>
+    1c08:	64 e2       	ldi	r22, 0x24	; 36
+    1c0a:	79 ed       	ldi	r23, 0xD9	; 217
+    1c0c:	8b e5       	ldi	r24, 0x5B	; 91
+    1c0e:	97 e0       	ldi	r25, 0x07	; 7
+    1c10:	2d e1       	ldi	r18, 0x1D	; 29
+    1c12:	33 ef       	ldi	r19, 0xF3	; 243
+    1c14:	41 e0       	ldi	r20, 0x01	; 1
+    1c16:	50 e0       	ldi	r21, 0x00	; 0
+    1c18:	0e 94 4c 0e 	call	0x1c98	; 0x1c98 <__divmodsi4>
+    1c1c:	49 01       	movw	r8, r18
+    1c1e:	5a 01       	movw	r10, r20
+    1c20:	9b 01       	movw	r18, r22
+    1c22:	ac 01       	movw	r20, r24
+    1c24:	a7 ea       	ldi	r26, 0xA7	; 167
+    1c26:	b1 e4       	ldi	r27, 0x41	; 65
+    1c28:	0e 94 6b 0e 	call	0x1cd6	; 0x1cd6 <__muluhisi3>
+    1c2c:	6b 01       	movw	r12, r22
+    1c2e:	7c 01       	movw	r14, r24
+    1c30:	ac ee       	ldi	r26, 0xEC	; 236
+    1c32:	b4 ef       	ldi	r27, 0xF4	; 244
+    1c34:	a5 01       	movw	r20, r10
+    1c36:	94 01       	movw	r18, r8
+    1c38:	0e 94 79 0e 	call	0x1cf2	; 0x1cf2 <__mulohisi3>
+    1c3c:	dc 01       	movw	r26, r24
+    1c3e:	cb 01       	movw	r24, r22
+    1c40:	8c 0d       	add	r24, r12
+    1c42:	9d 1d       	adc	r25, r13
+    1c44:	ae 1d       	adc	r26, r14
+    1c46:	bf 1d       	adc	r27, r15
+    1c48:	b7 ff       	sbrs	r27, 7
+    1c4a:	03 c0       	rjmp	.+6      	; 0x1c52 <do_rand+0x72>
+    1c4c:	01 97       	sbiw	r24, 0x01	; 1
+    1c4e:	a1 09       	sbc	r26, r1
+    1c50:	b0 48       	sbci	r27, 0x80	; 128
+    1c52:	88 83       	st	Y, r24
+    1c54:	99 83       	std	Y+1, r25	; 0x01
+    1c56:	aa 83       	std	Y+2, r26	; 0x02
+    1c58:	bb 83       	std	Y+3, r27	; 0x03
+    1c5a:	9f 77       	andi	r25, 0x7F	; 127
+    1c5c:	df 91       	pop	r29
+    1c5e:	cf 91       	pop	r28
+    1c60:	ff 90       	pop	r15
+    1c62:	ef 90       	pop	r14
+    1c64:	df 90       	pop	r13
+    1c66:	cf 90       	pop	r12
+    1c68:	bf 90       	pop	r11
+    1c6a:	af 90       	pop	r10
+    1c6c:	9f 90       	pop	r9
+    1c6e:	8f 90       	pop	r8
+    1c70:	08 95       	ret
+
+00001c72 <rand_r>:
+    1c72:	0e 94 f0 0d 	call	0x1be0	; 0x1be0 <do_rand>
+    1c76:	08 95       	ret
+
+00001c78 <rand>:
+    1c78:	80 e0       	ldi	r24, 0x00	; 0
+    1c7a:	91 e0       	ldi	r25, 0x01	; 1
+    1c7c:	0e 94 f0 0d 	call	0x1be0	; 0x1be0 <do_rand>
+    1c80:	08 95       	ret
+
+00001c82 <srand>:
+    1c82:	a0 e0       	ldi	r26, 0x00	; 0
+    1c84:	b0 e0       	ldi	r27, 0x00	; 0
+    1c86:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__data_start>
+    1c8a:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__data_start+0x1>
+    1c8e:	a0 93 02 01 	sts	0x0102, r26	; 0x800102 <__data_start+0x2>
+    1c92:	b0 93 03 01 	sts	0x0103, r27	; 0x800103 <__data_start+0x3>
+    1c96:	08 95       	ret
+
+00001c98 <__divmodsi4>:
+    1c98:	05 2e       	mov	r0, r21
+    1c9a:	97 fb       	bst	r25, 7
+    1c9c:	1e f4       	brtc	.+6      	; 0x1ca4 <__divmodsi4+0xc>
+    1c9e:	00 94       	com	r0
+    1ca0:	0e 94 63 0e 	call	0x1cc6	; 0x1cc6 <__negsi2>
+    1ca4:	57 fd       	sbrc	r21, 7
+    1ca6:	07 d0       	rcall	.+14     	; 0x1cb6 <__divmodsi4_neg2>
+    1ca8:	0e 94 b4 0d 	call	0x1b68	; 0x1b68 <__udivmodsi4>
+    1cac:	07 fc       	sbrc	r0, 7
+    1cae:	03 d0       	rcall	.+6      	; 0x1cb6 <__divmodsi4_neg2>
+    1cb0:	4e f4       	brtc	.+18     	; 0x1cc4 <__divmodsi4_exit>
+    1cb2:	0c 94 63 0e 	jmp	0x1cc6	; 0x1cc6 <__negsi2>
+
+00001cb6 <__divmodsi4_neg2>:
+    1cb6:	50 95       	com	r21
+    1cb8:	40 95       	com	r20
+    1cba:	30 95       	com	r19
+    1cbc:	21 95       	neg	r18
+    1cbe:	3f 4f       	sbci	r19, 0xFF	; 255
+    1cc0:	4f 4f       	sbci	r20, 0xFF	; 255
+    1cc2:	5f 4f       	sbci	r21, 0xFF	; 255
+
+00001cc4 <__divmodsi4_exit>:
+    1cc4:	08 95       	ret
+
+00001cc6 <__negsi2>:
+    1cc6:	90 95       	com	r25
+    1cc8:	80 95       	com	r24
+    1cca:	70 95       	com	r23
+    1ccc:	61 95       	neg	r22
+    1cce:	7f 4f       	sbci	r23, 0xFF	; 255
+    1cd0:	8f 4f       	sbci	r24, 0xFF	; 255
+    1cd2:	9f 4f       	sbci	r25, 0xFF	; 255
+    1cd4:	08 95       	ret
+
+00001cd6 <__muluhisi3>:
+    1cd6:	0e 94 7e 0e 	call	0x1cfc	; 0x1cfc <__umulhisi3>
+    1cda:	a5 9f       	mul	r26, r21
+    1cdc:	90 0d       	add	r25, r0
+    1cde:	b4 9f       	mul	r27, r20
+    1ce0:	90 0d       	add	r25, r0
+    1ce2:	a4 9f       	mul	r26, r20
+    1ce4:	80 0d       	add	r24, r0
+    1ce6:	91 1d       	adc	r25, r1
+    1ce8:	11 24       	eor	r1, r1
+    1cea:	08 95       	ret
+
+00001cec <__mulshisi3>:
+    1cec:	b7 ff       	sbrs	r27, 7
+    1cee:	0c 94 6b 0e 	jmp	0x1cd6	; 0x1cd6 <__muluhisi3>
+
+00001cf2 <__mulohisi3>:
+    1cf2:	0e 94 6b 0e 	call	0x1cd6	; 0x1cd6 <__muluhisi3>
+    1cf6:	82 1b       	sub	r24, r18
+    1cf8:	93 0b       	sbc	r25, r19
+    1cfa:	08 95       	ret
+
+00001cfc <__umulhisi3>:
+    1cfc:	a2 9f       	mul	r26, r18
+    1cfe:	b0 01       	movw	r22, r0
+    1d00:	b3 9f       	mul	r27, r19
+    1d02:	c0 01       	movw	r24, r0
+    1d04:	a3 9f       	mul	r26, r19
+    1d06:	70 0d       	add	r23, r0
+    1d08:	81 1d       	adc	r24, r1
+    1d0a:	11 24       	eor	r1, r1
+    1d0c:	91 1d       	adc	r25, r1
+    1d0e:	b2 9f       	mul	r27, r18
+    1d10:	70 0d       	add	r23, r0
+    1d12:	81 1d       	adc	r24, r1
+    1d14:	11 24       	eor	r1, r1
+    1d16:	91 1d       	adc	r25, r1
+    1d18:	08 95       	ret
+
+00001d1a <_exit>:
+    1d1a:	f8 94       	cli
+
+00001d1c <__stop_program>:
+    1d1c:	ff cf       	rjmp	.-2      	; 0x1d1c <__stop_program>
