@@ -26,8 +26,6 @@ void putwspi0 (unsigned int word)
 	low = (char)word;
 	//SS
 	DD_SPIPORT &= ~(DD_SS << 0);
-	//Wail until write is possible
-	while(!(SPSR & (1<<SPIF)));
 	//Output High Byte
 	SPDR = high;
 	//Wail until write is finished
