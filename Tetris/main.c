@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "LEDdisplay.h"
 #include "buttons_and_timers.h"
 
@@ -177,7 +178,7 @@ int main(void)
 {
 	//REMEMBER VARIABLES BEFORE CODE!
 	//Connect buttons to PORTB with pull-up resistors
-	unsigned char redraw = 0, cleared_rows, drop_piece_f = 0;
+	unsigned char redraw = 0, cleared_rows = 0, drop_piece_f = 0;
 	unsigned int piece_fall_time = 50; //ms para que empiece rapido la animacion
 	unsigned long int score = 0;
 	signed char x, y;
@@ -404,11 +405,20 @@ void game_pause_animation(signed char x, unsigned char y, piece_type_t piece_typ
 
 void seed_rand(void)    //Call this after initializing everything!
 {
-	//This should not be here...
 	EVENT_T ev;
-	do wait_for_event(&ev);
-	while (ev.id != BUTTON_PRESS);  //Wait for button down
-	//srand(TCNT);                    //A different number every 50ns should be "random" enough
+	unsigned int i = 0;
+	bool stop = false;
+	while(!stop)
+	{
+		i++;
+		if(get_total_events_in_queue() != 0)
+		{
+			wait_for_event(&ev);
+			if(ev.id == BUTTON_PRESS)
+				stop = true;
+		}
+	}
+	srand(i);
 }
 
 /*

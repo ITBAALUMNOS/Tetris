@@ -1,5 +1,6 @@
 #include "buttons_and_timers.h"
-//#include "mc9s12xdp512.h"
+#include <avr/io.h>
+#include <avr/interrupt.h>
 
 //Function prototypes for pseudoFSM
 static void button_press(unsigned char b);
@@ -26,7 +27,18 @@ static unsigned char timer_compare[TOTAL_TIMERS];               //Initialized in
 
 void buttons_and_timers_init()
 {
-    //TODO: REIMPLEMENT!
+	//Port D as Input
+	DDRD = 0x00;
+	//Enable Port B pull-ups
+	PORTD = 0xFF;
+	//Prescaler will be set to 256. Set 50ms Period
+	OCR1A = (INTERRUPT_PERIOD_MS*1e-3)*F_CPU/256;
+	//Enable Timer Interrupt
+	TIMSK1 =  1 << OCIE1A;
+	//Set timer prescaler (starts timer), and clear on timer match
+	TCCR1B = 1 << CS12 | 1 << WGM12;
+	//Enable Interrupts
+	sei();
 }
 
 unsigned char is_button_down(unsigned char b)
@@ -37,19 +49,19 @@ unsigned char is_button_down(unsigned char b)
 void set_button_repeat_period_ms(unsigned int ms)           //0 will disable repeat event
 {
          unsigned char b;
-         //_asm sei;
+		 cli();
          button_repeat_period = (unsigned char) (ms/INTERRUPT_PERIOD_MS);
          for(b = 0 ; b < TOTAL_BUTTONS ; b++)
                    button_repeat_count[b] = 0;
-         //_asm cli;
+		 sei();
 }
 
 void set_timer_period_ms(unsigned char t, unsigned int ms)    //0 will disable timer
 {
-        //_asm sei;
+        cli();
         timer_compare[t] = (unsigned char) (ms/INTERRUPT_PERIOD_MS);
         timer_count[t] = 0;
-        //_asm cli;
+		sei();
 }
 
 void reset_timer(unsigned char t)
@@ -96,9 +108,7 @@ static void button_repeat(unsigned char b)
         }
 }
 
-//#pragma MESSAGE DISABLE C5703 /*: Parameter declared but not referenced */
-static void button_do_nothing(unsigned char b){}
-//#pragma MESSAGE WARNING C5703 /*: Parameter declared but not referenced */
+static void button_do_nothing(unsigned char b){;}
 
 static void tick_timer(unsigned char t)
 {
@@ -115,17 +125,15 @@ static void tick_timer(unsigned char t)
 }
 
 //void interrupt ISR_rti(void)
-void ISR_rti(void)
+
+ISR(TIMER1_COMPA_vect)
 {
-//        unsigned char i,j;
-//
-  //      CRGFLG = CRGFLG_RTIF_MASK;  //Clear RTI interrupt flag
-//
-        //Update buttons
-//        for(i = 0, j = 1; i < TOTAL_BUTTONS ; i++, j<<=1)
-//                button_fsm[button_state & j ? 1 : 0][(~PORTB) & j ? 1 : 0](i);
+        unsigned char i,j;
+		//Update buttons
+		for(i = 0, j = 1; i < TOTAL_BUTTONS ; i++, j<<=1)
+			button_fsm[button_state & j ? 1 : 0][(~PORTD) & j ? 1 : 0](i);
 
         //Update timers
-//        for(i = 0 ; i < TOTAL_TIMERS ; i++)
-//                tick_timer(i);
+		for(i = 0 ; i < TOTAL_TIMERS ; i++)
+			tick_timer(i);
 }

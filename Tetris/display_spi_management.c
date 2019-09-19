@@ -21,8 +21,6 @@
 
 void send_number_display(unsigned long int display_score)
 {
-	//TODO: REIMPLEMENT!
-	/*
 	unsigned char current_segment = 0x01; //first segments
 	unsigned int two_bytes_send = 0x00;
 	if(display_score > 99999999)
@@ -36,7 +34,6 @@ void send_number_display(unsigned long int display_score)
 		putwspi0(two_bytes_send);
 		//send the fucking shit
 	}
-	*/
 }
 
 /*
@@ -45,6 +42,12 @@ void send_number_display(unsigned long int display_score)
 */
 void configure_spi_max7219_display(void)
 {
-	//TODO: REIMPLEMENT!
+	init_SPI();
 
+	putwspi0(INTENSITY_ADDRESS | MAX_INTENSITY); //Max intensity
+	putwspi0(TEST_MODE_ADDRESS | NO_TEST_MODE); //TEST MODE off
+	putwspi0(0x0BFF); //Scan all
+	putwspi0(DECODE_ADDRESS | DECODE_MODE_ALL_DIGITS); //Decode
+  	putwspi0(0x0C01); //Turn on
+	//send via spi
 }

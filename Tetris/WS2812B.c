@@ -9,8 +9,8 @@
 
 // Variables used by Driver
 
-static unsigned int  delta;
-static unsigned char mask;
+//static unsigned int  delta;
+//static unsigned char mask;
 
 // ************* OJO **********
 // OJO ByteCtr debe ser int no char pues el maximo es 32x8x3= 768 me ovide !!!
@@ -202,7 +202,6 @@ while (ByteCtr)
         // Tbit= 1.25us (TNOMINAL) + 2us (SPARE)
         // Tfree= Tbit - FreeTime(measured)
 
-/*
           PORTA|=0x01;
           _asm nop;
           _asm nop;
